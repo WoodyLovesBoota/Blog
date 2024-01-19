@@ -14,6 +14,7 @@ const nextConfig = {
   images: {
     domains: ["firebasestorage.googleapis.com", "velog.velcdn.com"],
   },
+  transpilePackages: ["@acme/ui", "lodash-es"],
 };
 
 module.exports = nextConfig;

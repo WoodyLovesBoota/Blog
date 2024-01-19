@@ -2,18 +2,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import ReactMarkdown, { Components } from "react-markdown";
 import styled from "styled-components";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const MarkdownRenderer = () => {
   const [markdown, setMarkdown] = useState("");
-
-  const customRenderers: Components = {
-    img: ({ src, alt }) => {
-      if (src) {
-        return <Image src={src} alt={alt || ""} width={500} height={300} />;
-      }
-      return null;
-    },
-  };
 
   return (
     <div>
@@ -23,7 +16,7 @@ const MarkdownRenderer = () => {
         placeholder="Enter Markdown text"
       />
       <MarkDownContainer>
-        <ReactMarkdown components={customRenderers}>{markdown}</ReactMarkdown>
+        <ReactMarkdown>{markdown}</ReactMarkdown>
       </MarkDownContainer>
     </div>
   );
@@ -60,5 +53,9 @@ const MarkDownContainer = styled.div`
 
   li {
     margin-bottom: 0.5em;
+  }
+
+  code {
+    /* color: red; */
   }
 `;

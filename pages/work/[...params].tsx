@@ -2,17 +2,25 @@ import Seo from "@/components/Seo";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { firestore } from "../../firebase/firebaseAdmin";
-import NavigationBar from "@/components/NavigationBar";
 import { useRouter } from "next/router";
 import { IBlogData } from "@/atoms";
 import ReactMarkdown, { Components } from "react-markdown";
 import Image from "next/image";
+import gfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import prettier from "prettier/standalone";
+import typescriptParser from "prettier/parser-typescript";
+import { useEffect, useState } from "react";
+import GitHubCodeViewer from "@/components/GetGithub";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
 
   const data = snapshot.docs.map((doc) => {
-    return Object.assign(doc.data(), { id: doc.id });
+    const docData = doc.data();
+
+    return Object.assign(docData, { id: doc.id });
   });
 
   return {
@@ -22,18 +30,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
+const customRenderers: Components = {
+  code: ({ children, className }) => {
+    return (
+      <SyntaxHighlighter style={solarizedlight} language={"typescript"} PreTag="code">
+        {String(children) || ""}
+      </SyntaxHighlighter>
+    );
+  },
+
+  img: ({ src, alt }) => {
+    if (src) {
+      return <Image src={src} alt={alt || ""} width={500} height={300} />;
+    }
+    return null;
+  },
+};
+
 const Detail = ({ data }: { data: IBlogData[] }) => {
   const router = useRouter();
   const [title] = router.query.params || [];
-
-  const customRenderers: Components = {
-    img: ({ src, alt }) => {
-      if (src) {
-        return <Image src={src} alt={alt || ""} width={500} height={300} />;
-      }
-      return null;
-    },
-  };
 
   return (
     <Wrapper>
@@ -43,10 +59,13 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
       <Date>{data[0].works[0]["202401"][0].date}</Date>
       <Main>
         <MarkDownContainer>
-          {data[0].works[0]["202401"][0].content.split(".").map((ele) => (
-            <ReactMarkdown components={customRenderers}>{ele}</ReactMarkdown>
+          {data[0].works[0]["202401"][0].content.split("+>").map((ele, ind) => (
+            <ReactMarkdown key={ind} remarkPlugins={[gfm]} components={customRenderers}>
+              {ele}
+            </ReactMarkdown>
           ))}
         </MarkDownContainer>
+        <GitHubCodeViewer url="https://raw.githubusercontent.com/WoodyLovesBoota/BNW/main/src/atoms.ts" />
       </Main>
     </Wrapper>
   );
@@ -105,5 +124,8 @@ const MarkDownContainer = styled.div`
 
   li {
     margin-bottom: 0.5em;
+  }
+
+  code {
   }
 `;

@@ -20,7 +20,7 @@ acronym,
 address,
 big,
 cite,
-code,
+/* code, */
 del,
 dfn,
 em,
@@ -114,9 +114,6 @@ section {
   display: block;
 }
 
-body {
-  background-color: white;
-}
 /* HTML5 hidden-attribute fix for newer browsers */
 *[hidden] {
   display: none;
