@@ -20,7 +20,7 @@ acronym,
 address,
 big,
 cite,
-/* code, */
+code,
 del,
 dfn,
 em,
@@ -89,7 +89,7 @@ button {
   border: 0;
   font-size: 16px;
   font-weight: 100;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", "Gothic A1", sans-serif;
   vertical-align: baseline;
   line-height: 1.5;
   color: black;

@@ -19,11 +19,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Home = ({ data }: { data: IBlogData[] }) => {
-  // console.log(data);
   return (
     <Wrapper>
       <Seo title="WoodylovesBoota" />
-      {/* {data[0].works[0]} */}
     </Wrapper>
   );
 };

@@ -26,6 +26,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-top: 20px;
+  position: fixed;
+  right: 0;
 `;
 
 const ToggleBox = styled.div`

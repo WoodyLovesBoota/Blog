@@ -14,8 +14,9 @@ export interface IBlogData {
   works: {
     [key: string]: {
       title: string;
-      date: number;
+      date: string;
       content: string;
+      numberDate: number;
     }[];
   }[];
 }

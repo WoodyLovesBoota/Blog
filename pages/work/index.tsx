@@ -1,37 +1,79 @@
-import Link from "next/link";
+import Seo from "@/components/Seo";
 import styled from "styled-components";
+import { GetServerSideProps } from "next";
+import { firestore } from "../../firebase/firebaseAdmin";
+import { useRouter } from "next/router";
+import { IBlogData } from "@/atoms";
+import ReactMarkdown, { Components } from "react-markdown";
+import Image from "next/image";
+import gfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-const Work = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const snapshot = await firestore.collection("posts").get();
+
+  const data = snapshot.docs.map((doc) => {
+    const docData = doc.data();
+
+    return Object.assign(docData, { id: doc.id });
+  });
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+const Work = ({ data }: { data: IBlogData[] }) => {
+  const [sorted, setSorted] =
+    useState<[string, { content: string; title: string; date: string; numberDate: number }[]][]>();
+
+  useEffect(() => {
+    const temp = Object.entries(data[0].works[0]);
+    temp.sort((a, b) => {
+      if (Number(a[0]) - Number(b[0]) > 0) return 1;
+      else if (Number(a[0]) - Number(b[0]) < 0) return -1;
+      else {
+        if (a[1][0].numberDate > b[1][0].numberDate) return -1;
+        else return 1;
+      }
+    });
+    setSorted(temp);
+  }, [data]);
+
   return (
     <Wrapper>
       <Title>Works</Title>
       <List>
-        <MonthList>
-          <MonthColumn>Nov 2023</MonthColumn>
-          <MainColumn>
-            <Link
-              href={{
-                pathname: `/work/1`,
-                query: {
-                  title: 1,
-                },
-              }}
-            >
-              <BlogContent>
-                <BlogDate>23th</BlogDate>
-                <BlogName>블로그 이름입니다.</BlogName>
-              </BlogContent>
-            </Link>
-            <BlogContent>
-              <BlogDate>23th</BlogDate>
-              <BlogName>블로그 이름입니다.</BlogName>
-            </BlogContent>
-            <BlogContent>
-              <BlogDate>23th</BlogDate>
-              <BlogName>블로그 이름입니다.</BlogName>
-            </BlogContent>
-          </MainColumn>
-        </MonthList>
+        {sorted &&
+          sorted.map((e) => (
+            <MonthList key={e[1][0].title}>
+              <MonthColumn>{e[0]}</MonthColumn>
+              <MainColumn>
+                {e[1].map((ele, ind) => (
+                  <Link
+                    key={ele.date}
+                    href={{
+                      pathname: `/work/${e[0]}/${ind}`,
+                      query: {
+                        date: e[0],
+                        key: ind,
+                      },
+                    }}
+                  >
+                    <BlogContent>
+                      <BlogDate>{ele.date}</BlogDate>
+                      <BlogName>{ele.title}</BlogName>
+                    </BlogContent>
+                  </Link>
+                ))}
+              </MainColumn>
+            </MonthList>
+          ))}
       </List>
     </Wrapper>
   );
@@ -69,10 +111,11 @@ const BlogContent = styled.div`
 
 const BlogDate = styled.h2`
   font-weight: 200;
+  font-size: 14px;
 `;
 
 const BlogName = styled.h2`
   font-size: 21px;
-  font-weight: 400;
+  font-weight: 300;
   margin-left: 10px;
 `;
