@@ -8,11 +8,8 @@ import ReactMarkdown, { Components } from "react-markdown";
 import Image from "next/image";
 import gfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import prettier from "prettier/standalone";
-import typescriptParser from "prettier/parser-typescript";
+import { vs } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useEffect, useState } from "react";
-import GitHubCodeViewer from "@/components/GetGithub";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
@@ -30,13 +27,32 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
+const ClientOnlySyntaxHighlighter: React.FC<{ language: string; value: string }> = ({
+  language,
+  value,
+}) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <SyntaxHighlighter style={vs} language={language}>
+      {value}
+    </SyntaxHighlighter>
+  );
+};
+
 const customRenderers: Components = {
-  code: ({ children, className }) => {
-    return (
-      <SyntaxHighlighter style={solarizedlight} language={"typescript"} PreTag="code">
-        {String(children) || ""}
-      </SyntaxHighlighter>
-    );
+  code: ({ node, className, children, ...props }) => {
+    const codeString = String(children).replace(/\\n/g, "\n").replace(/\n$/, "");
+
+    return <ClientOnlySyntaxHighlighter language={"tsx"} value={codeString} />;
   },
 
   img: ({ src, alt }) => {
@@ -59,13 +75,10 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
       <Date>{data[0].works[0]["202401"][0].date}</Date>
       <Main>
         <MarkDownContainer>
-          {data[0].works[0]["202401"][0].content.split("+>").map((ele, ind) => (
-            <ReactMarkdown key={ind} remarkPlugins={[gfm]} components={customRenderers}>
-              {ele}
-            </ReactMarkdown>
-          ))}
+          <ReactMarkdown remarkPlugins={[gfm]} components={customRenderers}>
+            {data[0].works[0]["202401"][0].content.replace(/\\y/g, "\n")}
+          </ReactMarkdown>
         </MarkDownContainer>
-        <GitHubCodeViewer url="https://raw.githubusercontent.com/WoodyLovesBoota/BNW/main/src/atoms.ts" />
       </Main>
     </Wrapper>
   );
@@ -82,16 +95,6 @@ const Container = styled.div``;
 const Subject = styled.h2``;
 
 const Date = styled.h2``;
-
-const ImageWrapper = styled.div``;
-
-const Title = styled.h2``;
-
-const Subtitle = styled.h2``;
-
-const Bold = styled.h2``;
-
-const Description = styled.h2``;
 
 const Main = styled.div``;
 
@@ -127,5 +130,6 @@ const MarkDownContainer = styled.div`
   }
 
   code {
+    white-space: pre-wrap;
   }
 `;
