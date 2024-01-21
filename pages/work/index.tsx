@@ -32,6 +32,21 @@ const Work = ({ data }: { data: IBlogData[] }) => {
   const [sorted, setSorted] =
     useState<[string, { content: string; title: string; date: string; numberDate: number }[]][]>();
 
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   useEffect(() => {
     const temp = Object.entries(data[0].works[0]);
     temp.sort((a, b) => {
@@ -47,12 +62,14 @@ const Work = ({ data }: { data: IBlogData[] }) => {
 
   return (
     <Wrapper>
-      <Title>Works</Title>
+      <Title>Work</Title>
       <List>
         {sorted &&
           sorted.map((e) => (
             <MonthList key={e[1][0].title}>
-              <MonthColumn>{e[0]}</MonthColumn>
+              <MonthColumn>
+                {months[Number(e[0].slice(4)) - 1]}, {e[0].slice(0, 4)}
+              </MonthColumn>
               <MainColumn>
                 {e[1].map((ele, ind) => (
                   <Link
@@ -66,7 +83,15 @@ const Work = ({ data }: { data: IBlogData[] }) => {
                     }}
                   >
                     <BlogContent>
-                      <BlogDate>{ele.date}</BlogDate>
+                      <BlogDate>
+                        {Number(ele.date.split(",")[0].split(" ")[1]) > 3
+                          ? Number(ele.date.split(",")[0].split(" ")[1]) + "th"
+                          : Number(ele.date.split(",")[0].split(" ")[1]) === 1
+                            ? ele.date.split(",")[0].split(" ")[1] + "st"
+                            : Number(ele.date.split(",")[0].split(" ")[1]) === 2
+                              ? Number(ele.date.split(",")[0].split(" ")[1]) + "nd"
+                              : Number(ele.date.split(",")[0].split(" ")[1]) + "rd"}
+                      </BlogDate>
                       <BlogName>{ele.title}</BlogName>
                     </BlogContent>
                   </Link>
@@ -82,7 +107,7 @@ const Work = ({ data }: { data: IBlogData[] }) => {
 export default Work;
 
 const Wrapper = styled.div`
-  padding-top: 70px;
+  padding-top: 200px;
   padding-left: 100px;
 `;
 

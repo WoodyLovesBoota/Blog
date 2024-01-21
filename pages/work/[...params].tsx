@@ -76,7 +76,7 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
 
   return (
     <Wrapper>
-      <Seo title={key} />
+      <Seo title={data[0].works[0][date][Number(key)].title} />
       <Container>
         <Subject>{data[0].works[0][date][Number(key)].title}</Subject>
         <Date>{data[0].works[0][date][Number(key)].date}</Date>

@@ -1,19 +1,22 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styled from "styled-components";
 
 const NavigationBar = () => {
+  const pathname = usePathname();
+
   return (
     <Wrapper>
       <ToggleBox>
         <Link href={"/"}>
-          <ToggleContent>Home</ToggleContent>
+          <ToggleContent isnow={String(pathname === "/")}>HOME</ToggleContent>
         </Link>
         <Link href={"/work"}>
-          <ToggleContent>Work</ToggleContent>
+          <ToggleContent isnow={String(pathname === "/work")}>WORK</ToggleContent>
         </Link>
         <Link href={"/life"}>
-          <ToggleContent>Life</ToggleContent>
+          <ToggleContent isnow={String(pathname === "/life")}>LIFE</ToggleContent>
         </Link>
       </ToggleBox>
     </Wrapper>
@@ -36,8 +39,15 @@ const ToggleBox = styled.div`
   padding-right: 20px;
 `;
 
-const ToggleContent = styled.h2`
+const ToggleContent = styled.h2<{ isnow: string }>`
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 300;
+  margin: 5px 0;
+  letter-spacing: 1px;
+  &:hover {
+    color: #ff0000;
+  }
+  color: ${(props) => (props.isnow === "true" ? "red" : "black")};
+  transition: all 0.1s ease-in-out;
 `;
