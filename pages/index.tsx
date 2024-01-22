@@ -2,7 +2,6 @@ import Seo from "@/components/Seo";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { firestore } from "../firebase/firebaseAdmin";
-import NavigationBar from "@/components/NavigationBar";
 import { IBlogData } from "@/atoms";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -21,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Home = ({ data }: { data: IBlogData[] }) => {
   return (
     <Wrapper>
-      <Seo title="WoodylovesBoota" />
+      <Seo title="WoodyLovesBootaBlog" />
     </Wrapper>
   );
 };

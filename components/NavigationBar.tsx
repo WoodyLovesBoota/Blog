@@ -1,27 +1,33 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import styled from "styled-components";
 
 const NavigationBar = () => {
   const pathname = usePathname();
+  const isPathActive = (path: string): boolean => pathname.includes(path);
 
   return (
     <Wrapper>
       <ToggleBox>
-        <Link href={"/"}>
-          <ToggleContent isnow={String(pathname === "/")}>HOME</ToggleContent>
-        </Link>
-        <Link href={"/work"}>
-          <ToggleContent isnow={String(pathname === "/work")}>WORK</ToggleContent>
-        </Link>
-        <Link href={"/life"}>
-          <ToggleContent isnow={String(pathname === "/life")}>LIFE</ToggleContent>
-        </Link>
+        <NavigationLink href="/" isActive={pathname === "/"}>
+          HOME
+        </NavigationLink>
+        <NavigationLink href="/work" isActive={isPathActive("/work")}>
+          WORK
+        </NavigationLink>
+        <NavigationLink href="/life" isActive={isPathActive("/life")}>
+          LIFE
+        </NavigationLink>
       </ToggleBox>
     </Wrapper>
   );
 };
+
+const NavigationLink = ({ href, isActive, children }: NavigationLinkProps) => (
+  <Link href={href}>
+    <ToggleContent isActive={isActive}>{children}</ToggleContent>
+  </Link>
+);
 
 export default NavigationBar;
 
@@ -39,7 +45,7 @@ const ToggleBox = styled.div`
   padding-right: 20px;
 `;
 
-const ToggleContent = styled.h2<{ isnow: string }>`
+const ToggleContent = styled.h2<ToggleContentProps>`
   cursor: pointer;
   font-size: 14px;
   font-weight: 300;
@@ -48,6 +54,16 @@ const ToggleContent = styled.h2<{ isnow: string }>`
   &:hover {
     color: #ff0000;
   }
-  color: ${(props) => (props.isnow === "true" ? "red" : "black")};
+  color: ${(props) => (props.isActive ? "red" : "black")};
   transition: all 0.1s ease-in-out;
 `;
+
+interface NavigationLinkProps {
+  href: string;
+  isActive: boolean;
+  children: React.ReactNode;
+}
+
+interface ToggleContentProps {
+  isActive: boolean;
+}

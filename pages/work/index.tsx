@@ -1,16 +1,12 @@
-import Seo from "@/components/Seo";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { firestore } from "../../firebase/firebaseAdmin";
-import { useRouter } from "next/router";
 import { IBlogData } from "@/atoms";
-import ReactMarkdown, { Components } from "react-markdown";
-import Image from "next/image";
-import gfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Seo from "@/components/Seo";
+
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
@@ -28,45 +24,50 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Work = ({ data }: { data: IBlogData[] }) => {
-  const [sorted, setSorted] =
-    useState<[string, { content: string; title: string; date: string; numberDate: number }[]][]>();
+const processData = (data: IBlogData[]): SortedDataType => {
+  return data
+    .map((item) => {
+      const entries = Object.entries(item.works[0]).map(([date, posts]) => {
+        const sortedPosts = posts.sort((a, b) => b.numberDate - a.numberDate);
+        return [date, sortedPosts] as [string, typeof sortedPosts];
+      });
 
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+      entries.sort((a, b) => {
+        const dateA = Number(a[0]);
+        const dateB = Number(b[0]);
+        return dateB - dateA;
+      });
+
+      return entries;
+    })
+    .flat();
+};
+
+const changeDate = (date: string) => {
+  return Number(date.split(",")[0].split(" ")[1]) > 3
+    ? Number(date.split(",")[0].split(" ")[1]) + "th"
+    : Number(date.split(",")[0].split(" ")[1]) === 1
+      ? date.split(",")[0].split(" ")[1] + "st"
+      : Number(date.split(",")[0].split(" ")[1]) === 2
+        ? Number(date.split(",")[0].split(" ")[1]) + "nd"
+        : Number(date.split(",")[0].split(" ")[1]) + "rd";
+};
+
+const Work = ({ data }: { data: IBlogData[] }) => {
+  const [sortedData, setSortedData] = useState<SortedDataType>();
 
   useEffect(() => {
-    const temp = Object.entries(data[0].works[0]);
-    temp.sort((a, b) => {
-      if (Number(a[0]) - Number(b[0]) > 0) return 1;
-      else if (Number(a[0]) - Number(b[0]) < 0) return -1;
-      else {
-        if (a[1][0].numberDate > b[1][0].numberDate) return -1;
-        else return 1;
-      }
-    });
-    setSorted(temp);
+    setSortedData(processData(data));
   }, [data]);
 
   return (
     <Wrapper>
+      <Seo title="Work" />
       <Title>Work</Title>
       <List>
-        {sorted &&
-          sorted.map((e) => (
-            <MonthList key={e[1][0].title}>
+        {sortedData &&
+          sortedData.map((e, i) => (
+            <MonthList key={i}>
               <MonthColumn>
                 {months[Number(e[0].slice(4)) - 1]}, {e[0].slice(0, 4)}
               </MonthColumn>
@@ -75,23 +76,15 @@ const Work = ({ data }: { data: IBlogData[] }) => {
                   <Link
                     key={ele.date}
                     href={{
-                      pathname: `/work/${e[0]}/${ind}`,
+                      pathname: `/work/${e[0]}/${ele.numberDate}`,
                       query: {
                         date: e[0],
-                        key: ind,
+                        key: ele.numberDate,
                       },
                     }}
                   >
                     <BlogContent>
-                      <BlogDate>
-                        {Number(ele.date.split(",")[0].split(" ")[1]) > 3
-                          ? Number(ele.date.split(",")[0].split(" ")[1]) + "th"
-                          : Number(ele.date.split(",")[0].split(" ")[1]) === 1
-                            ? ele.date.split(",")[0].split(" ")[1] + "st"
-                            : Number(ele.date.split(",")[0].split(" ")[1]) === 2
-                              ? Number(ele.date.split(",")[0].split(" ")[1]) + "nd"
-                              : Number(ele.date.split(",")[0].split(" ")[1]) + "rd"}
-                      </BlogDate>
+                      <BlogDate>{changeDate(ele.date)}</BlogDate>
                       <BlogName>{ele.title}</BlogName>
                     </BlogContent>
                   </Link>
@@ -109,6 +102,7 @@ export default Work;
 const Wrapper = styled.div`
   padding-top: 200px;
   padding-left: 100px;
+  padding-bottom: 100px;
 `;
 
 const Title = styled.h2`
@@ -131,7 +125,7 @@ const MonthColumn = styled.h2`
 const MainColumn = styled.div``;
 
 const BlogContent = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 80px;
 `;
 
 const BlogDate = styled.h2`
@@ -144,3 +138,13 @@ const BlogName = styled.h2`
   font-weight: 300;
   margin-left: 10px;
 `;
+
+type SortedDataType = [
+  string,
+  {
+    title: string;
+    date: string;
+    content: string;
+    numberDate: number;
+  }[],
+][];

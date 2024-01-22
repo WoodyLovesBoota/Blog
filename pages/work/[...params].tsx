@@ -10,6 +10,7 @@ import gfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
@@ -56,13 +57,7 @@ const customRenderers: Components = {
     if (src) {
       return (
         <ImageWrapper>
-          <Image
-            src={src}
-            alt={alt || ""}
-            width={700}
-            height={400}
-            style={{ width: "100%", height: "100%" }}
-          />
+          <Image src={src} alt={alt || ""} width={700} height={400} style={{ width: "100%", height: "100%" }} />
         </ImageWrapper>
       );
     }
@@ -74,16 +69,22 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
   const router = useRouter();
   const [date, key] = router.query.params || [];
 
+  const currentPost = data[0].works[0][date][data[0].works[0][date].findIndex((e) => e.numberDate === Number(key))];
+
+  if (!currentPost) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Wrapper>
-      <Seo title={data[0].works[0][date][Number(key)].title} />
+    <Wrapper variants={fadeVar} initial="initial" animate="animate">
+      <Seo title={currentPost.title} />
       <Container>
-        <Subject>{data[0].works[0][date][Number(key)].title}</Subject>
-        <Date>{data[0].works[0][date][Number(key)].date}</Date>
+        <Subject>{currentPost.title}</Subject>
+        <Date>{currentPost.date}</Date>
         <Main>
           <MarkDownContainer>
             <ReactMarkdown remarkPlugins={[gfm]} components={customRenderers}>
-              {data[0].works[0][date][Number(key)].content.replace(/\\y/g, "\n")}
+              {currentPost.content.replace(/\\y/g, "\n")}
             </ReactMarkdown>
           </MarkDownContainer>
         </Main>
@@ -94,7 +95,7 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
 
 export default Detail;
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width: 100vw;
 `;
 
@@ -144,6 +145,11 @@ const MarkDownContainer = styled.div`
     margin-top: 50px;
   }
 
+  h3 {
+    font-size: 18px;
+    font-weight: 300;
+  }
+
   p {
     font-size: 14px;
     font-weight: 300;
@@ -184,6 +190,7 @@ const MarkDownContainer = styled.div`
   img {
     display: block;
     box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
   }
 `;
 
@@ -196,3 +203,8 @@ const ImageWrapper = styled.span`
   justify-content: center;
   align-items: center;
 `;
+
+const fadeVar = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 1, delay: 0.5 } },
+};
