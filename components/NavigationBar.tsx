@@ -36,7 +36,11 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   padding-top: 20px;
   position: fixed;
-  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100vw;
+  left: 0;
+  z-index: 2;
 `;
 
 const ToggleBox = styled.div`
@@ -48,13 +52,13 @@ const ToggleBox = styled.div`
 const ToggleContent = styled.h2<ToggleContentProps>`
   cursor: pointer;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   margin: 5px 0;
   letter-spacing: 1px;
   &:hover {
     color: #ff0000;
   }
-  color: ${(props) => (props.isActive ? "red" : "black")};
+  color: ${(props) => (props.isActive ? "#ff0000" : "000000")};
   transition: all 0.1s ease-in-out;
 `;
 

@@ -159,7 +159,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
 `;
 
 const Subject = styled.h2`
@@ -195,15 +195,27 @@ const Footer = styled.div`
 const NextButton = styled.button`
   margin-left: auto;
   background-color: transparent;
-  font-size: 14px;
-  font-weight: 300;
+  a {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  &:hover {
+    color: #ff0000;
+  }
+  transition: color 0.3s ease-in-out;
 `;
 
 const PrevButton = styled.button`
   margin-right: auto;
   background-color: transparent;
-  font-size: 14px;
-  font-weight: 300;
+  a {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  &:hover {
+    color: #ff0000;
+  }
+  transition: color 0.3s ease-in-out;
 `;
 
 const MarkDownContainer = styled.div`
