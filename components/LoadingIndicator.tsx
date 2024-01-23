@@ -43,7 +43,7 @@ const Wrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 200;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;

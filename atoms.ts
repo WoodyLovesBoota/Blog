@@ -17,6 +17,7 @@ export interface IBlogData {
       date: string;
       content: string;
       numberDate: number;
+      order: string;
     }[];
   }[];
 }

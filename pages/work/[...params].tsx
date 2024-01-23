@@ -11,6 +11,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
@@ -26,6 +27,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       data,
     },
   };
+};
+
+const getMonth = (mon: string): string => {
+  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  let month =
+    Number(months.indexOf(mon.split(" ")[0]) + 1) < 10
+      ? "0" + String(Number(months.indexOf(mon.split(" ")[0]) + 1))
+      : String(Number(months.indexOf(mon.split(" ")[0]) + 1));
+  let year = mon.slice(8);
+  return year.toString() + month.toString();
 };
 
 const ClientOnlySyntaxHighlighter: React.FC<{ value: string }> = ({ value }) => {
@@ -68,11 +79,22 @@ const customRenderers: Components = {
 const Detail = ({ data }: { data: IBlogData[] }) => {
   const router = useRouter();
   const [date, key] = router.query.params || [];
-
   const currentPost = data[0].works[0][date][data[0].works[0][date].findIndex((e) => e.numberDate === Number(key))];
 
+  const nextPost = Object.values(data[0].works[0]).flat()[
+    Object.values(data[0].works[0])
+      .flat()
+      .findIndex((e) => e.order === (Number(currentPost.order) + 1).toString())
+  ];
+
+  const prevPost = Object.values(data[0].works[0]).flat()[
+    Object.values(data[0].works[0])
+      .flat()
+      .findIndex((e) => e.order === (Number(currentPost.order) - 1).toString())
+  ];
+
   if (!currentPost) {
-    return <div>Loading...</div>;
+    return <Wrapper>현재 페이지를 불러올 수 없습니다.</Wrapper>;
   }
 
   return (
@@ -88,6 +110,38 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
             </ReactMarkdown>
           </MarkDownContainer>
         </Main>
+        <Footer>
+          {nextPost && (
+            <PrevButton>
+              <Link
+                href={{
+                  pathname: `/work/${getMonth(nextPost.date)}/${nextPost.numberDate}`,
+                  query: {
+                    date: getMonth(nextPost.date),
+                    key: nextPost.numberDate,
+                  },
+                }}
+              >
+                Prev
+              </Link>
+            </PrevButton>
+          )}
+          {prevPost && (
+            <NextButton>
+              <Link
+                href={{
+                  pathname: `/work/${getMonth(prevPost.date)}/${prevPost.numberDate}`,
+                  query: {
+                    date: getMonth(prevPost.date),
+                    key: prevPost.numberDate,
+                  },
+                }}
+              >
+                Next
+              </Link>
+            </NextButton>
+          )}
+        </Footer>
       </Container>
     </Wrapper>
   );
@@ -105,6 +159,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding-bottom: 50px;
 `;
 
 const Subject = styled.h2`
@@ -127,15 +182,38 @@ const Date = styled.h2`
 const Main = styled.div`
   padding-top: 50px;
   width: 1080px;
+  padding-bottom: 150px;
+`;
+
+const Footer = styled.div`
+  width: 1080px;
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const NextButton = styled.button`
+  margin-left: auto;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 300;
+`;
+
+const PrevButton = styled.button`
+  margin-right: auto;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 300;
 `;
 
 const MarkDownContainer = styled.div`
   * {
     margin: 15px 0;
   }
+
   h1 {
-    font-size: 36px;
-    font-weight: 200;
+    font-size: 32px;
+    font-weight: 400;
   }
 
   h2 {
@@ -150,6 +228,11 @@ const MarkDownContainer = styled.div`
     font-weight: 300;
   }
 
+  strong {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
   p {
     font-size: 14px;
     font-weight: 300;
@@ -159,9 +242,19 @@ const MarkDownContainer = styled.div`
   }
 
   a {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 2;
+    letter-spacing: 0.8px;
+    color: #6363f1;
   }
 
   ul {
+    background-color: #f2f2f2;
+  }
+
+  ol {
+    background-color: #f2f2f2;
   }
 
   li {
@@ -170,7 +263,8 @@ const MarkDownContainer = styled.div`
     line-height: 2;
     letter-spacing: 0.8px;
     margin: 15px 0;
-    color: #666666;
+    font-style: italic;
+    margin-left: 20px;
   }
 
   code {
@@ -196,7 +290,7 @@ const MarkDownContainer = styled.div`
 
 const ImageWrapper = styled.span`
   width: 100%;
-  height: 607px;
+  height: auto;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.03);
 
   display: flex;
