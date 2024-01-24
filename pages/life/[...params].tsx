@@ -79,16 +79,16 @@ const customRenderers: Components = {
 const Detail = ({ data }: { data: IBlogData[] }) => {
   const router = useRouter();
   const [date, key] = router.query.params || [];
-  const currentPost = data[0].works[0][date][data[0].works[0][date].findIndex((e) => e.numberDate === Number(key))];
+  const currentPost = data[0].life[0][date][data[0].life[0][date].findIndex((e) => e.numberDate === Number(key))];
 
-  const nextPost = Object.values(data[0].works[0]).flat()[
-    Object.values(data[0].works[0])
+  const nextPost = Object.values(data[0].life[0]).flat()[
+    Object.values(data[0].life[0])
       .flat()
       .findIndex((e) => e.order === (Number(currentPost.order) + 1).toString())
   ];
 
-  const prevPost = Object.values(data[0].works[0]).flat()[
-    Object.values(data[0].works[0])
+  const prevPost = Object.values(data[0].life[0]).flat()[
+    Object.values(data[0].life[0])
       .flat()
       .findIndex((e) => e.order === (Number(currentPost.order) - 1).toString())
   ];
@@ -115,7 +115,7 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
             <PrevButton>
               <Link
                 href={{
-                  pathname: `/work/${getMonth(nextPost.date)}/${nextPost.numberDate}`,
+                  pathname: `/life/${getMonth(nextPost.date)}/${nextPost.numberDate}`,
                   query: {
                     date: getMonth(nextPost.date),
                     key: nextPost.numberDate,
@@ -130,7 +130,7 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
             <NextButton>
               <Link
                 href={{
-                  pathname: `/work/${getMonth(prevPost.date)}/${prevPost.numberDate}`,
+                  pathname: `/life/${getMonth(prevPost.date)}/${prevPost.numberDate}`,
                   query: {
                     date: getMonth(prevPost.date),
                     key: prevPost.numberDate,

@@ -20,4 +20,13 @@ export interface IBlogData {
       order: string;
     }[];
   }[];
+  life: {
+    [key: string]: {
+      title: string;
+      date: string;
+      content: string;
+      numberDate: number;
+      order: string;
+    }[];
+  }[];
 }

@@ -40,7 +40,7 @@ const Home = ({ data }: { data: IBlogData[] }) => {
   const listRef = useRef<List>(null);
 
   useEffect(() => {
-    setSortedData(processData(Object.values(data[0].works[0]).flat()));
+    setSortedData(processData([...Object.values(data[0].works[0]).flat(), ...Object.values(data[0].life[0]).flat()]));
   }, [data]);
 
   useEffect(() => {
@@ -68,14 +68,14 @@ const Home = ({ data }: { data: IBlogData[] }) => {
   }, [scrollPosition]);
 
   const Row: React.FC<ListChildComponentProps> = ({ index, style }) => (
-    <div style={{ ...style, letterSpacing: "2px", fontSize: "36px", fontWeight: 300, color: "black" }}>{items[index].label}</div>
+    <div style={{ ...style, letterSpacing: "2px", fontSize: "24px", fontWeight: 300, color: "black" }}>{items[index].label}</div>
   );
 
   return (
     <Wrapper>
       <Seo title="WoodyLovesBootaBlog" />
       <Container>
-        <StyledList height={1500} itemCount={items.length} itemSize={70} width={1080} ref={listRef}>
+        <StyledList height={1500} itemCount={items.length} itemSize={50} width={1080} ref={listRef}>
           {Row}
         </StyledList>
         <Bg>
@@ -135,16 +135,16 @@ const Bg = styled.div`
 
 const Blur = styled.div`
   background: rgba(250, 250, 250, 0.6);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
+  /* backdrop-filter: blur(1px); */
+  /* -webkit-backdrop-filter: blur(1px); */
   width: 100vw;
-  height: calc(50vh - 40px);
+  height: calc(50vh - 30px);
 `;
 
 const Mirror = styled.div`
   background-color: transparent;
   width: 100vw;
-  height: calc(80px);
+  height: calc(60px);
 `;
 
 type SortedDataType = {
