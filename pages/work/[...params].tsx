@@ -167,6 +167,7 @@ const Subject = styled.h2`
   font-weight: 400;
   text-align: center;
   letter-spacing: 2px;
+  color: black;
 `;
 
 const Date = styled.h2`
@@ -224,23 +225,27 @@ const MarkDownContainer = styled.div`
   }
 
   h1 {
+    color: black;
     font-size: 32px;
     font-weight: 400;
     margin: 20px 0;
   }
 
   h2 {
+    color: black;
     font-size: 24px;
     font-weight: 400;
     margin: 15px 0;
   }
 
   h3 {
+    color: black;
     font-size: 18px;
     font-weight: 300;
   }
 
   strong {
+    color: black;
     font-size: 14px;
     font-weight: 400;
   }

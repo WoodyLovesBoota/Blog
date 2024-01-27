@@ -148,6 +148,7 @@ const BlogName = styled(motion.h2)`
   font-size: 21px;
   font-weight: 300;
   margin-left: 10px;
+  color: #4a4a4a;
 `;
 
 type SortedDataType = [

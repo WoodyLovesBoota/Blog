@@ -92,7 +92,7 @@ button {
   font-family: "Roboto", "Gothic A1", sans-serif;
   vertical-align: baseline;
   line-height: 1.5;
-  color: black;
+  color: gray;
   word-break: keep-all;
   scroll-behavior: smooth;
   box-sizing: border-box;
