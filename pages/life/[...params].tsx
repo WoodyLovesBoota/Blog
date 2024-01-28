@@ -167,6 +167,7 @@ const Subject = styled.h2`
   font-weight: 400;
   text-align: center;
   letter-spacing: 2px;
+  color: black;
 `;
 
 const Date = styled.h2`

@@ -107,9 +107,7 @@ const Wrapper = styled.div`
   padding-bottom: 100px;
 `;
 
-const List = styled.div`
-  /* margin-top: 160px; */
-`;
+const List = styled.div``;
 
 const Circle = styled(motion.div)`
   width: 5px;
@@ -135,7 +133,7 @@ const MonthColumn = styled.h2`
 const MainColumn = styled.div``;
 
 const BlogContent = styled(motion.div)`
-  padding-bottom: 80px;
+  padding-bottom: 50px;
   position: relative;
 `;
 
@@ -145,10 +143,10 @@ const BlogDate = styled.h2`
 `;
 
 const BlogName = styled(motion.h2)`
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 300;
   margin-left: 10px;
-  color: #4a4a4a;
+  color: #606060;
 `;
 
 type SortedDataType = [

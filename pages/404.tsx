@@ -40,6 +40,7 @@ const Title = styled.h2`
   font-size: 64px;
   font-weight: 700;
   margin-bottom: 40px;
+  color: black;
 `;
 
 const Content = styled.h2`
