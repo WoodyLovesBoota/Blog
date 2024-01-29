@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
+import styles from "./LoadingIndicator.module.scss";
 
 const LoadingIndicator = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,39 +29,13 @@ const LoadingIndicator = () => {
   }, [router, handleStart, handleComplete]);
 
   return loading ? (
-    <Wrapper variants={loadingVariants} initial="initial" animate="animate">
-      <Spinner></Spinner>
-    </Wrapper>
+    <motion.div className={styles.wrapper} variants={loadingVariants} initial="initial" animate="animate">
+      <div className={styles.spinner} />
+    </motion.div>
   ) : null;
 };
 
 export default LoadingIndicator;
-
-const Wrapper = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 200;
-  background-color: rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const spin = keyframes`
-  to { transform: rotate(360deg); }
-`;
-
-const Spinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border-left-color: #000000;
-  animation: ${spin} 1s ease-in-out infinite;
-`;
 
 const loadingVariants = {
   initial: { opacity: 0 },

@@ -33,7 +33,7 @@ const Home = ({ data }: { data: IBlogData[] }) => {
   const [sortedData, setSortedData] = useState<SortedDataType>(Object.values(data[0].works[0]).flat());
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
-  const items = Array.from({ length: 500 }, (_, index) => ({
+  const items = Array.from({ length: 1000 }, (_, index) => ({
     id: index,
     label: `${sortedData[index % sortedData.length].title}`,
   }));

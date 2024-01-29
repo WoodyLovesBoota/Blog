@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { firestore } from "../../firebase/firebaseAdmin";
 import { IBlogData } from "@/atoms";
@@ -6,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
+import styles from "./index.module.scss";
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -62,16 +62,16 @@ const Work = ({ data }: { data: IBlogData[] }) => {
   }, [data]);
 
   return (
-    <Wrapper>
+    <div className={styles.wrapper}>
       <Seo title="Work" />
-      <List>
+      <div>
         {sortedData &&
           sortedData.map((e, i) => (
-            <MonthList key={i}>
-              <MonthColumn>
+            <div className={styles.month_list} key={i}>
+              <h2>
                 {months[Number(e[0].slice(4)) - 1]}, {e[0].slice(0, 4)}
-              </MonthColumn>
-              <MainColumn>
+              </h2>
+              <div>
                 {e[1].map((ele, ind) => (
                   <Link
                     key={ele.date}
@@ -83,71 +83,28 @@ const Work = ({ data }: { data: IBlogData[] }) => {
                       },
                     }}
                   >
-                    <BlogContent variants={defaultVar} initial="initial" animate="animate" whileHover={"hover"}>
-                      <BlogDate>{changeDate(ele.date)}</BlogDate>
-                      <BlogName variants={titleVar}>{ele.title}</BlogName>
-                      <Circle variants={circleVar} />
-                    </BlogContent>
+                    <motion.div
+                      className={styles.blog}
+                      variants={defaultVar}
+                      initial="initial"
+                      animate="animate"
+                      whileHover={"hover"}
+                    >
+                      <h3>{changeDate(ele.date)}</h3>
+                      <motion.h2 variants={titleVar}>{ele.title}</motion.h2>
+                      <motion.div className={styles.circle} variants={circleVar} />
+                    </motion.div>
                   </Link>
                 ))}
-              </MainColumn>
-            </MonthList>
+              </div>
+            </div>
           ))}
-      </List>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
 
 export default Work;
-
-const Wrapper = styled.div`
-  padding-top: 200px;
-  padding-left: 100px;
-  padding-right: 100px;
-  padding-bottom: 100px;
-`;
-
-const List = styled.div``;
-
-const Circle = styled(motion.div)`
-  width: 5px;
-  height: 5px;
-  background-color: black;
-  position: absolute;
-  top: 25px;
-  left: 0;
-  border-radius: 100px;
-  opacity: 0;
-`;
-
-const MonthList = styled.div`
-  display: flex;
-  border-top: 0.5px solid black;
-  padding-top: 50px;
-`;
-
-const MonthColumn = styled.h2`
-  margin-right: 100px;
-`;
-
-const MainColumn = styled.div``;
-
-const BlogContent = styled(motion.div)`
-  padding-bottom: 50px;
-  position: relative;
-`;
-
-const BlogDate = styled.h2`
-  font-weight: 200;
-  font-size: 14px;
-`;
-
-const BlogName = styled(motion.h2)`
-  font-size: 18px;
-  font-weight: 300;
-  margin-left: 10px;
-  color: #606060;
-`;
 
 type SortedDataType = [
   string,

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
+import styles from "../work/index.module.scss";
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -62,16 +63,16 @@ const Life = ({ data }: { data: IBlogData[] }) => {
   }, [data]);
 
   return (
-    <Wrapper>
+    <div className={styles.wrapper}>
       <Seo title="Life" />
-      <List>
+      <div>
         {sortedData &&
           sortedData.map((e, i) => (
-            <MonthList key={i}>
-              <MonthColumn>
+            <div className={styles.month_list} key={i}>
+              <h2>
                 {months[Number(e[0].slice(4)) - 1]}, {e[0].slice(0, 4)}
-              </MonthColumn>
-              <MainColumn>
+              </h2>
+              <div>
                 {e[1].map((ele, ind) => (
                   <Link
                     key={ele.date}
@@ -83,18 +84,24 @@ const Life = ({ data }: { data: IBlogData[] }) => {
                       },
                     }}
                   >
-                    <BlogContent variants={defaultVar} initial="initial" animate="animate" whileHover={"hover"}>
-                      <BlogDate>{changeDate(ele.date)}</BlogDate>
-                      <BlogName variants={titleVar}>{ele.title}</BlogName>
-                      <Circle variants={circleVar} />
-                    </BlogContent>
+                    <motion.div
+                      className={styles.blog}
+                      variants={defaultVar}
+                      initial="initial"
+                      animate="animate"
+                      whileHover={"hover"}
+                    >
+                      <h3>{changeDate(ele.date)}</h3>
+                      <motion.h2 variants={titleVar}>{ele.title}</motion.h2>
+                      <motion.div className={styles.circle} variants={circleVar} />
+                    </motion.div>
                   </Link>
                 ))}
-              </MainColumn>
-            </MonthList>
+              </div>
+            </div>
           ))}
-      </List>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
 

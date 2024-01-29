@@ -3,7 +3,7 @@ import { AppProps } from "next/dist/shared/lib/router/router";
 import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/components/LoadingIndicator/LoadingIndicator";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const client = new QueryClient();
