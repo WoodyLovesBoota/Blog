@@ -1,4 +1,4 @@
-.wrapper {
+.Wrapper {
   display: flex;
   justify-content: flex-end;
   padding-top: 20px;
@@ -10,13 +10,13 @@
   z-index: 2;
 }
 
-.nav_box {
+.NavBox {
   border-top: 1px solid black;
   padding: 0 10px;
   padding-right: 20px;
 }
 
-.nav_content {
+.NavContent {
   cursor: pointer;
   font-size: 14px;
   font-weight: 400;
@@ -28,6 +28,6 @@
   transition: all 0.1s ease-in-out;
 }
 
-.red {
+.Red {
   color: red;
 }

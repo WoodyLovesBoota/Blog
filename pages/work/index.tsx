@@ -6,6 +6,9 @@ import Link from "next/link";
 import Seo from "@/components/Seo";
 import { motion } from "framer-motion";
 import styles from "./index.module.scss";
+import cn from "classnames/bind";
+
+const cx = cn.bind(styles);
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -62,17 +65,17 @@ const Work = ({ data }: { data: IBlogData[] }) => {
   }, [data]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx("Wrapper")}>
       <Seo title="Work" />
       <div>
         {sortedData &&
           sortedData.map((e, i) => (
-            <div className={styles.month_list} key={i}>
+            <div className={cx("MonthList")} key={i}>
               <h2>
                 {months[Number(e[0].slice(4)) - 1]}, {e[0].slice(0, 4)}
               </h2>
               <div>
-                {e[1].map((ele, ind) => (
+                {e[1].map((ele) => (
                   <Link
                     key={ele.date}
                     href={{
@@ -84,7 +87,7 @@ const Work = ({ data }: { data: IBlogData[] }) => {
                     }}
                   >
                     <motion.div
-                      className={styles.blog}
+                      className={cx("Blog")}
                       variants={defaultVar}
                       initial="initial"
                       animate="animate"
@@ -92,7 +95,7 @@ const Work = ({ data }: { data: IBlogData[] }) => {
                     >
                       <h3>{changeDate(ele.date)}</h3>
                       <motion.h2 variants={titleVar}>{ele.title}</motion.h2>
-                      <motion.div className={styles.circle} variants={circleVar} />
+                      <motion.div className={cx("Circle")} variants={circleVar} />
                     </motion.div>
                   </Link>
                 ))}

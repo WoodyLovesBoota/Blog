@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import styles from "./LoadingIndicator.module.scss";
+import cn from "classnames/bind";
+
+const cx = cn.bind(styles);
 
 const LoadingIndicator = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,8 +32,8 @@ const LoadingIndicator = () => {
   }, [router, handleStart, handleComplete]);
 
   return loading ? (
-    <motion.div className={styles.wrapper} variants={loadingVariants} initial="initial" animate="animate">
-      <div className={styles.spinner} />
+    <motion.div className={cx("Wrapper")} variants={loadingVariants} initial="initial" animate="animate">
+      <div className={cx("Spinner")} />
     </motion.div>
   ) : null;
 };

@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import styles from "./params.module.scss";
+import cn from "classnames/bind";
+
+const cx = cn.bind(styles);
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const snapshot = await firestore.collection("posts").get();
@@ -67,7 +70,7 @@ const customRenderers: Components = {
   img: ({ src, alt }) => {
     if (src) {
       return (
-        <span className={styles.image_wrapper}>
+        <span className={cx("ImageWrapper")}>
           <Image src={src} alt={alt || ""} width={700} height={400} style={{ width: "100%", height: "100%" }} />
         </span>
       );
@@ -98,21 +101,21 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
   }
 
   return (
-    <motion.div className={styles.wrapper} variants={fadeVar} initial="initial" animate="animate">
+    <motion.div className={cx("Wrapper")} variants={fadeVar} initial="initial" animate="animate">
       <Seo title={currentPost.title} />
-      <div className={styles.container}>
+      <div className={cx("Container")}>
         <h1>{currentPost.title}</h1>
         <h4>{currentPost.date}</h4>
-        <div className={styles.main}>
-          <div className={styles.markdown}>
+        <div className={cx("Main")}>
+          <div className={cx("Markdown")}>
             <ReactMarkdown remarkPlugins={[gfm]} components={customRenderers}>
               {currentPost.content.replace(/\\y/g, "\n")}
             </ReactMarkdown>
           </div>
         </div>
-        <div className={styles.footer}>
+        <div className={cx("Footer")}>
           {nextPost && (
-            <button className={styles.prev}>
+            <button className={cx("ButtonPrev")}>
               <Link
                 href={{
                   pathname: `/work/${getMonth(nextPost.date)}/${nextPost.numberDate}`,
@@ -127,7 +130,7 @@ const Detail = ({ data }: { data: IBlogData[] }) => {
             </button>
           )}
           {prevPost && (
-            <button className={styles.next}>
+            <button className={cx("ButtonNext")}>
               <Link
                 href={{
                   pathname: `/work/${getMonth(prevPost.date)}/${prevPost.numberDate}`,
