@@ -1,0 +1,125 @@
+/**
+ * @license
+ *
+ * Font Family: Clash Grotesk
+ * Designed by: Indian Type Foundry
+ * URL: https://www.fontshare.com/fonts/clash-grotesk
+ * © 2023 Indian Type Foundry
+ *
+ * Font Styles:
+ * Clash Grotesk Variable(Variable font)
+ * Clash Grotesk Extralight
+ * Clash Grotesk Light
+ * Clash Grotesk Regular
+ * Clash Grotesk Medium
+ * Clash Grotesk Semibold
+ * Clash Grotesk Bold
+ *
+*/
+
+/**
+* This is a variable font
+* You can controll variable axes as shown below:
+* font-variation-settings: 'wght' 700.0;
+*
+* available axes:
+
+* 'wght' (range from 200.0 to 700.0)
+
+*/
+
+@font-face {
+  font-family: "ClashGrotesk-Variable";
+  src: url("../fonts/ClashGrotesk-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Extralight";
+  src: url("../fonts/ClashGrotesk-Extralight.ttf") format("truetype");
+  font-weight: 200;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Light";
+  src: url("../fonts/ClashGrotesk-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Regular";
+  src: url("../fonts/ClashGrotesk-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Medium";
+  src: url("../fonts/ClashGrotesk-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Semibold";
+  src: url("../fonts/ClashGrotesk-Semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ClashGrotesk-Bold";
+  src: url("../fonts/ClashGrotesk-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquare Neo OTF";
+  src: url("/fonts/NanumSquareNeoOTF-aLt.ttf") format("truetype");
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquare Neo OTF";
+  src: url("/fonts/NanumSquareNeoOTF-bRg.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquare Neo OTF";
+  src: url("/fonts/NanumSquareNeoOTF-cBd.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquare Neo OTF";
+  src: url("/fonts/NanumSquareNeoOTF-dEb.ttf") format("truetype");
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquare Neo OTF";
+  src: url("/fonts/NanumSquareNeoOTF-eHv.ttf") format("truetype");
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}

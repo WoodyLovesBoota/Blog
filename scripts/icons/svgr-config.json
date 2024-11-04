@@ -1,0 +1,15 @@
+{
+  "typescript": true,
+  "params": {},
+  "replaceAttrValues": {
+    "#121416": "{props.color || `#121416`}",
+    "#1C1B1F": "{props.color || `#1C1B1F`}",
+    "#82879B": "{props.color || `##82879B`}"
+  },
+  "svgProps": {
+    "width": "{props.width || 24}",
+    "height": "{props.height || 24}",
+    "style": "{props.style || {}}",
+    "onClick": "{props.onClick}"
+  }
+}

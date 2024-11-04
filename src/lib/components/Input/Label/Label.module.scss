@@ -1,0 +1,20 @@
+.Wrapper {
+  display: flex;
+  align-items: center;
+
+  .Label {
+    color: var(--text-text-primary, #262626);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 171.429% */
+
+    &.focused {
+      color: blue;
+    }
+
+    &.error {
+      color: var(--text-text-error, #de4743);
+    }
+  }
+}

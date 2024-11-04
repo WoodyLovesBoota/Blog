@@ -1,0 +1,73 @@
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  flex: 1;
+  padding: 0 4px;
+
+  &.xsmall {
+    height: 32px;
+  }
+  &.small {
+    height: 40px;
+  }
+  &.medium {
+    height: 48px;
+  }
+  &.large {
+    height: 56px;
+  }
+  &.xlarge {
+    height: 64px;
+  }
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.ContainedButton {
+  background: var(--surface-surface-brand, #527aff);
+  color: var(--text-text-invert, #fff);
+  &:disabled {
+    background: var(--color-gray-300, #c4c4c4);
+    color: var(--color-gray-100, #e9e9e9);
+  }
+  &:hover {
+    background: var(--color-blue-500, #295bff);
+  }
+  &:active {
+    background: var(--color-blue-500, #295bff);
+  }
+
+  &.blue {
+    background: var(--surface-surface-brand, #527aff);
+    color: var(--text-text-invert, #fff);
+    &:disabled {
+      background: var(--color-gray-300, #c4c4c4);
+      color: var(--color-gray-100, #e9e9e9);
+    }
+    &:hover {
+      background: var(--color-blue-500, #295bff);
+    }
+    &:active {
+      background: var(--color-blue-500, #295bff);
+    }
+  }
+
+  &.gray {
+    background: var(--surface-surface-brand, #c3c3c3);
+    color: var(--text-text-invert, #fff);
+    &:disabled {
+      background: var(--color-gray-300, #c4c4c4);
+      color: var(--color-gray-100, #e9e9e9);
+    }
+    &:hover {
+      background: var(--color-blue-500, #8f8f8f);
+    }
+    &:active {
+      background: var(--color-blue-500, #8f8f8f);
+    }
+  }
+}

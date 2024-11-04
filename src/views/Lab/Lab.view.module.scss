@@ -1,0 +1,33 @@
+.Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .Container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+    textarea {
+      flex: 1;
+      height: 100%;
+      overflow: auto;
+
+      padding: 16px;
+
+      font-size: 18px;
+      font-weight: 400;
+
+      outline: none;
+
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .MarkDownWrapper {
+      flex: 1;
+      height: 100%;
+      overflow: auto;
+
+      padding: 16px;
+    }
+  }
+}

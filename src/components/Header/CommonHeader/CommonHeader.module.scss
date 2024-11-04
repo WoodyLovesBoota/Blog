@@ -1,0 +1,12 @@
+.Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 300px;
+  padding: 16px 0;
+
+  .NavButton {
+    cursor: pointer;
+  }
+}
