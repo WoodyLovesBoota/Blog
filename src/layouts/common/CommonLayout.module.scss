@@ -4,15 +4,12 @@
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
+  background-color: #141414;
 }
 
 .Header {
 }
 
 .Main {
-  width: 1200px;
-
-  @media screen and (max-width: 1200px) {
-    width: 100%;
-  }
+  width: 100%;
 }

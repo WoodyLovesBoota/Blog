@@ -3,10 +3,24 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  width: 300px;
-  padding: 16px 0;
+  width: 100vw;
+  height: 100px;
+
+  background-color: #1a1a1a;
 
   .NavButton {
     cursor: pointer;
+    padding: 14px 24px;
+    color: #7e7e81;
+    font-size: 18px;
+    font-weight: 400;
+
+    &.current {
+      color: #fff;
+
+      border: 1px solid #333;
+      border-radius: 10px;
+      background-color: #141414;
+    }
   }
 }
