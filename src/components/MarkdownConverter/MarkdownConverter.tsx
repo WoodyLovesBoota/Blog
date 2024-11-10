@@ -6,15 +6,13 @@ import cn from "classnames/bind";
 import ReactMarkdown, { Components } from "react-markdown";
 import gfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import Image from "next/image";
 
 const cx = cn.bind(styles);
 
 const MarkDownConverter = ({ text }: { text: string }) => {
-  const ClientOnlySyntaxHighlighter: React.FC<{ value: string }> = ({
-    value,
-  }) => {
+  const ClientOnlySyntaxHighlighter: React.FC<{ value: string }> = ({ value }) => {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -26,7 +24,7 @@ const MarkDownConverter = ({ text }: { text: string }) => {
     }
 
     return (
-      <SyntaxHighlighter style={solarizedlight} language="tsx">
+      <SyntaxHighlighter style={vscDarkPlus} language="tsx">
         {value}
       </SyntaxHighlighter>
     );
@@ -34,9 +32,7 @@ const MarkDownConverter = ({ text }: { text: string }) => {
 
   const customRenderers: Components = {
     code: ({ node, className, children, ...props }) => {
-      const codeString = String(children)
-        .replace(/\\n/g, "\n")
-        .replace(/\n$/, "");
+      const codeString = String(children);
 
       return <ClientOnlySyntaxHighlighter value={codeString} />;
     },

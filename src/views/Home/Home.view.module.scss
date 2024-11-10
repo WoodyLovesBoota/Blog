@@ -1,4 +1,7 @@
 .Wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Title {
@@ -8,7 +11,7 @@
   flex-direction: column;
 
   border-bottom: 1px solid #222;
-
+  width: 1920px;
   p {
     font-size: 80px;
     font-weight: 600;
@@ -150,6 +153,68 @@
           background-color: #1a1a1a;
 
           padding: 10px 16px;
+        }
+      }
+    }
+  }
+}
+
+.Table {
+  display: flex;
+  flex-direction: column;
+
+  .TableRow {
+    border-top: 1px solid #222;
+    padding: 60px 80px;
+
+    display: flex;
+    gap: 40px;
+
+    .ItemContent {
+      display: flex;
+      width: 100%;
+
+      .ItemContentText {
+        .ItemContentDate {
+          font-size: 18px;
+          font-weight: 600;
+          color: #98989a;
+          margin-bottom: 24px;
+        }
+        .ItemContentTitle {
+          font-size: 22px;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
+        .ItemContentDescription {
+          font-size: 16px;
+          font-weight: 400;
+          color: #98989a;
+        }
+      }
+
+      .ButtonWrapper {
+        margin-left: auto;
+        padding-left: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .ItemContentButton {
+          border: 1px solid #262626;
+          border-radius: 10px;
+          color: #98989a;
+
+          margin-top: 50px;
+          padding: 18px 24px;
+
+          cursor: pointer;
+          transition: all 0.15s ease;
+
+          &:hover {
+            border-color: #fff;
+            color: #fff;
+          }
         }
       }
     }

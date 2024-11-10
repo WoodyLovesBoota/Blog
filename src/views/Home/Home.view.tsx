@@ -96,7 +96,37 @@ const HomeView = () => {
             </div>
           ))}
         </section>
-        <section className={cx("Table")}></section>
+        <section className={cx("Table")}>
+          {Array.from({ length: 5 }).map((row, index) => (
+            <div key={index} className={cx("TableRow")}>
+              <Image
+                src={"/static/images/sample.png"}
+                alt="frontend"
+                width={300}
+                height={222}
+                style={{
+                  height: "222px",
+                  width: "300px",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  borderRadius: "12px",
+                }}
+              />
+              <div className={cx("ItemContent")}>
+                <div className={cx("ItemContentText")}>
+                  <p className={cx("ItemContentDate")}>October 10, 2023</p>
+                  <h3 className={cx("ItemContentTitle")}>와다다곰 이란</h3>
+                  <p className={cx("ItemContentDescription")}>
+                    와다다곰 짱짱짱 너무너무너무 귀여워요
+                  </p>
+                </div>
+                <div className={cx("ButtonWrapper")}>
+                  <button className={cx("ItemContentButton")}>Read More</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
       </section>
     </div>
   );

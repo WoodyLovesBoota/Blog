@@ -10,10 +10,9 @@ import { useState } from "react";
 import MarkDownConverter from "@/components/MarkdownConverter/MarkdownConverter";
 
 const cx = cn.bind(styles);
-
 const LabView = () => {
-  const [text, setText] = useState("# Hello, Markdown!");
-
+  const [text, setText] = useState("# Hello, Markdown!\n# asdfasd");
+  console.log(text);
   return (
     <div className={cx("Wrapper")}>
       <div className={cx("Container")}>
