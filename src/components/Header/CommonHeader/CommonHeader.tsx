@@ -20,7 +20,7 @@ const CommonHeader = () => {
 
   return (
     <nav className={cx("Wrapper")}>
-      {GNB_LIST.map((link) => (
+      {/* {GNB_LIST.map((link) => (
         <button
           key={link.name}
           className={cx("NavButton", { current: pathname === link.path })}
@@ -28,7 +28,10 @@ const CommonHeader = () => {
         >
           {link.name}
         </button>
-      ))}
+      ))} */}
+      <button className={cx("NavButton")} onClick={() => router.push(ROUTES.INDEX)}>
+        BLOG
+      </button>
     </nav>
   );
 };

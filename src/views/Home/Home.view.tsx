@@ -6,6 +6,7 @@ import { getRandomSample } from "@/utils/string.utils";
 import { useEffect, useState } from "react";
 import { usePopup } from "@/components/hooks/popup/usePopup";
 import Image from "next/image";
+import VerticalCard from "@/components/VerticalCard/VerticalCard";
 
 const cx = cn.bind(styles);
 
@@ -32,8 +33,8 @@ const HomeView = () => {
     <div className={cx("Wrapper")}>
       <section className={cx("Section")}>
         <div className={cx("Title")}>
-          <p>Technology</p>
-          <h2>Frontend Technology</h2>
+          <p>Technological Insights</p>
+          <h2>Troubleshooting and Lessons Learned in Frontend Development</h2>
         </div>
         <main className={cx("Main")}>
           <div className={cx("MainContent")}>
@@ -71,29 +72,7 @@ const HomeView = () => {
         </main>
         <section className={cx("ThreeCards")}>
           {Array.from({ length: 3 }).map((card, index) => (
-            <div className={cx("Card")} key={index}>
-              <Image
-                src={"/static/images/sample.png"}
-                alt="frontend"
-                width={515}
-                height={222}
-                style={{
-                  height: "222px",
-                  width: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  borderRadius: "12px",
-                }}
-              />
-              <div className={cx("CardText")}>
-                <h3 className={cx("CardTitle")}>와다다곰 이란</h3>
-                <p className={cx("CardDescription")}>와다다곰 짱짱짱 너무너무너무 귀여워요</p>
-                <div className={cx("CardButtonWrapper")}>
-                  <p className={cx("CardDate")}>October 10, 2023</p>
-                  <button className={cx("CardButton")}>Read More</button>
-                </div>
-              </div>
-            </div>
+            <VerticalCard key={index} />
           ))}
         </section>
         <section className={cx("Table")}>
@@ -128,6 +107,15 @@ const HomeView = () => {
           ))}
         </section>
       </section>
+      <section className={cx("Projects")}>
+        <div className={cx("ProjectsContent")}>
+          <p className={cx("ProjectsTitle")}>Side Projects Journey</p>
+          <h2 className={cx("ProjectsSubtitle")}>
+            Challenges and Reflections from Personal Projects
+          </h2>
+        </div>
+      </section>
+      <section className={cx("ProjectsList")}></section>
     </div>
   );
 };

@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
 
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #333;
   width: 1920px;
   p {
     font-size: 80px;
@@ -29,7 +29,7 @@
   flex-direction: column;
 
   padding: 80px 160px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #333;
 
   .MainContent {
     display: flex;
@@ -101,62 +101,6 @@
   align-items: center;
   gap: 30px;
   padding: 80px 160px;
-
-  .Card {
-    flex: 1;
-    .CardText {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-
-      .CardTitle {
-        font-size: 20px;
-        font-weight: 600;
-      }
-
-      .CardDescription {
-        font-size: 20px;
-        font-weight: 400;
-        color: #98989a;
-      }
-
-      .CardButtonWrapper {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 50px;
-        .CardButton {
-          border: 1px solid #262626;
-          border-radius: 12px;
-          padding: 18px 24px;
-          cursor: pointer;
-          font-size: 18px;
-          font-weight: 400;
-          flex: 1;
-
-          color: #98989a;
-          transition: all 0.15s ease;
-          &:hover {
-            border-color: #fff;
-            color: #fff;
-          }
-        }
-
-        .CardDate {
-          font-size: 18px;
-          font-weight: 400;
-          color: #98989a;
-
-          border: 1px solid #262626;
-          border-radius: 100px;
-          background-color: #1a1a1a;
-
-          padding: 10px 16px;
-        }
-      }
-    }
-  }
 }
 
 .Table {
@@ -164,7 +108,7 @@
   flex-direction: column;
 
   .TableRow {
-    border-top: 1px solid #222;
+    border-top: 1px solid #333;
     padding: 60px 80px;
 
     display: flex;
@@ -219,4 +163,32 @@
       }
     }
   }
+}
+
+.Projects {
+  padding: 120px 160px;
+  background-color: #1a1a1a;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .ProjectsContent {
+    width: 1920px;
+
+    p {
+      font-size: 58px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 400;
+      color: #98989a;
+    }
+  }
+}
+
+.ProjectsList {
+  display: flex;
+  padding: 80px 160px;
 }

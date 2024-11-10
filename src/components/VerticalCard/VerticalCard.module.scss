@@ -1,0 +1,75 @@
+.Card {
+  flex: 1;
+  cursor: pointer;
+
+  .ImageWrapper {
+    overflow: hidden;
+    height: 222px;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .CardImage {
+    filter: grayscale(70%);
+    opacity: 0.5;
+    transition: all 0.15s ease;
+    scale: 1;
+
+    &.hover {
+      filter: grayscale(0%);
+      opacity: 1;
+      scale: 1.1;
+    }
+  }
+  .CardText {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .CardTitle {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .CardDescription {
+      font-size: 20px;
+      font-weight: 400;
+      color: #98989a;
+    }
+
+    .CardButtonWrapper {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+      .CardButton {
+        border: 1px solid #262626;
+        border-radius: 12px;
+        padding: 18px 24px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 400;
+        flex: 1;
+
+        color: #98989a;
+        transition: all 0.15s ease;
+        &:hover {
+          border-color: #fff;
+          color: #fff;
+        }
+      }
+
+      .CardDate {
+        font-size: 18px;
+        font-weight: 400;
+        color: #98989a;
+
+        border: 1px solid #262626;
+        border-radius: 100px;
+        background-color: #1e1e1e;
+
+        padding: 10px 16px;
+      }
+    }
+  }
+}

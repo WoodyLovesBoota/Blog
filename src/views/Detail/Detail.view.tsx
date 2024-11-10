@@ -36,11 +36,34 @@ const DetailView = () => {
           <MarkDownConverter text={Dummy} />
         </div>
         <div className={cx("TagWrapper")}>
-          <section className={cx("TagSection")}></section>
+          <section className={cx("InfoSection")}>
+            <div className={cx("InfoRow")}>
+              <div className={cx("InfoItem")}>
+                <p className={cx("InfoTitle")}>Publication Date</p>
+                <p className={cx("InfoValue")}>October 15, 2023</p>
+              </div>
+              <div className={cx("InfoItem")}>
+                <p className={cx("InfoTitle")}>Reading Time</p>
+                <p className={cx("InfoValue")}>1 Min</p>
+              </div>
+            </div>
+            <div className={cx("InfoRow")}>
+              <div className={cx("InfoItem")}>
+                <p className={cx("InfoTitle")}>Tags</p>
+                <ul className={cx("InfoList")}>
+                  <li>Next.js</li>
+                  <li>React</li>
+                </ul>
+              </div>
+            </div>
+          </section>
           <section className={cx("ContentSection")}>
-            {categories.map((category) => (
-              <div className={cx("Tag")}>{category}</div>
-            ))}
+            <p className={cx("CategoryTitle")}>Table of Contents</p>
+            <ul className={cx("CategoryList")}>
+              {categories.map((category) => (
+                <li className={cx("Tag")}>{category}</li>
+              ))}
+            </ul>
           </section>
         </div>
       </div>
