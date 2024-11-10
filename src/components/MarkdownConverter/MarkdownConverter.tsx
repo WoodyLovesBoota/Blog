@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "./MarkDownConverter.module.scss";
+import styles from "./MarkdownConverter.module.scss";
 import cn from "classnames/bind";
 import ReactMarkdown, { Components } from "react-markdown";
 import gfm from "remark-gfm";
