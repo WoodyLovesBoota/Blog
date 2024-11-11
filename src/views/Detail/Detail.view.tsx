@@ -25,22 +25,22 @@ const getCategories = (text: string) => {
 
 const categories = getCategories(Dummy);
 
-const DetailView = () => {
+const DetailView = ({ data }: { data: any }) => {
   return (
     <div className={cx("Wrapper")}>
       <header className={cx("Header")}>
-        <h1 className={cx("Title")}>Next.js에서 CORS 에러 해결하기</h1>
+        <h1 className={cx("Title")}>{data.title}</h1>
       </header>
       <div className={cx("Content")}>
         <div className={cx("MarkDownWrapper")}>
-          <MarkDownConverter text={Dummy} />
+          <MarkDownConverter text={data.content} />
         </div>
         <div className={cx("TagWrapper")}>
           <section className={cx("InfoSection")}>
             <div className={cx("InfoRow")}>
               <div className={cx("InfoItem")}>
                 <p className={cx("InfoTitle")}>Publication Date</p>
-                <p className={cx("InfoValue")}>October 15, 2023</p>
+                <p className={cx("InfoValue")}>{data.date}</p>
               </div>
               <div className={cx("InfoItem")}>
                 <p className={cx("InfoTitle")}>Reading Time</p>

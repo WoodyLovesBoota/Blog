@@ -8,13 +8,46 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useState } from "react";
 import MarkDownConverter from "@/components/MarkdownConverter/MarkdownConverter";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebaseClient";
 
 const cx = cn.bind(styles);
-const LabView = () => {
+const LabView = ({ data }: { data: any }) => {
   const [text, setText] = useState("# Hello, Markdown!\n# asdfasd");
-  console.log(text);
+
+  const updateFirestoreDoc = async (newData: any) => {
+    try {
+      const docRef = doc(db, "posts", "FEDmMYX81FLLQnF1ri4L");
+      await updateDoc(docRef, newData);
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
+
+  const handleRegister = () => {
+    console.log(text);
+    updateFirestoreDoc({
+      tech: {
+        lastIndex: data[0].tech.lastIndex + 1,
+        list: [
+          {
+            title: "test",
+            desc: "text",
+            date: "20241111",
+            id: data[0].tech.lastIndex + 1,
+            content: text,
+          },
+          ...data[0].tech.list,
+        ],
+      },
+    });
+  };
+
   return (
     <div className={cx("Wrapper")}>
+      <button onClick={() => handleRegister()} className={cx("RegisterButton")}>
+        등록
+      </button>
       <div className={cx("Container")}>
         <textarea
           value={text}

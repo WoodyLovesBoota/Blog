@@ -10,8 +10,10 @@ import VerticalCard from "@/components/VerticalCard/VerticalCard";
 
 const cx = cn.bind(styles);
 
-const HomeView = () => {
+const HomeView = ({ data }: { data: any }) => {
   const { centerPopup } = usePopup();
+
+  console.log(data[0].tech);
 
   const handleButtonClick = () => {
     centerPopup({
@@ -53,15 +55,23 @@ const HomeView = () => {
             />
             <div className={cx("MainContentText")}>
               <h3 className={cx("MainContentTitle")}>와다다곰 이란</h3>
-              <p className={cx("MainContentDescription")}>와다다곰 짱짱짱 너무너무너무 귀여워요</p>
+              <p className={cx("MainContentDescription")}>
+                와다다곰 짱짱짱 너무너무너무 귀여워요
+              </p>
               <div className={cx("MainContentStatistic")}>
                 <div className={cx("MainContentStatisticItem")}>
                   <p className={cx("MainContentStatisticItemKey")}>Category</p>
-                  <p className={cx("MainContentStatisticItemValue")}>Projects</p>
+                  <p className={cx("MainContentStatisticItemValue")}>
+                    Projects
+                  </p>
                 </div>
                 <div className={cx("MainContentStatisticItem")}>
-                  <p className={cx("MainContentStatisticItemKey")}>Publication Date</p>
-                  <p className={cx("MainContentStatisticItemValue")}>October 10, 2023</p>
+                  <p className={cx("MainContentStatisticItemKey")}>
+                    Publication Date
+                  </p>
+                  <p className={cx("MainContentStatisticItemValue")}>
+                    October 10, 2023
+                  </p>
                 </div>
               </div>
               <div className={cx("MainContentButtonWrapper")}>
@@ -71,8 +81,8 @@ const HomeView = () => {
           </div>
         </main>
         <section className={cx("ThreeCards")}>
-          {Array.from({ length: 3 }).map((card, index) => (
-            <VerticalCard key={index} />
+          {data[0]?.tech?.list?.map((card: any, index: number) => (
+            <VerticalCard key={index} item={card} />
           ))}
         </section>
         <section className={cx("Table")}>

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const cx = cn.bind(styles);
 
-const VerticalCard = () => {
+const VerticalCard = ({ item }: { item: any }) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -34,10 +34,10 @@ const VerticalCard = () => {
         />
       </div>
       <div className={cx("CardText")}>
-        <h3 className={cx("CardTitle")}>와다다곰 이란</h3>
-        <p className={cx("CardDescription")}>와다다곰 짱짱짱 너무너무너무 귀여워요</p>
+        <h3 className={cx("CardTitle")}>{item.title}</h3>
+        <p className={cx("CardDescription")}>{item.desc}</p>
         <div className={cx("CardButtonWrapper")}>
-          <p className={cx("CardDate")}>October 10, 2023</p>
+          <p className={cx("CardDate")}>{item.date}</p>
           <button className={cx("CardButton")}>Read More</button>
         </div>
       </div>
