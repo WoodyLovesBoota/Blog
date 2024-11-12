@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import cn from "classnames/bind";
 import styles from "./VerticalCard.module.scss";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const cx = cn.bind(styles);
 
 const VerticalCard = ({ item }: { item: any }) => {
+  const router = useRouter();
+
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -14,6 +17,9 @@ const VerticalCard = ({ item }: { item: any }) => {
       className={cx("Card")}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      onClick={() => {
+        router.push(`/tech/${item.id}`);
+      }}
     >
       <div className={cx("ImageWrapper")}>
         <Image

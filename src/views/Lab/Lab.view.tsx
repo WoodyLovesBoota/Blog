@@ -14,6 +14,9 @@ import { db } from "@/firebase/firebaseClient";
 const cx = cn.bind(styles);
 const LabView = ({ data }: { data: any }) => {
   const [text, setText] = useState("# Hello, Markdown!\n# asdfasd");
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const { centerPopup } = usePopup();
 
   const updateFirestoreDoc = async (newData: any) => {
     try {
@@ -25,20 +28,41 @@ const LabView = ({ data }: { data: any }) => {
   };
 
   const handleRegister = () => {
-    console.log(text);
-    updateFirestoreDoc({
-      tech: {
-        lastIndex: data[0].tech.lastIndex + 1,
-        list: [
-          {
-            title: "test",
-            desc: "text",
-            date: "20241111",
-            id: data[0].tech.lastIndex + 1,
-            content: text,
+    centerPopup({
+      description: (
+        <div>
+          <input
+            type="text"
+            placeholder="제목"
+            onChange={(e) => setTitle(e.target.value)}
+            className={cx("Input")}
+          />
+          <input
+            type="text"
+            placeholder="부제목"
+            onChange={(e) => setSubTitle(e.target.value)}
+            className={cx("Input")}
+          />
+        </div>
+      ),
+      positiveText: "등록",
+      negativeText: "취소",
+      onPositiveClick: () => {
+        updateFirestoreDoc({
+          tech: {
+            lastIndex: data[0].tech.lastIndex + 1,
+            list: [
+              {
+                title: title,
+                desc: subTitle,
+                date: new Date().toLocaleDateString(),
+                id: data[0].tech.lastIndex + 1,
+                content: text,
+              },
+              ...data[0].tech.list,
+            ],
           },
-          ...data[0].tech.list,
-        ],
+        });
       },
     });
   };

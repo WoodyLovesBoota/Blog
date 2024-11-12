@@ -27,10 +27,6 @@
       flex: 1;
       height: 100%;
       overflow: auto;
-
-      * {
-        color: #222 !important;
-      }
     }
   }
 }
@@ -42,5 +38,13 @@
   color: #222;
   background-color: #ddd;
   border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.Input {
+  color: #222;
+  font-size: 18px;
+  font-weight: 400;
+  border: 1px solid #222;
   border-radius: 4px;
 }

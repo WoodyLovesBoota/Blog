@@ -7,30 +7,16 @@ import { useEffect, useState } from "react";
 import { usePopup } from "@/components/hooks/popup/usePopup";
 import Image from "next/image";
 import VerticalCard from "@/components/VerticalCard/VerticalCard";
+import { useRouter } from "next/navigation";
 
 const cx = cn.bind(styles);
 
 const HomeView = ({ data }: { data: any }) => {
   const { centerPopup } = usePopup();
+  const router = useRouter();
 
-  console.log(data[0].tech);
+  const postList = data[0].tech.list;
 
-  const handleButtonClick = () => {
-    centerPopup({
-      title: "Title",
-      subtitle: "this is subtitle",
-      description: "desctiption is very long .....",
-      positiveText: "Yes",
-      negativeText: "No",
-      dimmed: true,
-      onPositiveClick: () => {
-        console.log("positiveClick");
-      },
-      onNegativeClick: () => {
-        console.log("negativeClick");
-      },
-    });
-  };
   return (
     <div className={cx("Wrapper")}>
       <section className={cx("Section")}>
@@ -39,7 +25,12 @@ const HomeView = ({ data }: { data: any }) => {
           <h2>Troubleshooting and Lessons Learned in Frontend Development</h2>
         </div>
         <main className={cx("Main")}>
-          <div className={cx("MainContent")}>
+          <div
+            className={cx("MainContent")}
+            onClick={() => {
+              router.push(`/tech/${postList[0].id}`);
+            }}
+          >
             <Image
               src={"/static/images/sample.png"}
               alt="frontend"
@@ -54,10 +45,8 @@ const HomeView = ({ data }: { data: any }) => {
               }}
             />
             <div className={cx("MainContentText")}>
-              <h3 className={cx("MainContentTitle")}>와다다곰 이란</h3>
-              <p className={cx("MainContentDescription")}>
-                와다다곰 짱짱짱 너무너무너무 귀여워요
-              </p>
+              <h3 className={cx("MainContentTitle")}>{postList[0].title}</h3>
+              <p className={cx("MainContentDescription")}>{postList[0].desc}</p>
               <div className={cx("MainContentStatistic")}>
                 <div className={cx("MainContentStatisticItem")}>
                   <p className={cx("MainContentStatisticItemKey")}>Category</p>
@@ -70,7 +59,7 @@ const HomeView = ({ data }: { data: any }) => {
                     Publication Date
                   </p>
                   <p className={cx("MainContentStatisticItemValue")}>
-                    October 10, 2023
+                    {postList[0].date}
                   </p>
                 </div>
               </div>
@@ -81,12 +70,14 @@ const HomeView = ({ data }: { data: any }) => {
           </div>
         </main>
         <section className={cx("ThreeCards")}>
-          {data[0]?.tech?.list?.map((card: any, index: number) => (
-            <VerticalCard key={index} item={card} />
-          ))}
+          {postList
+            ?.slice(1, 4)
+            ?.map((card: any, index: number) => (
+              <VerticalCard key={index} item={card} />
+            ))}
         </section>
         <section className={cx("Table")}>
-          {Array.from({ length: 5 }).map((row, index) => (
+          {postList?.slice(4).map((row: any, index: number) => (
             <div key={index} className={cx("TableRow")}>
               <Image
                 src={"/static/images/sample.png"}
@@ -103,11 +94,9 @@ const HomeView = ({ data }: { data: any }) => {
               />
               <div className={cx("ItemContent")}>
                 <div className={cx("ItemContentText")}>
-                  <p className={cx("ItemContentDate")}>October 10, 2023</p>
-                  <h3 className={cx("ItemContentTitle")}>와다다곰 이란</h3>
-                  <p className={cx("ItemContentDescription")}>
-                    와다다곰 짱짱짱 너무너무너무 귀여워요
-                  </p>
+                  <p className={cx("ItemContentDate")}>{row.date}</p>
+                  <h3 className={cx("ItemContentTitle")}>{row.title}</h3>
+                  <p className={cx("ItemContentDescription")}>{row.desc}</p>
                 </div>
                 <div className={cx("ButtonWrapper")}>
                   <button className={cx("ItemContentButton")}>Read More</button>
