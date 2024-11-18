@@ -12,10 +12,15 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebaseClient";
 
 const cx = cn.bind(styles);
+
 const LabView = ({ data }: { data: any }) => {
   const [text, setText] = useState("# Hello, Markdown!\n# asdfasd");
   const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
   const [subTitle, setSubTitle] = useState("");
+  const [type, setType] = useState("tech");
+  const [date, setDate] = useState("");
+
   const { centerPopup } = usePopup();
 
   const updateFirestoreDoc = async (newData: any) => {
@@ -29,22 +34,6 @@ const LabView = ({ data }: { data: any }) => {
 
   const handleRegister = () => {
     centerPopup({
-      description: (
-        <div>
-          <input
-            type="text"
-            placeholder="제목"
-            onChange={(e) => setTitle(e.target.value)}
-            className={cx("Input")}
-          />
-          <input
-            type="text"
-            placeholder="부제목"
-            onChange={(e) => setSubTitle(e.target.value)}
-            className={cx("Input")}
-          />
-        </div>
-      ),
       positiveText: "등록",
       negativeText: "취소",
       onPositiveClick: () => {
@@ -55,9 +44,11 @@ const LabView = ({ data }: { data: any }) => {
               {
                 title: title,
                 desc: subTitle,
-                date: new Date().toLocaleDateString(),
+                image: image,
+                date: date,
                 id: data[0].tech.lastIndex + 1,
                 content: text,
+                type: type,
               },
               ...data[0].tech.list,
             ],
@@ -73,6 +64,38 @@ const LabView = ({ data }: { data: any }) => {
         등록
       </button>
       <div className={cx("Container")}>
+        <div className={cx("InputWrapper")}>
+          <input
+            type="text"
+            placeholder="제목"
+            onChange={(e) => setTitle(e.target.value)}
+            className={cx("Input")}
+          />
+          <input
+            type="text"
+            placeholder="부제목"
+            onChange={(e) => setSubTitle(e.target.value)}
+            className={cx("Input")}
+          />
+          <input
+            type="text"
+            placeholder="이미지"
+            onChange={(e) => setImage(e.target.value)}
+            className={cx("Input")}
+          />
+          <input
+            type="text"
+            placeholder="타입"
+            onChange={(e) => setType(e.target.value)}
+            className={cx("Input")}
+          />
+          <input
+            type="text"
+            placeholder="날짜"
+            onChange={(e) => setDate(e.target.value)}
+            className={cx("Input")}
+          />
+        </div>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}

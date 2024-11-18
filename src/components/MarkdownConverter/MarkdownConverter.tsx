@@ -39,17 +39,17 @@ const MarkDownConverter = ({ text }: { text: string }) => {
 
     img: ({ src, alt }) => {
       if (src) {
-        // return (
-        //   <span className={cx("ImageWrapper")}>
-        //     <Image
-        //       src={src}
-        //       alt={alt || ""}
-        //       width={700}
-        //       height={400}
-        //       style={{ width: "100%", height: "100%" }}
-        //     />
-        //   </span>
-        // );
+        return (
+          <span className={cx("ImageWrapper")}>
+            <Image
+              src={src}
+              alt={alt || ""}
+              width={700}
+              height={400}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </span>
+        );
         return null;
       }
       return null;

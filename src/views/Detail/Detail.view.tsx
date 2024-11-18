@@ -4,18 +4,16 @@ import React from "react";
 import cn from "classnames/bind";
 import styles from "./Detail.view.module.scss";
 import MarkDownConverter from "@/components/MarkdownConverter/MarkdownConverter";
+import Image from "next/image";
 
 const cx = cn.bind(styles);
-
-const Dummy =
-  '#### indroduction\n\nNext JS 의 Client side 에서 API 호출할때 CORS 에러가 발생한다면\n\n---\n\n### 백엔드에서 수정하기\n\n원래대로라면 백엔드에서 해결해야 하는 문제이다. \n서버에서 Access-Control-Allow-Origin 헤더에 유효한 값을 포함하여 응답을 보내주면 해결할 수 있다.\n\n### 프론트에서 수정하기\n\nOpen API 를 사용하는 과정에서 CORS가 발생하게 되면 백엔드에서 수정할수가 없기 때문에 프론트 단에서 임시로 수정해야 한다. \n\n`next.config.js` 에 `rewrites` 함수 추가\n```tsx\nconst nextConfig = {\n  \n  ...\n  \n async rewrites() {\n    return [\n      {\n        source: "/api/:path*",   /** 내가 새롭게 부를 API 주소 */\n                 destination: "https://openapi.naver.com/:path*",   /** 기존에 CORS가 발생한 API 주소 */\n      },\n    ];\n  },\n};\n```\n\nAPI 호출 주소 변경\n\n```tsx\n\nconst GET_LIST: () => "/api/v1/search/book.json",\n\n\nasync getList(req: GetListRequest, options?: AjaxOptions) {\n    const { data } = await axios.get<GetListResponse>(\n      options?.url ?? API_URL.GET_LIST(),\n      {\n        headers: {\n          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,\n          "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,\n        },\n        params: {\n          ...req.query,\n        },\n      }\n    );\n\n    return data;\n  }\n```';
 
 const getCategories = (text: string) => {
   const categories: string[] = [];
   const lines = text.split("\n");
 
   lines.forEach((line) => {
-    if (line.startsWith("####") || line.startsWith("###")) {
+    if (line.startsWith("###") && !line.startsWith("####")) {
       categories.push(line.replace(/^[#]+\s/, "").trim());
     }
   });
@@ -23,12 +21,31 @@ const getCategories = (text: string) => {
   return categories;
 };
 
-const categories = getCategories(Dummy);
+function calculateReadTime(text: string) {
+  const wordsPerMinute = 250;
+  const totalWords = text.split(/\s+/).length;
+  const readTime = Math.ceil(totalWords / wordsPerMinute);
+  return readTime;
+}
 
 const DetailView = ({ data }: { data: any }) => {
+  const categories = getCategories(data.content);
+
   return (
     <div className={cx("Wrapper")}>
       <header className={cx("Header")}>
+        <Image
+          src={data.image}
+          alt={data.title}
+          width={1920}
+          height={600}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
         <h1 className={cx("Title")}>{data.title}</h1>
       </header>
       <div className={cx("Content")}>
@@ -44,7 +61,7 @@ const DetailView = ({ data }: { data: any }) => {
               </div>
               <div className={cx("InfoItem")}>
                 <p className={cx("InfoTitle")}>Reading Time</p>
-                <p className={cx("InfoValue")}>1 Min</p>
+                <p className={cx("InfoValue")}>{calculateReadTime(data.content)} Min</p>
               </div>
             </div>
             <div className={cx("InfoRow")}>

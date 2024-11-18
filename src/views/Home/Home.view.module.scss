@@ -97,9 +97,10 @@
 }
 
 .ThreeCards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
-  gap: 30px;
+  gap: 80px;
   padding: 80px 160px;
 }
 

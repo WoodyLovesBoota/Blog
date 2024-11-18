@@ -25,14 +25,9 @@ const HomeView = ({ data }: { data: any }) => {
           <h2>Troubleshooting and Lessons Learned in Frontend Development</h2>
         </div>
         <main className={cx("Main")}>
-          <div
-            className={cx("MainContent")}
-            onClick={() => {
-              router.push(`/tech/${postList[0].id}`);
-            }}
-          >
+          <div className={cx("MainContent")}>
             <Image
-              src={"/static/images/sample.png"}
+              src={postList[0].image}
               alt="frontend"
               width={515}
               height={427}
@@ -50,37 +45,36 @@ const HomeView = ({ data }: { data: any }) => {
               <div className={cx("MainContentStatistic")}>
                 <div className={cx("MainContentStatisticItem")}>
                   <p className={cx("MainContentStatisticItemKey")}>Category</p>
-                  <p className={cx("MainContentStatisticItemValue")}>
-                    Projects
-                  </p>
+                  <p className={cx("MainContentStatisticItemValue")}>Projects</p>
                 </div>
                 <div className={cx("MainContentStatisticItem")}>
-                  <p className={cx("MainContentStatisticItemKey")}>
-                    Publication Date
-                  </p>
-                  <p className={cx("MainContentStatisticItemValue")}>
-                    {postList[0].date}
-                  </p>
+                  <p className={cx("MainContentStatisticItemKey")}>Publication Date</p>
+                  <p className={cx("MainContentStatisticItemValue")}>{postList[0].date}</p>
                 </div>
               </div>
               <div className={cx("MainContentButtonWrapper")}>
-                <button className={cx("MainContentButton")}>Read More</button>
+                <button
+                  className={cx("MainContentButton")}
+                  onClick={() => {
+                    router.push(`/tech/${postList[0].id}`);
+                  }}
+                >
+                  Read More
+                </button>
               </div>
             </div>
           </div>
         </main>
         <section className={cx("ThreeCards")}>
           {postList
-            ?.slice(1, 4)
-            ?.map((card: any, index: number) => (
-              <VerticalCard key={index} item={card} />
-            ))}
+            ?.slice(1)
+            ?.map((card: any, index: number) => <VerticalCard key={index} item={card} />)}
         </section>
-        <section className={cx("Table")}>
+        {/* <section className={cx("Table")}>
           {postList?.slice(4).map((row: any, index: number) => (
             <div key={index} className={cx("TableRow")}>
               <Image
-                src={"/static/images/sample.png"}
+                src={row.image}
                 alt="frontend"
                 width={300}
                 height={222}
@@ -104,7 +98,7 @@ const HomeView = ({ data }: { data: any }) => {
               </div>
             </div>
           ))}
-        </section>
+        </section> */}
       </section>
       <section className={cx("Projects")}>
         <div className={cx("ProjectsContent")}>

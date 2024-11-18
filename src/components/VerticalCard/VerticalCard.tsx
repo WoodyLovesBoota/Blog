@@ -17,18 +17,15 @@ const VerticalCard = ({ item }: { item: any }) => {
       className={cx("Card")}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      onClick={() => {
-        router.push(`/tech/${item.id}`);
-      }}
     >
       <div className={cx("ImageWrapper")}>
         <Image
-          src={"/static/images/sample.png"}
+          src={item.image}
           alt="frontend"
-          width={515}
-          height={222}
+          width={400}
+          height={400}
           style={{
-            height: "222px",
+            height: "400px",
             width: "100%",
             objectFit: "cover",
             objectPosition: "center",
@@ -44,7 +41,14 @@ const VerticalCard = ({ item }: { item: any }) => {
         <p className={cx("CardDescription")}>{item.desc}</p>
         <div className={cx("CardButtonWrapper")}>
           <p className={cx("CardDate")}>{item.date}</p>
-          <button className={cx("CardButton")}>Read More</button>
+          <button
+            className={cx("CardButton")}
+            onClick={() => {
+              router.push(`/tech/${item.id}`);
+            }}
+          >
+            Read More
+          </button>
         </div>
       </div>
     </div>
