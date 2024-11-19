@@ -1,22 +1,54 @@
+.Wrapper {
+  overflow: hidden;
+  border: 1px solid #444;
+  cursor: pointer;
+  border-radius: 12px;
+  width: calc((1920px - 32px - 48px) / 4);
+  height: calc((1920px - 32px - 48px) / 4);
+
+  @media (max-width: 1920px) {
+    width: calc((100vw - 32px - 48px) / 4);
+    height: calc((100vw - 32px - 48px) / 4);
+  }
+
+  @media (max-width: 1440px) {
+    width: calc((100vw - 32px - 32px) / 3);
+    height: calc((100vw - 32px - 32px) / 3);
+  }
+
+  @media (max-width: 1024px) {
+    width: calc((100vw - 32px - 16px) / 2);
+    height: calc((100vw - 32px - 16px) / 2);
+  }
+}
+
 .Card {
   flex: 1;
+  position: relative;
 
-  .ImageWrapper {
-    overflow: hidden;
-    height: 400px;
-    width: 100%;
-    border-radius: 12px;
-  }
-  .CardImage {
-  }
   .CardText {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    background-color: #9d61c7;
+    border-radius: 12px;
+    padding: 16px;
 
     .CardTitle {
-      font-size: 20px;
-      font-weight: 600;
+      span {
+        font-size: 24px;
+        font-weight: 500;
+        color: #262626;
+        display: inline-block;
+        min-width: 5px;
+      }
     }
 
     .CardDescription {

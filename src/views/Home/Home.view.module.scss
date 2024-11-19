@@ -4,8 +4,15 @@
   align-items: center;
 }
 
+.Section {
+  width: 1920px;
+  @media (max-width: 1920px) {
+    width: 100%;
+  }
+}
+
 .Title {
-  padding: 130px 160px;
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
@@ -24,145 +31,24 @@
   }
 }
 
-.Main {
-  display: flex;
-  flex-direction: column;
-
-  padding: 80px 160px;
-  border-bottom: 1px solid #333;
-
-  .MainContent {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-
-    .MainContentText {
-      display: flex;
-      flex-direction: column;
-
-      .MainContentTitle {
-        font-size: 32px;
-        font-weight: 600;
-      }
-
-      .MainContentDescription {
-        font-size: 20px;
-        font-weight: 400;
-        color: #98989a;
-        margin-top: 30px;
-        margin-bottom: 50px;
-      }
-
-      .MainContentStatistic {
-        display: flex;
-        align-items: center;
-        gap: 50px;
-
-        .MainContentStatisticItem {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-
-          .MainContentStatisticItemKey {
-            font-size: 18px;
-            font-weight: 400;
-            color: #98989a;
-          }
-
-          .MainContentStatisticItemValue {
-            font-size: 18px;
-            font-weight: 400;
-          }
-        }
-      }
-
-      .MainContentButton {
-        border: 1px solid #262626;
-        border-radius: 10px;
-        color: #98989a;
-
-        margin-top: 50px;
-        padding: 18px 24px;
-
-        cursor: pointer;
-        transition: all 0.15s ease;
-
-        &:hover {
-          border-color: #fff;
-          color: #fff;
-        }
-      }
-    }
-  }
-}
-
 .ThreeCards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
-  gap: 80px;
-  padding: 80px 160px;
-}
+  gap: 16px;
+  padding: 16px;
+  width: 1920px;
 
-.Table {
-  display: flex;
-  flex-direction: column;
+  @media (max-width: 1920px) {
+    width: 100%;
+  }
 
-  .TableRow {
-    border-top: 1px solid #333;
-    padding: 60px 80px;
+  @media (max-width: 1440px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    display: flex;
-    gap: 40px;
-
-    .ItemContent {
-      display: flex;
-      width: 100%;
-
-      .ItemContentText {
-        .ItemContentDate {
-          font-size: 18px;
-          font-weight: 600;
-          color: #98989a;
-          margin-bottom: 24px;
-        }
-        .ItemContentTitle {
-          font-size: 22px;
-          font-weight: 600;
-          margin-bottom: 8px;
-        }
-
-        .ItemContentDescription {
-          font-size: 16px;
-          font-weight: 400;
-          color: #98989a;
-        }
-      }
-
-      .ButtonWrapper {
-        margin-left: auto;
-        padding-left: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .ItemContentButton {
-          border: 1px solid #262626;
-          border-radius: 10px;
-          color: #98989a;
-
-          margin-top: 50px;
-          padding: 18px 24px;
-
-          cursor: pointer;
-          transition: all 0.15s ease;
-
-          &:hover {
-            border-color: #fff;
-            color: #fff;
-          }
-        }
-      }
-    }
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
