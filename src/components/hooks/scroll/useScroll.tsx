@@ -1,39 +1,22 @@
-import { debounce } from "lodash";
+"use client";
+
 import { useState, useEffect } from "react";
 
 const useScroll = () => {
-  const [scroll, setScroll] = useState<number>(0);
-  const [prevScroll, setPrevScroll] = useState<number>(0);
-  const [scrollDir, setScrollDir] = useState<"up" | "down" | "top">("top");
+  const [scroll, setScroll] = useState(0);
 
-  const onScrollDoc = () => {
-    setScroll(document.scrollingElement?.scrollTop || 0);
+  const handleScroll = () => {
+    setScroll(window.scrollY);
   };
 
   useEffect(() => {
-    if (!document) return;
-    document.addEventListener("scroll", debounce(onScrollDoc, 300));
-
-    return () =>
-      document.removeEventListener("scroll", debounce(onScrollDoc, 300));
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  useEffect(() => {
-    if (scroll === 0) {
-      setScrollDir("top");
-    } else if (prevScroll < scroll) {
-      setScrollDir("down");
-    } else if (prevScroll > scroll) {
-      setScrollDir("up");
-    }
-    setPrevScroll(scroll);
-  }, [scroll, prevScroll]);
-
-  const scrollTo = (target: number) => {
-    window.scrollTo({ top: target, behavior: "smooth" });
-  };
-
-  return { scroll, scrollDir, scrollTo };
+  return { scroll };
 };
 
 export default useScroll;

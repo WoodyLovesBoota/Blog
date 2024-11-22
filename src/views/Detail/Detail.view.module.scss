@@ -6,38 +6,87 @@
 }
 
 .Header {
-  border-bottom: 1px solid #333;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  width: 1920px;
-  height: 600px;
-  position: relative;
+  background-color: #1a1a1a;
 
-  .Title {
-    font-size: 64px;
-    font-weight: 600;
-    position: absolute;
+  width: 100%;
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 2;
+
+  .Divider {
     width: 100%;
-    height: 100%;
-    padding-bottom: 65px;
+    height: 2px;
+    background-color: #a7a7a7;
+  }
+
+  .TitleSection {
+    width: 100%;
+    height: 50%;
+    padding: 65px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: flex-end;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #141414dd 75%, #141414 100%);
+  }
+  .Title {
+    font-size: 64px;
+    font-weight: 400;
+  }
+
+  .Description {
+    width: 100%;
+    height: 50%;
+    display: flex;
+
+    .Column {
+      flex: 1;
+      padding: 65px;
+      display: flex;
+
+      .Date {
+        font-size: 18px;
+        color: #98989a;
+      }
+      .ReadTime {
+        font-size: 18px;
+        color: #98989a;
+      }
+      .DescriptionText {
+        font-size: 18px;
+        color: #fff;
+      }
+    }
   }
 }
 
 .Content {
-  display: flex;
   width: 1920px;
   padding-bottom: 100px;
 
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
+}
+
+.ContentHeader {
+  padding: 160px;
+
+  .Title {
+    font-size: 64px;
+    font-weight: 400;
+  }
+}
+
+.ContentWrapper {
+  display: flex;
+
   .MarkDownWrapper {
     width: 70%;
-    padding: 80px 0;
 
     border-right: 1px solid #333;
   }

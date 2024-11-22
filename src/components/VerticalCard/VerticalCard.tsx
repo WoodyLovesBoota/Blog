@@ -5,6 +5,7 @@ import styles from "./VerticalCard.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { ROUTES } from "@/constants/route.constant";
 const cx = cn.bind(styles);
 
 const VerticalCard = ({ item }: { item: any }) => {
@@ -13,7 +14,10 @@ const VerticalCard = ({ item }: { item: any }) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
-    <div className={cx("Wrapper")}>
+    <div
+      className={cx("Wrapper")}
+      onClick={() => router.push(`/tech/${item.id}`)}
+    >
       <div
         className={cx("Card")}
         onMouseEnter={() => setIsHover(true)}
@@ -61,7 +65,21 @@ const VerticalCard = ({ item }: { item: any }) => {
                   </motion.span>
                 ))}
               </motion.h3>
-              <p className={cx("CardDate")}>{item.date}</p>
+              <motion.h3
+                className={cx("CardDate")}
+                transition={{ duration: 0.3, staggerChildren: 0.05 }}
+              >
+                {item.date.split("").map((char: string, index: number) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.02 + 0.1 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h3>
             </motion.div>
           )}
         </AnimatePresence>

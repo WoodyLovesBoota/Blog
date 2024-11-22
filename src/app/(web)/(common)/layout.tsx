@@ -5,9 +5,5 @@ import CommonLayout from "@/layouts/common/CommonLayout";
 export default function HomeLayout(props: React.PropsWithChildren) {
   const { children } = props;
 
-  return (
-    <CommonLayout header={<CommonHeader />} footer={<CommonFooter />}>
-      {children}
-    </CommonLayout>
-  );
+  return <CommonLayout footer={<CommonFooter />}>{children}</CommonLayout>;
 }
