@@ -19,8 +19,6 @@ const HomeView = ({ data }: { data: any }) => {
 
   const postList = data[0].tech.list;
 
-  console.log(postList);
-
   return (
     <div className={cx("Wrapper")}>
       <header className={cx("Header")}>
@@ -30,27 +28,21 @@ const HomeView = ({ data }: { data: any }) => {
             onClick={() => setTab("all")}
           >
             All
-            {tab === "all" && (
-              <motion.div layoutId="currentTab" className={cx("CurrentTab")} />
-            )}
+            {tab === "all" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
           </button>
           <button
             className={cx("TabButton", { active: tab === "tech" })}
             onClick={() => setTab("tech")}
           >
             Tech
-            {tab === "tech" && (
-              <motion.div layoutId="currentTab" className={cx("CurrentTab")} />
-            )}
+            {tab === "tech" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
           </button>
           <button
             className={cx("TabButton", { active: tab === "project" })}
             onClick={() => setTab("project")}
           >
             Project
-            {tab === "project" && (
-              <motion.div layoutId="currentTab" className={cx("CurrentTab")} />
-            )}
+            {tab === "project" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
           </button>
         </div>
       </header>

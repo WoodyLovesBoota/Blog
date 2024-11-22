@@ -4,11 +4,7 @@ import cn from "classnames/bind";
 import styles from "./Login.view.module.scss";
 import { PrimaryTextInputSet } from "@/lib/components/Input/TextInputSet/Primary/PrimaryTextInputSet";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import {
-  DEFAULT_FORM_KEYS,
-  ID,
-  PASSWORD,
-} from "@/constants/form/default.form.constant";
+import { DEFAULT_FORM_KEYS, ID, PASSWORD } from "@/constants/form/default.form.constant";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ContainedButton from "@/lib/components/Button/ContainedButton/ContainedButton";
