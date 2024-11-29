@@ -1,26 +1,37 @@
 .Wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
   width: 100vw;
-  height: 100px;
+  background-color: #121212;
+  padding: 2px 10px;
+}
 
-  background-color: #1a1a1a;
+.MainHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
 
-  .NavButton {
-    cursor: pointer;
-    padding: 14px 24px;
-    color: #7e7e81;
-    font-size: 18px;
-    font-weight: 400;
+.Logo {
+  cursor: pointer;
+  color: #c1c1bd;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+}
 
-    &.current {
-      color: #fff;
+.Title {
+  color: #c1c1bd;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+}
 
-      border: 1px solid #333;
-      border-radius: 10px;
-      background-color: #141414;
-    }
+.Tab {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  .TabButton {
+    color: #c1c1bd;
+    font-size: 12px;
+    font-weight: 300;
   }
 }

@@ -1,5 +1,5 @@
 export const ROUTES = {
   INDEX: "/",
-  DETAIL: "/login",
-  TRENDING: "/trending",
+  TECH: "/tech",
+  PROJECT: "/project",
 };

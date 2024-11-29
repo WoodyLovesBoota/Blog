@@ -9,9 +9,9 @@ import { usePathname, useRouter } from "next/navigation";
 const cx = cn.bind(styles);
 
 const GNB_LIST = [
-  { name: "Home", path: ROUTES.INDEX },
-  { name: "Detail", path: ROUTES.DETAIL },
-  { name: "Trending", path: ROUTES.TRENDING },
+  { name: "HOME", path: ROUTES.INDEX },
+  { name: "TECH", path: ROUTES.TECH },
+  { name: "PROJECT", path: ROUTES.PROJECT },
 ];
 
 const CommonHeader = () => {
@@ -19,20 +19,29 @@ const CommonHeader = () => {
   const pathname = usePathname();
 
   return (
-    <nav className={cx("Wrapper")}>
-      {/* {GNB_LIST.map((link) => (
+    <header className={cx("Wrapper")}>
+      <div className={cx("MainHeader")}>
         <button
-          key={link.name}
-          className={cx("NavButton", { current: pathname === link.path })}
-          onClick={() => router.push(link.path)}
+          className={cx("Logo")}
+          onClick={() => router.push(ROUTES.INDEX)}
         >
-          {link.name}
+          BLOG
         </button>
-      ))} */}
-      <button className={cx("NavButton")} onClick={() => router.push(ROUTES.INDEX)}>
-        BLOG
-      </button>
-    </nav>
+        <p className={cx("Title")}>{"woodylovesboota@gmail.com"}</p>
+      </div>
+
+      <nav className={cx("Tab")}>
+        {GNB_LIST.map((link) => (
+          <button
+            key={link.name}
+            className={cx("TabButton")}
+            onClick={() => router.push(link.path)}
+          >
+            {link.name}
+          </button>
+        ))}
+      </nav>
+    </header>
   );
 };
 

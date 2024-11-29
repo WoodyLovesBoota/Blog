@@ -9,58 +9,22 @@ import Image from "next/image";
 import VerticalCard from "@/components/VerticalCard/VerticalCard";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import MainCard from "@/components/MainCard/MainCard";
+
 const cx = cn.bind(styles);
 
 const HomeView = ({ data }: { data: any }) => {
-  const { centerPopup } = usePopup();
-  const router = useRouter();
-
-  const [tab, setTab] = useState<"all" | "tech" | "project">("all");
-
   const postList = data[0].tech.list;
 
   return (
     <div className={cx("Wrapper")}>
-      <header className={cx("Header")}>
-        <div className={cx("Tabs")}>
-          <button
-            className={cx("TabButton", { active: tab === "all" })}
-            onClick={() => setTab("all")}
-          >
-            All
-            {tab === "all" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
-          </button>
-          <button
-            className={cx("TabButton", { active: tab === "tech" })}
-            onClick={() => setTab("tech")}
-          >
-            Tech
-            {tab === "tech" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
-          </button>
-          <button
-            className={cx("TabButton", { active: tab === "project" })}
-            onClick={() => setTab("project")}
-          >
-            Project
-            {tab === "project" && <motion.div layoutId="currentTab" className={cx("CurrentTab")} />}
-          </button>
-        </div>
-      </header>
-      <section className={cx("Section")}>
-        <section className={cx("ThreeCards")}>
-          {postList
-            .filter((e: any) => {
-              if (tab === "all") return true;
-              else if (tab === "tech") return e.type === "tech";
-              else if (tab === "project") return e.type === "project";
-              return false;
-            })
-            .map((card: any, index: number) => (
-              <VerticalCard key={index} item={card} />
-            ))}
-        </section>
+      <section className={cx("PostCards")}>
+        <MainCard item={postList[0]} />
+        {postList.slice(1, 12).map((card: any, index: number) => (
+          <VerticalCard key={index} item={card} />
+        ))}
       </section>
-      <section className={cx("ProjectsList")}></section>
+      <section className={cx("PostList")}></section>
     </div>
   );
 };

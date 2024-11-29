@@ -1,18 +1,21 @@
+"use client";
+
 import HomeView from "@/views/Home/Home.view";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebaseClient";
+import Loader from "@/components/Loader/Loader";
 
 interface MetaDataProps {
   params: {};
 }
 
-export async function generateMetadata({ params }: MetaDataProps) {
-  return {
-    title: "Home",
-    description: "Home Screen",
-  };
-}
+// export async function generateMetadata({ params }: MetaDataProps) {
+//   return {
+//     title: "Home",
+//     description: "Home Screen",
+//   };
+// }
 
 const getData = async () => {
   try {
@@ -27,10 +30,30 @@ const getData = async () => {
   }
 };
 
-const HomePage = async () => {
-  const data = await getData();
+const HomePage = () => {
+  const [loading, setLoading] = useState(true);
+  const [fetchedData, setFetchedData] = useState<any[]>();
 
-  return <HomeView data={data} />;
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getData();
+      setFetchedData(data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      {loading ? (
+        <Loader isData={fetchedData ? true : false} isLoading={loading} />
+      ) : (
+        <HomeView data={fetchedData} />
+      )}
+    </>
+  );
 };
 
 export default HomePage;

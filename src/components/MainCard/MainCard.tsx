@@ -1,15 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import cn from "classnames/bind";
-import styles from "./VerticalCard.module.scss";
+import styles from "./MainCard.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ROUTES } from "@/constants/route.constant";
 const cx = cn.bind(styles);
 
-const VerticalCard = ({ item }: { item: any }) => {
+const MainCard = ({ item }: { item: any }) => {
   const router = useRouter();
+
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <div
@@ -29,9 +31,9 @@ const VerticalCard = ({ item }: { item: any }) => {
           <Image
             src={item.image}
             alt={item.title}
-            width={200}
-            height={200}
-            style={{ objectFit: "cover", width: "200px", height: "200px" }}
+            width={360}
+            height={360}
+            style={{ objectFit: "cover", width: "360px", height: "360px" }}
           />
         )}
       </footer>
@@ -39,4 +41,4 @@ const VerticalCard = ({ item }: { item: any }) => {
   );
 };
 
-export default VerticalCard;
+export default MainCard;
