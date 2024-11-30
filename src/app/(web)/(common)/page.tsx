@@ -23,6 +23,7 @@ const getData = async () => {
     const farewellData = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
     }));
+    console.log(farewellData);
     return farewellData;
   } catch (error) {
     console.error("Error fetching data from Firestore:", error);

@@ -1,6 +1,6 @@
 .MarkDown {
   * {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     color: #ddd;
     line-height: 1.5;
@@ -8,18 +8,14 @@
 
   h1 {
     color: #fff;
-    font-size: 40px;
+    font-size: 52px;
     font-weight: 700;
-    margin-left: 160px;
-    margin-right: 80px;
   }
 
   h2 {
     color: #fff;
     font-size: 32px;
     font-weight: 600;
-    margin-left: 160px;
-    margin-right: 80px;
   }
 
   h3 {
@@ -27,8 +23,6 @@
     font-size: 28px;
     font-weight: 500;
     margin-bottom: 24px;
-    margin-left: 160px;
-    margin-right: 80px;
     margin-top: 30px;
   }
 
@@ -37,8 +31,6 @@
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 14px;
-    margin-left: 160px;
-    margin-right: 80px;
   }
 
   h5 {
@@ -46,8 +38,6 @@
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 14px;
-    margin-left: 160px;
-    margin-right: 80px;
   }
 
   strong {
@@ -55,9 +45,8 @@
   }
 
   p {
-    margin-bottom: 24px;
-    margin-left: 160px;
-    margin-right: 80px;
+    margin: 20px 0;
+    line-height: 1.8;
   }
 
   em {
@@ -88,8 +77,6 @@
 
   ol {
     margin-bottom: 14px;
-    margin-left: 160px;
-    margin-right: 80px;
     background-color: #262626;
     list-style-type: decimal;
     padding: 24px;
@@ -116,8 +103,6 @@
       display: block;
       padding: 16px !important;
       margin-top: 16px !important;
-      margin-left: 160px !important;
-      margin-right: 80px !important;
       margin-bottom: 16px !important;
     }
   }
@@ -136,15 +121,13 @@
       display: inline;
       text-shadow: none;
       tab-size: 4;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
     }
   }
 
   img {
     display: block;
-    box-shadow: 2px 25px 40px 0 rgba(0, 0, 0, 0.15);
-    border-radius: 6px;
   }
 
   table {

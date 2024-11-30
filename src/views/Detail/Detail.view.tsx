@@ -31,60 +31,39 @@ function calculateReadTime(text: string) {
 }
 
 const DetailView = ({ data }: { data: any }) => {
-  const [showHeader, setShowHeader] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowHeader(false);
-    }, 3000);
-  }, []);
-
   const categories = getCategories(data.content);
+
   return (
     <div className={cx("Wrapper")}>
-      <AnimatePresence mode="wait">
-        {showHeader && (
-          <motion.header
-            key={"header"}
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className={cx("Header")}
-          >
-            <section className={cx("TitleSection")}>
-              <h1 className={cx("Title")}>{data.title}</h1>
-            </section>
-            <motion.div
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.5, delay: 0.5 }}
-              className={cx("Divider")}
-            ></motion.div>
-            <div className={cx("Description")}>
-              <div className={cx("Column")}>
-                <div className={cx("Date")}>{data.date}</div>
-                <div className={cx("ReadTime")}>
-                  {calculateReadTime(data.content)} Min
-                </div>
-              </div>
-              <div className={cx("Column")}>
-                <div className={cx("DescriptionText")}>{data.desc}</div>
-              </div>
+      <header className={cx("Header")}>
+        <div className={cx("HeaderWrapper")}>
+          <section className={cx("TitleSection")}>
+            <div className={cx("DateWrapper")}>
+              <p className={cx("Date")}>{data.date}</p>
+              <p className={cx("Divider")}>/</p>
+              <p className={cx("ReadTime")}>{calculateReadTime(data.content)} Min</p>
             </div>
-          </motion.header>
-        )}
-      </AnimatePresence>
+            <h1 className={cx("Title")}>{data.title}</h1>
+          </section>
+
+          <div className={cx("Description")}>
+            <Image
+              src={data.image}
+              alt={data.title}
+              width={610}
+              height={610}
+              style={{ objectFit: "cover", width: "610px", height: "610px" }}
+            />
+          </div>
+        </div>
+      </header>
 
       <div className={cx("Content")}>
-        <section className={cx("ContentHeader")}>
-          <h1 className={cx("Title")}>{data.title}</h1>
-        </section>
         <div className={cx("ContentWrapper")}>
           <div className={cx("MarkDownWrapper")}>
             <MarkDownConverter text={data.content} />
           </div>
-          <div className={cx("TagWrapper")}>
+          {/* <div className={cx("TagWrapper")}>
             <section className={cx("InfoSection")}>
               <div className={cx("InfoRow")}>
                 <div className={cx("InfoItem")}>
@@ -93,9 +72,7 @@ const DetailView = ({ data }: { data: any }) => {
                 </div>
                 <div className={cx("InfoItem")}>
                   <p className={cx("InfoTitle")}>Reading Time</p>
-                  <p className={cx("InfoValue")}>
-                    {calculateReadTime(data.content)} Min
-                  </p>
+                  <p className={cx("InfoValue")}>{calculateReadTime(data.content)} Min</p>
                 </div>
               </div>
               <div className={cx("InfoRow")}>
@@ -116,7 +93,7 @@ const DetailView = ({ data }: { data: any }) => {
                 ))}
               </ul>
             </section>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

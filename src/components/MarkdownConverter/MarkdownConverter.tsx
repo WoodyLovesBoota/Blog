@@ -46,7 +46,7 @@ const MarkDownConverter = ({ text }: { text: string }) => {
               alt={alt || ""}
               width={700}
               height={400}
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "800px", height: "auto", margin: "34px auto" }}
             />
           </span>
         );
