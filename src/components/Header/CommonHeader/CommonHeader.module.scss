@@ -1,39 +1,54 @@
 .Wrapper {
   width: 100vw;
-  background-color: #121212;
-  padding: 2px 0px;
 }
 
 .MainHeader {
   display: flex;
-  align-items: flex-end;
-  gap: 16px;
+  padding: 30px 130px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Logo {
   cursor: pointer;
-  color: #c1c1bd;
-  font-size: 143px;
   font-weight: 900;
   line-height: 0.8;
   letter-spacing: -2px;
 }
 
-.Title {
-  color: #c1c1bd;
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 1.5px;
+.Email {
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .Tab {
   display: flex;
-  gap: 16px;
-  margin-top: 10px;
-  .TabButton {
-    color: #c1c1bd;
-    font-size: 12px;
-    font-weight: 300;
-    cursor: pointer;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0 130px;
+  align-items: center;
+
+  .GnbList {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .TabButton {
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+
+  .SocialList {
+    display: flex;
+    justify-content: flex-end;
+
+    .SocialButton {
+      font-size: 12px;
+      font-weight: 300;
+      cursor: pointer;
+    }
   }
 }

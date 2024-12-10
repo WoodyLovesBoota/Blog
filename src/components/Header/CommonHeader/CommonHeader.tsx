@@ -5,6 +5,7 @@ import styles from "./CommonHeader.module.scss";
 import React from "react";
 import { ROUTES } from "@/constants/route.constant";
 import { usePathname, useRouter } from "next/navigation";
+import { Icon } from "@/lib/common/components/Icon/Icon";
 
 const cx = cn.bind(styles);
 
@@ -27,19 +28,29 @@ const CommonHeader = () => {
         >
           BLOG
         </button>
-        <p className={cx("Title")}>{"woodylovesboota@gmail.com"}</p>
+        <p className={cx("Email")}>{"woodylovesboota@gmail.com"}</p>
       </div>
 
       <nav className={cx("Tab")}>
-        {GNB_LIST.map((link) => (
-          <button
-            key={link.name}
-            className={cx("TabButton")}
-            onClick={() => router.push(link.path)}
-          >
-            {link.name}
+        <section className={cx("GnbList")}>
+          {GNB_LIST.map((link) => (
+            <button
+              key={link.name}
+              className={cx("TabButton")}
+              onClick={() => router.push(link.path)}
+            >
+              {link.name}
+            </button>
+          ))}
+        </section>
+        <section className={cx("SocialList")}>
+          <button className={cx("SocialButton")}>
+            <Icon name="Github" />
           </button>
-        ))}
+          <button className={cx("SocialButton")}>
+            {/* <Icon name="Linkedin" /> */}
+          </button>
+        </section>
       </nav>
     </header>
   );

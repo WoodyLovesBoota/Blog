@@ -1,15 +1,31 @@
 .Wrapper {
-  display: flex;
-  flex-direction: column;
 }
 
-.PostCards {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+.SectionHeader {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  width: 100%;
-  height: calc(100vh - 150px);
-  padding: 40px 10px;
+
+  .SectionTitle {
+    font-size: 55px;
+    font-weight: 700;
+  }
+
+  .SectionButton {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+  }
+}
+
+.MainSection {
+}
+
+.PlaySection {
+}
+
+.TechSection {
+}
+
+.ProjectSection {
 }

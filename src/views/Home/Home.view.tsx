@@ -18,13 +18,21 @@ const HomeView = ({ data }: { data: any }) => {
 
   return (
     <div className={cx("Wrapper")}>
-      <section className={cx("PostCards")}>
-        <MainCard item={postList[0]} />
-        {postList.slice(1, 12).map((card: any, index: number) => (
-          <VerticalCard key={index} item={card} />
-        ))}
+      <section className={cx("MainSection")}></section>
+      <section className={cx("PlaySection")}></section>
+      <section className={cx("TechSection")}>
+        <header className={cx("SectionHeader")}>
+          <p className={cx("SectionTitle")}>{"Tech :"}</p>
+          <button className={cx("SectionButton")}>{"More"}</button>
+        </header>
+        <div className={cx("SectionContent")}></div>
       </section>
-      <section className={cx("PostList")}></section>
+      <section className={cx("ProjectSection")}>
+        <header className={cx("SectionHeader")}>
+          <p className={cx("SectionTitle")}>{"Project :"}</p>
+          <button className={cx("SectionButton")}>{"More"}</button>
+        </header>
+      </section>
     </div>
   );
 };
