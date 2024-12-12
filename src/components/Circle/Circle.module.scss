@@ -1,0 +1,16 @@
+.Circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+
+  border-radius: 50%;
+  // background-color: gray;
+}
+
+.Dragging {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  // background-color: rgba(0, 0, 0, 0.5);
+}
