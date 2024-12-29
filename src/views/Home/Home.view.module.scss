@@ -1,32 +1,44 @@
 .Wrapper {
-  height: 200vh;
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Container {
+    width: 100%;
+
+    padding: 0 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
 }
 
 .SectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
 
-  .SectionTitle {
-    font-size: 55px;
-    font-weight: 700;
-  }
+    .SectionTitleWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .SectionButton {
-    font-size: 20px;
-    font-weight: 700;
-    color: #000;
-  }
-}
+    .SectionTitle {
+        font-size: 55px;
+        font-weight: 700;
+    }
 
-.MainSection {
-}
+    .SectionButton {
+        font-size: 20px;
+        font-weight: 700;
+        color: #000;
+    }
 
-.PlaySection {
-}
-
-.TechSection {
-}
-
-.ProjectSection {
+    .SectionSubtitleWrapper {
+        font-size: 30px;
+        font-weight: 400;
+        color: #000;
+    }
 }
