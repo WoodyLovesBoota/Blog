@@ -11,31 +11,31 @@ import useScroll from "@/components/hooks/scroll/useScroll";
 const cx = cn.bind(styles);
 
 const getCategories = (text: string) => {
-    const categories: string[] = [];
-    const lines = text.split("\n");
+  const categories: string[] = [];
+  const lines = text.split("\n");
 
-    lines.forEach((line) => {
-        if (line.startsWith("###") && !line.startsWith("####")) {
-            categories.push(line.replace(/^[#]+\s/, "").trim());
-        }
-    });
+  lines.forEach((line) => {
+    if (line.startsWith("###") && !line.startsWith("####")) {
+      categories.push(line.replace(/^[#]+\s/, "").trim());
+    }
+  });
 
-    return categories;
+  return categories;
 };
 
 function calculateReadTime(text: string) {
-    const wordsPerMinute = 250;
-    const totalWords = text.split(/\s+/).length;
-    const readTime = Math.ceil(totalWords / wordsPerMinute);
-    return readTime;
+  const wordsPerMinute = 250;
+  const totalWords = text.split(/\s+/).length;
+  const readTime = Math.ceil(totalWords / wordsPerMinute);
+  return readTime;
 }
 
 const DetailView = () => {
-    return (
-        <div className={cx("Wrapper")}>
-            <p>adsfasdfasdfsadf</p>
-        </div>
-    );
+  return (
+    <div className={cx("Wrapper")}>
+      <p>BLpictoW PAST YOUR CONTENT BpictoTTLENECK</p>
+    </div>
+  );
 };
 
 export default DetailView;

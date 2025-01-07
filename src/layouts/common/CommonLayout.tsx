@@ -28,9 +28,14 @@ function FrozenRouter(props: PropsWithChildren<{}>) {
 const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
   const { children, header, footer, type } = props;
   const pathname = usePathname();
+  const [dotPosition, setDotPosition] = React.useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    setDotPosition({ x: event.clientX, y: event.clientY });
+  };
 
   return (
-    <div className={cx("Wrapper")}>
+    <div className={cx("Wrapper")} onMouseMove={handleMouseMove}>
       {header && <header className={cx("Header")}>{header}</header>}
       <AnimatePresence mode="wait">
         <motion.main
@@ -45,6 +50,22 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
         </motion.main>
       </AnimatePresence>
       {footer && <footer className={cx("Footer")}>{footer}</footer>}
+      <div
+        style={{
+          position: "absolute",
+          left: -6,
+          top: -6,
+          width: "12px",
+          height: "12px",
+          borderRadius: "50%",
+          backgroundColor: "black",
+          pointerEvents: "none",
+          transform: `translate(${dotPosition.x}px, ${dotPosition.y}px)`,
+          transition: "transform 0.05s ease-in-out",
+          filter: "invert(1)",
+          mixBlendMode: "difference",
+        }}
+      />
     </div>
   );
 };

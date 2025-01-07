@@ -1,16 +1,17 @@
 .Wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
 
-    transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+  background-color: #fff;
 }
 
 .Header {
 }
 
 .Main {
-    width: 100%;
+  width: 100%;
 }
