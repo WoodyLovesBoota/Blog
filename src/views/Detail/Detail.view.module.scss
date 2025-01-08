@@ -2,4 +2,20 @@
   display: flex;
   flex-direction: column;
   padding: 50px;
+  min-height: 200vh;
+  perspective: 1px;
+  position: relative;
+}
+
+.Header {
+  position: absolute;
+  .TitleWrapper {
+    width: 50%;
+
+    .Title {
+      font-size: 8vw;
+      line-height: 1;
+      font-weight: 600;
+    }
+  }
 }

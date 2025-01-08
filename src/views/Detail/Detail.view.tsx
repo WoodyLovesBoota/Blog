@@ -33,7 +33,20 @@ function calculateReadTime(text: string) {
 const DetailView = () => {
   return (
     <div className={cx("Wrapper")}>
-      <p>BLpictoW PAST YOUR CONTENT BpictoTTLENECK</p>
+      <header className={cx("Header")}>
+        <section className={cx("TitleSection")}>
+          <div className={cx("TitleWrapper")}>
+            <p className={cx("Title")}>
+              BLpictoW PAST YOUR CONTENT BpictoTTLENECK
+            </p>
+          </div>
+        </section>
+        <section className={cx("ContentSection")}>
+          <p className={cx("Subtitle")}>
+            asdfsadfasdfsdfdafdfsdf asdfsdfsdf asdfsadfsd
+          </p>
+        </section>
+      </header>
     </div>
   );
 };
