@@ -31,6 +31,18 @@ function calculateReadTime(text: string) {
 }
 
 const DetailView = () => {
+  const [markdown, setMarkdown] = useState("");
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(
+        "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/test.md"
+      )
+        .then((res) => res.text())
+        .then((data) => setMarkdown(data));
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className={cx("Wrapper")}>
       <header className={cx("Header")}>
@@ -40,6 +52,14 @@ const DetailView = () => {
               BLpictoW PAST YOUR CONTENT BpictoTTLENECK
             </p>
           </div>
+          <div className={cx("ImageWrapper")}>
+            <Image
+              src="https://picsum.photos/300/300"
+              alt="title"
+              width={300}
+              height={300}
+            />
+          </div>
         </section>
         <section className={cx("ContentSection")}>
           <p className={cx("Subtitle")}>
@@ -47,6 +67,11 @@ const DetailView = () => {
           </p>
         </section>
       </header>
+      <main className={cx("Main")}>
+        <section className={cx("MarkDownSection")}>
+          <MarkDownConverter text={markdown} />
+        </section>
+      </main>
     </div>
   );
 };

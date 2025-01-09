@@ -6,13 +6,15 @@ import cn from "classnames/bind";
 import ReactMarkdown, { Components } from "react-markdown";
 import gfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { vs } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import Image from "next/image";
 
 const cx = cn.bind(styles);
 
 const MarkDownConverter = ({ text }: { text: string }) => {
-  const ClientOnlySyntaxHighlighter: React.FC<{ value: string }> = ({ value }) => {
+  const ClientOnlySyntaxHighlighter: React.FC<{ value: string }> = ({
+    value,
+  }) => {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const MarkDownConverter = ({ text }: { text: string }) => {
     }
 
     return (
-      <SyntaxHighlighter style={vscDarkPlus} language="tsx">
+      <SyntaxHighlighter style={vs} language="tsx">
         {value}
       </SyntaxHighlighter>
     );

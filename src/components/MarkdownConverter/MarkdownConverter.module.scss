@@ -2,24 +2,24 @@
   * {
     font-size: 20px;
     font-weight: 400;
-    color: #ddd;
+    color: #000;
     line-height: 1.5;
   }
 
   h1 {
-    color: #fff;
+    color: #000;
     font-size: 52px;
     font-weight: 700;
   }
 
   h2 {
-    color: #fff;
+    color: #000;
     font-size: 32px;
     font-weight: 600;
   }
 
   h3 {
-    color: #fff;
+    color: #000;
     font-size: 28px;
     font-weight: 500;
     margin-bottom: 24px;
@@ -27,14 +27,14 @@
   }
 
   h4 {
-    color: #fff;
+    color: #000;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 14px;
   }
 
   h5 {
-    color: #fff;
+    color: #000;
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 14px;
@@ -96,7 +96,7 @@
     background-color: #222;
 
     span {
-      color: #fff;
+      color: #000;
     }
 
     pre {
@@ -121,8 +121,8 @@
       display: inline;
       text-shadow: none;
       tab-size: 4;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-        "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
     }
   }
 
@@ -137,7 +137,7 @@
       padding: 8px 32px;
       border: 2px solid #6461df;
       background: #6461df;
-      color: #fff;
+      color: #000;
       font-weight: 500;
     }
 

@@ -1,21 +1,47 @@
 .Wrapper {
   display: flex;
   flex-direction: column;
-  padding: 50px;
   min-height: 200vh;
-  perspective: 1px;
-  position: relative;
 }
 
 .Header {
-  position: absolute;
-  .TitleWrapper {
-    width: 50%;
+  .TitleSection {
+    display: flex;
+    justify-content: space-between;
 
-    .Title {
-      font-size: 8vw;
-      line-height: 1;
-      font-weight: 600;
+    .TitleWrapper {
+      width: 50%;
+      padding: 50px;
+
+      .Title {
+        font-size: 6vw;
+        line-height: 1;
+        font-weight: 600;
+      }
     }
+
+    .ImageWrapper {
+      padding-top: 50px;
+    }
+  }
+
+  .ContentSection {
+    padding: 50px;
+    margin-top: 50px;
+    .Subtitle {
+      font-size: 1.5vw;
+      line-height: 1;
+      font-weight: 500;
+    }
+  }
+}
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+
+  .MarkDownSection {
   }
 }
