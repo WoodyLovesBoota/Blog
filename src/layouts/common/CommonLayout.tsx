@@ -43,8 +43,7 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
           className={cx("Main")}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          exit={{ opacity: 0, transition: { duration: 0.5, delay: 0.5 } }}
         >
           <FrozenRouter>{children}</FrozenRouter>
         </motion.main>
@@ -52,7 +51,7 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
       {footer && <footer className={cx("Footer")}>{footer}</footer>}
       <div
         style={{
-          position: "absolute",
+          position: "fixed",
           left: -6,
           top: -6,
           width: "12px",

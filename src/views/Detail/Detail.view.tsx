@@ -47,19 +47,33 @@ const DetailView = () => {
     <div className={cx("Wrapper")}>
       <header className={cx("Header")}>
         <section className={cx("TitleSection")}>
-          <div className={cx("TitleWrapper")}>
+          <motion.div
+            key={"title"}
+            className={cx("TitleWrapper")}
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -300 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
             <p className={cx("Title")}>
               BLpictoW PAST YOUR CONTENT BpictoTTLENECK
             </p>
-          </div>
-          <div className={cx("ImageWrapper")}>
+          </motion.div>
+          <motion.div
+            key={"image"}
+            initial={{ opacity: 0, x: 300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 300 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className={cx("ImageWrapper")}
+          >
             <Image
               src="https://picsum.photos/300/300"
               alt="title"
               width={300}
               height={300}
             />
-          </div>
+          </motion.div>
         </section>
         <section className={cx("ContentSection")}>
           <p className={cx("Subtitle")}>

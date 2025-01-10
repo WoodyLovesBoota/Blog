@@ -9,6 +9,8 @@ const cx = cn.bind(styles);
 const HomeView = () => {
   const router = useRouter();
 
+  const blogData = fetch("/assets/blog.json").then((res) => res.json());
+
   const handleMoreClick = () => {
     router.push("/tech");
   };
@@ -16,50 +18,17 @@ const HomeView = () => {
   return (
     <div className={cx("Wrapper")}>
       <div className={cx("Container")}>
-        <motion.section
-          key="tech"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className={cx("TechSection")}
-        >
-          <header className={cx("SectionHeader")}>
-            <div className={cx("SectionTitleWrapper")}>
-              <p className={cx("SectionTitle")}>{"Tech :"}</p>
-              <button className={cx("SectionButton")} onClick={handleMoreClick}>
-                {"More"}
-              </button>
-            </div>
-            <div className={cx("SectionSubtitleWrapper")}>
-              technical insights
-            </div>
-          </header>
-          <main className={cx("SectionContent")}></main>
-        </motion.section>
-        <section className={cx("TechSection")}>
-          <header className={cx("SectionHeader")}>
-            <div className={cx("SectionTitleWrapper")}>
-              <p className={cx("SectionTitle")}>{"Tech :"}</p>
-              <button className={cx("SectionButton")}>{"More"}</button>
-            </div>
-            <div className={cx("SectionSubtitleWrapper")}>
-              technical insights
-            </div>
-          </header>
-          <main className={cx("SectionContent")}></main>
-        </section>
-        <section className={cx("TechSection")}>
-          <header className={cx("SectionHeader")}>
-            <div className={cx("SectionTitleWrapper")}>
-              <p className={cx("SectionTitle")}>{"Tech :"}</p>
-              <button className={cx("SectionButton")}>{"More"}</button>
-            </div>
-            <div className={cx("SectionSubtitleWrapper")}>
-              technical insights
-            </div>
-          </header>
-          <main className={cx("SectionContent")}></main>
+        <section className={cx("Section")}>
+          <p className={cx("Category")}>TECH</p>
+          <div className={cx("List")}>
+            {blogData.then((data) =>
+              data.tech.map((item: any) => (
+                <div className={cx("Item")}>
+                  <p className={cx("ItemTitle")}>{item.title}</p>
+                </div>
+              ))
+            )}
+          </div>
         </section>
       </div>
     </div>

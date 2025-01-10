@@ -1,0 +1,136 @@
+{
+  "tech": [
+    {
+      "id": 1,
+      "title": "CORS in NEXT.JS",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/cors.md",
+      "date": "2024-09-03"
+    },
+    {
+      "id": 2,
+      "title": "Roullete Animation",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/test.md",
+      "date": "2024-06-22"
+    },
+    {
+      "id": 3,
+      "title": "useForm 을 이용한 Validation",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/useform.md",
+      "date": "2024-01-05"
+    },
+    {
+      "id": 4,
+      "title": "Scroll in Website",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/scroll.md",
+      "date": "2024-01-02"
+    },
+    {
+      "id": 5,
+      "title": "Lottie Animation",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/lottie.md",
+      "date": "2023-12-19"
+    },
+    {
+      "id": 6,
+      "title": "Minesweeper",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/mineswiper.md",
+      "date": "2023-12-10"
+    },
+    {
+      "id": 7,
+      "title": "Netlify 배포",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/netlify.md",
+      "date": "2023-11-29"
+    },
+    {
+      "id": 8,
+      "title": "Google Maps API",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/googlemap.md",
+      "date": "2023-10-13"
+    },
+    {
+      "id": 9,
+      "title": "useQuery Hook",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/usequery.md",
+      "date": "2023-09-23"
+    },
+    {
+      "id": 10,
+      "title": "useRef Hook",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/input.md",
+      "date": "2023-09-17"
+    },
+    {
+      "id": 11,
+      "title": "Recoil - Local Storage",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/recoil.md",
+      "date": "2023-09-11"
+    },
+    {
+      "id": 12,
+      "title": "Recoil을 이용한 전역 상태 관리",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/recoil0.md",
+      "date": "2023-09-08"
+    },
+    {
+      "id": 13,
+      "title": "Wordle",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/wordletype.md",
+      "date": "2023-09-03"
+    },
+    {
+      "id": 14,
+      "title": "Typescript로 React 사용하기",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/typescript.md",
+      "date": "2023-09-01"
+    },
+    {
+      "id": 15,
+      "title": "React Nested Router",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/nestedrouter.md",
+      "date": "2023-08-30"
+    },
+    {
+      "id": 16,
+      "title": "React Router",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/reactrouter.md",
+      "date": "2023-08-28"
+    },
+    {
+      "id": 17,
+      "title": "Wordle",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/wordle.md",
+      "date": "2023-08-26"
+    },
+    {
+      "id": 18,
+      "title": "React 스타일 적용",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/style.md",
+      "date": "2023-08-22"
+    },
+    {
+      "id": 19,
+      "title": "useEffect Hook",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/useEffect.md",
+      "date": "2023-08-21"
+    },
+    {
+      "id": 20,
+      "title": "State & Props",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/state.md",
+      "date": "2023-08-18"
+    },
+    {
+      "id": 21,
+      "title": "create-react-app",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/create.md",
+      "date": "2023-08-16"
+    },
+    {
+      "id": 22,
+      "title": "React.JS",
+      "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/start.md",
+      "date": "2023-08-15"
+    }
+  ]
+}
