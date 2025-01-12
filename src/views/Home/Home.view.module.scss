@@ -1,5 +1,4 @@
 .Wrapper {
-  height: 200vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,9 +6,35 @@
 
 .Container {
   width: 100%;
-  padding: 50px;
+  padding: 100px 50px;
 
   display: flex;
   flex-direction: column;
   gap: 60px;
+
+  .Category {
+  }
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  .Item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .ItemTitle {
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .ItemDate {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
 }

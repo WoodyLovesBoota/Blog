@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 const cx = cn.bind(styles);
 
+const blogData = require("/public/static/assets/blog.json");
+
 const HomeView = () => {
   const router = useRouter();
 
-  const blogData = fetch("/assets/blog.json").then((res) => res.json());
-
-  const handleMoreClick = () => {
-    router.push("/tech");
+  const handleItemClick = (item: any) => {
+    router.push(`/tech/${item.id}`);
   };
 
   return (
@@ -21,13 +21,20 @@ const HomeView = () => {
         <section className={cx("Section")}>
           <p className={cx("Category")}>TECH</p>
           <div className={cx("List")}>
-            {blogData.then((data) =>
-              data.tech.map((item: any) => (
-                <div className={cx("Item")}>
-                  <p className={cx("ItemTitle")}>{item.title}</p>
-                </div>
-              ))
-            )}
+            {blogData.tech.map((item: any) => (
+              <div
+                key={item.id}
+                className={cx("Item")}
+                onClick={() => {
+                  handleItemClick(item);
+                }}
+              >
+                <p className={cx("ItemTitle")}>{item.title}</p>
+                <p className={cx("ItemDate")}>
+                  {item.date.split("-").join(".")}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       </div>
