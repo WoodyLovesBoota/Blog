@@ -1,0 +1,13 @@
+.Pointer {
+  position: fixed;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: black;
+  pointer-events: none;
+  transition: transform 0.05s ease-in-out;
+  filter: invert(1);
+  mix-blend-mode: difference;
+}

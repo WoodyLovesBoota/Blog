@@ -10,7 +10,8 @@
       "id": 2,
       "title": "Roullete Animation",
       "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/test.md",
-      "date": "2024-06-22"
+      "date": "2024-06-22",
+      "image": "https://velog.velcdn.com/images/woodylovescoding/post/4eec4b51-3c7a-4826-b6a7-1b23db8997b7/image.gif"
     },
     {
       "id": 3,
@@ -28,13 +29,15 @@
       "id": 5,
       "title": "Lottie Animation",
       "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/lottie.md",
-      "date": "2023-12-19"
+      "date": "2023-12-19",
+      "image": "https://velog.velcdn.com/images/woodylovescoding/post/a059efe4-1972-4c10-82fe-affae2c879f3/image.gif"
     },
     {
       "id": 6,
       "title": "Minesweeper",
       "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/mineswiper.md",
-      "date": "2023-12-10"
+      "date": "2023-12-10",
+      "image": "https://velog.velcdn.com/images/woodylovescoding/post/72333b12-f68d-45ac-866d-0a7c93bcf249/image.png"
     },
     {
       "id": 7,
@@ -46,7 +49,8 @@
       "id": 8,
       "title": "Google Maps API",
       "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/googlemap.md",
-      "date": "2023-10-13"
+      "date": "2023-10-13",
+      "image": "https://velog.velcdn.com/images/woodylovescoding/post/ad253493-afdd-496f-97e6-5d4340be3e45/image.png"
     },
     {
       "id": 9,
@@ -76,7 +80,8 @@
       "id": 13,
       "title": "Wordle",
       "content": "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/wordletype.md",
-      "date": "2023-09-03"
+      "date": "2023-09-03",
+      "image": "https://velog.velcdn.com/images/woodylovescoding/post/ae926c4f-6ced-45df-8d57-5370698c5fce/image.png"
     },
     {
       "id": 14,

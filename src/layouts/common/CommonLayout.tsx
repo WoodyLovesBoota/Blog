@@ -6,6 +6,7 @@ import AnimateLayout from "../animate/AnimateLayout";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import Pointer from "@/lib/components/Pointer/Pointer";
 const cx = cn.bind(styles);
 
 interface ICommonLayoutProps {
@@ -49,22 +50,7 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
         </motion.main>
       </AnimatePresence>
       {footer && <footer className={cx("Footer")}>{footer}</footer>}
-      <div
-        style={{
-          position: "fixed",
-          left: -6,
-          top: -6,
-          width: "12px",
-          height: "12px",
-          borderRadius: "50%",
-          backgroundColor: "black",
-          pointerEvents: "none",
-          transform: `translate(${dotPosition.x}px, ${dotPosition.y}px)`,
-          transition: "transform 0.05s ease-in-out",
-          filter: "invert(1)",
-          mixBlendMode: "difference",
-        }}
-      />
+      <Pointer dotPosition={dotPosition} />
     </div>
   );
 };
