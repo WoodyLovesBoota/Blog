@@ -10,38 +10,23 @@ import useScroll from "@/components/hooks/scroll/useScroll";
 
 const cx = cn.bind(styles);
 
-const getCategories = (text: string) => {
-  const categories: string[] = [];
-  const lines = text.split("\n");
-
-  lines.forEach((line) => {
-    if (line.startsWith("###") && !line.startsWith("####")) {
-      categories.push(line.replace(/^[#]+\s/, "").trim());
-    }
-  });
-
-  return categories;
-};
-
-function calculateReadTime(text: string) {
-  const wordsPerMinute = 250;
-  const totalWords = text.split(/\s+/).length;
-  const readTime = Math.ceil(totalWords / wordsPerMinute);
-  return readTime;
+interface IDetailViewProps {
+  id: string;
 }
 
-const DetailView = () => {
+const blogData = require("/public/static/assets/blog.json");
+
+const DetailView = (props: IDetailViewProps) => {
+  const { id } = props;
   const [markdown, setMarkdown] = useState("");
   useEffect(() => {
     const fetchData = () => {
-      fetch(
-        "https://zjpbkxmotbhuklrpgflc.supabase.co/storage/v1/object/public/blog/test.md"
-      )
+      fetch(blogData.tech.find((item: any) => item.id === Number(id)).content)
         .then((res) => res.text())
         .then((data) => setMarkdown(data));
     };
     fetchData();
-  }, []);
+  }, [id, blogData]);
 
   return (
     <div className={cx("Wrapper")}>
