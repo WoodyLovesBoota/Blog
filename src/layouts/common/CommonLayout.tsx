@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Pointer from "@/lib/components/Pointer/Pointer";
+import { useRecoilValue } from "recoil";
+import { PointerState } from "@/recoil/atom/payback.atom";
 const cx = cn.bind(styles);
 
 interface ICommonLayoutProps {
@@ -29,6 +31,7 @@ function FrozenRouter(props: PropsWithChildren<{}>) {
 const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
   const { children, header, footer, type } = props;
   const pathname = usePathname();
+  const pointerState = useRecoilValue(PointerState);
   const [dotPosition, setDotPosition] = React.useState({ x: 0, y: 0 });
 
   const handleMouseMove = (event: React.MouseEvent) => {
@@ -50,7 +53,7 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
         </motion.main>
       </AnimatePresence>
       {footer && <footer className={cx("Footer")}>{footer}</footer>}
-      <Pointer dotPosition={dotPosition} />
+      {/* <Pointer dotPosition={dotPosition} pointerState={pointerState} /> */}
     </div>
   );
 };

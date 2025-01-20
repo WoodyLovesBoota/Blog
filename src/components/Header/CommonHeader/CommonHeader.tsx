@@ -30,27 +30,6 @@ const CommonHeader = () => {
         </button>
         <p className={cx("Email")}>{"woodylovesboota@gmail.com"}</p>
       </div>
-
-      {/* <nav className={cx("Tab")}>
-                <section className={cx("GnbList")}>
-                    {GNB_LIST.map((link) => (
-                        <button
-                            key={link.name}
-                            className={cx("TabButton")}
-                            onClick={() => router.push(link.path)}
-                        >
-                            {link.name}
-                        </button>
-                    ))}
-                </section>
-                <section className={cx("SocialList")}>
-                    <button className={cx("SocialButton")}>
-                        <Icon name="Github" />
-                    </button>
-                    <button className={cx("SocialButton")}>
-                    </button>
-                </section>
-            </nav> */}
     </header>
   );
 };

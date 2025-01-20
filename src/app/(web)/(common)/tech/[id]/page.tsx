@@ -7,10 +7,11 @@ interface PageProps {
   params: {
     id: string;
   };
+  searchParams: {
+    title: string;
+  };
 }
 
 export default function SearchPage(props: PageProps) {
-  const [mounted, setMounted] = useState(false);
-
-  return <DetailView id={props.params.id} />;
+  return <DetailView id={props.params.id} title={props.searchParams.title} />;
 }

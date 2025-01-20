@@ -1,7 +1,6 @@
 .Wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 200vh;
 }
 
 .Header {
@@ -10,8 +9,9 @@
     justify-content: space-between;
 
     .TitleWrapper {
-      width: 50%;
+      width: 70%;
       padding: 50px;
+      padding-top: 240px;
 
       .Title {
         font-size: 6vw;
@@ -26,8 +26,10 @@
   }
 
   .ContentSection {
-    padding: 50px;
-    margin-top: 50px;
+    padding-right: 50px;
+    display: flex;
+    justify-content: flex-end;
+
     .Subtitle {
       font-size: 1.5vw;
       line-height: 1;
@@ -40,10 +42,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px;
+  padding-top: 160px;
 
   .MarkDownSection {
     width: 100%;
-    max-width: 800px;
+    max-width: 1400px;
   }
 }
