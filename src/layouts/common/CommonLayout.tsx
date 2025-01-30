@@ -53,7 +53,7 @@ const CommonLayout = (props: React.PropsWithChildren<ICommonLayoutProps>) => {
         </motion.main>
       </AnimatePresence>
       {footer && <footer className={cx("Footer")}>{footer}</footer>}
-      {/* <Pointer dotPosition={dotPosition} pointerState={pointerState} /> */}
+      <Pointer dotPosition={dotPosition} pointerState={pointerState} />
     </div>
   );
 };
