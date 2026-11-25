@@ -1,3 +1,0 @@
-{
-  "plugins": ["removeXMLNS", "removeDimensions", "removeUselessStrokeAndFill", "removeMetadata", "removeDoctype"]
-}
