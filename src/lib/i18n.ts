@@ -1,26 +1,29 @@
 /**
- * 다국어 설정. 한국어가 기본(접두사 없음), 영어는 /en 아래.
+ * 다국어 설정. URL 은 영어가 기본(접두사 없음), 한국어는 /ko 아래.
  *
- *   /posts/foo      ← content/posts/foo.md
- *   /en/posts/foo   ← content/posts/foo.en.md
+ *   /posts/foo      ← content/posts/foo.en.md
+ *   /ko/posts/foo   ← content/posts/foo.md
  *
  * 같은 slug 를 공유하므로 언어 전환은 접두사만 바꾸면 된다.
  */
 export const LANGS = ["ko", "en"] as const;
 export type Lang = (typeof LANGS)[number];
-export const DEFAULT_LANG: Lang = "ko";
+/** 접두사 없는 URL 의 언어 (x-default) */
+export const DEFAULT_LANG: Lang = "en";
+/** 접미사 없는 글 파일(foo.md)의 언어. date·tags 등 공유 frontmatter 도 이 파일이 우선한다. */
+export const CONTENT_BASE_LANG: Lang = "ko";
 
 export const isLang = (v: unknown): v is Lang => LANGS.includes(v as Lang);
 export const otherLang = (lang: Lang): Lang => (lang === "ko" ? "en" : "ko");
 
-/** 언어별 경로. localePath("en", "/posts/a") → "/en/posts/a", localePath("en", "/") → "/en" */
+/** 언어별 경로. localePath("ko", "/posts/a") → "/ko/posts/a", localePath("ko", "/") → "/ko" */
 export const localePath = (lang: Lang, path = "/") => {
   const p = path.startsWith("/") ? path : `/${path}`;
   if (lang === DEFAULT_LANG) return p;
   return p === "/" ? `/${lang}` : `/${lang}${p}`;
 };
 
-/** 현재 경로에서 언어 접두사를 떼어 낸다. "/en/tags" → { lang: "en", path: "/tags" } */
+/** 현재 경로에서 언어 접두사를 떼어 낸다. "/ko/tags" → { lang: "ko", path: "/tags" } */
 export const splitLocale = (pathname: string): { lang: Lang; path: string } => {
   for (const lang of LANGS) {
     if (lang === DEFAULT_LANG) continue;

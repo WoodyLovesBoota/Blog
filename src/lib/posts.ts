@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { cache } from "react";
 import matter from "gray-matter";
-import { DEFAULT_LANG, LANGS, isLang, type Lang } from "./i18n";
+import { CONTENT_BASE_LANG, LANGS, isLang, type Lang } from "./i18n";
 
 /**
  * 글 저장소: content/posts/<slug>.md (한국어) + content/posts/<slug>.en.md (영어)
@@ -74,8 +74,8 @@ const readingTime = (body: string) => {
 const parseName = (fileName: string): { slug: string; lang: Lang } => {
   const base = fileName.replace(/\.md$/, "");
   const m = base.match(/^(.*)\.([a-z]{2})$/);
-  if (m && isLang(m[2]) && m[2] !== DEFAULT_LANG) return { slug: m[1], lang: m[2] };
-  return { slug: base, lang: DEFAULT_LANG };
+  if (m && isLang(m[2]) && m[2] !== CONTENT_BASE_LANG) return { slug: m[1], lang: m[2] };
+  return { slug: base, lang: CONTENT_BASE_LANG };
 };
 
 const readRaw = (fileName: string): RawFile => {
@@ -132,7 +132,7 @@ const loadAll = cache((): Record<Lang, Post[]> => {
   }
 
   for (const files of bySlug.values()) {
-    const shared = files[DEFAULT_LANG] ?? Object.values(files)[0]!;
+    const shared = files[CONTENT_BASE_LANG] ?? Object.values(files)[0]!;
     const posts = LANGS.flatMap((l) => (files[l] ? [build(files[l], shared)] : [])).filter((p) => showDrafts || !p.draft);
     const langs = posts.map((p) => p.lang);
     for (const p of posts) out[p.lang].push({ ...p, langs });

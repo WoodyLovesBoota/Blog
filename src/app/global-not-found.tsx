@@ -11,16 +11,16 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="ko" className={fontClassName}>
+    <html lang="en" className={fontClassName}>
       <body>
         <main className="container page not-found">
           <div>
             <h1>404</h1>
             <p>
-              {dict.ko.notFound} <a href="/">{dict.ko.backToList}</a>
+              {dict.en.notFound} <a href="/">{dict.en.backToList}</a>
             </p>
-            <p lang="en">
-              {dict.en.notFound} <a href="/en">{dict.en.backToList}</a>
+            <p lang="ko">
+              {dict.ko.notFound} <a href="/ko">{dict.ko.backToList}</a>
             </p>
           </div>
         </main>

@@ -18,9 +18,9 @@ const copy = {
       "프론트엔드 리드. 10만+ 사용자 크립토 캐시백 플랫폼 TetherMax의 웹·모바일 프론트엔드 팀을 이끌고 있습니다. React.js, Next.js, TypeScript, React Native를 주로 쓰고, 그 전에는 스마트 컨트랙트 보안 감사와 블록체인 개발을 했습니다.",
     highlightsTitle: "주요 작업",
     highlights: [
-      { text: "모바일 LCP ~6s → ~3s, 페이지당 JS ~2MB → 200–300KB", href: "/posts/nextjs-web-performance" },
-      { text: "Vercel 비용 80% 이상 절감", href: "/posts/image-pipeline" },
-      { text: "앱 내 화면 로드 2–3s → 0.5s 미만 (WebView 프리로딩)", href: "/posts/webview-prewarm" },
+      { text: "모바일 첫 화면 히어로 표시 9.0s → 1.5s, Lighthouse 모바일 79 → 96, 페이지 용량 2.08MB → 1.03MB", href: "/ko/posts/nextjs-web-performance" },
+      { text: "Vercel 비용 80% 이상 절감", href: "/ko/posts/image-pipeline" },
+      { text: "앱 내 화면 로드 2–3s → 0.5s 미만 (WebView 프리로딩)", href: "/ko/posts/webview-prewarm" },
       { text: "로그아웃 상태 둘러보기로 가입 전환율 3배 이상" },
       { text: "외주 코드 인하우스 전환: Next.js(App Router) 40+ 페이지 재구축, iOS·Android 앱 첫 출시" },
     ],
@@ -42,9 +42,9 @@ const copy = {
       "Frontend lead. I lead the web and mobile frontend team at TetherMax, a crypto cashback platform with 100K+ users. I mostly work with React.js, Next.js, TypeScript and React Native; before that I did smart contract security audits and blockchain development.",
     highlightsTitle: "Selected work",
     highlights: [
-      { text: "Mobile LCP ~6s → ~3s, per-page JS ~2MB → 200–300KB", href: "/en/posts/nextjs-web-performance" },
-      { text: "Vercel bill cut by over 80%", href: "/en/posts/image-pipeline" },
-      { text: "In-app screen load 2–3s → under 0.5s (WebView preloading)", href: "/en/posts/webview-prewarm" },
+      { text: "Mobile hero visible 9.0s → 1.5s, Lighthouse mobile 79 → 96, page weight 2.08MB → 1.03MB", href: "/posts/nextjs-web-performance" },
+      { text: "Vercel bill cut by over 80%", href: "/posts/image-pipeline" },
+      { text: "In-app screen load 2–3s → under 0.5s (WebView preloading)", href: "/posts/webview-prewarm" },
       { text: "Sign-up conversion more than tripled by letting logged-out visitors explore" },
       { text: "Moved the product in-house: rebuilt 40+ pages on Next.js (App Router), shipped the first iOS and Android apps" },
     ],
@@ -122,6 +122,10 @@ export function AboutView({ lang }: { lang: Lang }) {
       <section>
         <h2>{c.contact}</h2>
         <ul className="contact">
+          <li>
+            <span>Portfolio</span>
+            <a href={site.author.portfolio} target="_blank" rel="noopener noreferrer">{site.author.portfolio.replace("https://", "")}</a>
+          </li>
           <li>
             <span>GitHub</span>
             <a href={site.author.github} target="_blank" rel="noopener noreferrer">{site.author.github.replace("https://", "")}</a>
