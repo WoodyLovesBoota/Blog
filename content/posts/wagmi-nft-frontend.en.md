@@ -2,10 +2,10 @@
 title: "Building a dApp frontend with wagmi and viem"
 description: How a dynamic NFT game frontend built on wagmi, viem and RainbowKit routes every write through one hook, resumes a pending confirmation after a page refresh, and finds owned NFTs without an indexer.
 translatedFrom: ko
-keywords: [wagmi, viem, RainbowKit, simulateContract, waitForTransactionReceipt, getLogs, multicall3, anvil, NFT frontend, transaction refresh]
+keywords: [wagmi, viem, RainbowKit, simulateContract, waitForTransactionReceipt, ownerOf, multicall3, anvil, NFT frontend, transaction refresh]
 ---
 
-Silo Pets is a dynamic NFT web game where a pet NFT changes appearance by level as you feed and train it (Foundry, Next.js 16 App Router, wagmi, viem, RainbowKit, TanStack Query). It has only run on a local anvil node and is not yet deployed to Base Sepolia.
+Mochimals is a dynamic NFT web game where a pet NFT changes appearance by level as you feed and train it (Foundry, Next.js 16 App Router, wagmi, viem, RainbowKit, TanStack Query). It was built against a local anvil node and is deployed to Base Sepolia at [mochimals.woodylovesboota.xyz](https://mochimals.woodylovesboota.xyz).
 
 ## Structure: reads go through RPC, writes through the wallet
 
@@ -21,17 +21,24 @@ In the wagmi source, `cookieToInitialState` uses only `storage` from the config,
 
 There are four write actions: adopt (`adopt`), feed (`feed`), train (`train`) and refill (`refill`). To avoid repeating phase state, error handling and post-confirmation reads four times, they are collected in one hook. The flow is ① simulate → ② sign → ③ wait for confirmation → ④ parse events → ⑤ invalidate cache → ⑥ `onDone`. Button labels differ per step, so instead of `useMutation`'s `isPending` there is a separate `phase` (`"idle" | "simulating" | "signing" | "confirming"`).
 
-```ts title="web/src/hooks/usePetAction.ts" {6,8,14,16}
+```ts title="web/src/hooks/usePetAction.ts" {6-10,12,21,23}
 const mutation = useMutation({
   mutationFn: async (args: PetActionArgs) => {
     setPhase("simulating");
     let txHash: Hash;
     if (args.fn === "feed" || args.fn === "train") {
-      const { request } = await simulateContract(config, { ...petNft, functionName: args.fn, args: [args.petId] });
+      const { request } = await simulateContract(config, {
+        ...petNft,
+        functionName: args.fn,
+        args: [args.petId],
+      });
       setPhase("signing");
       txHash = await writeContractAsync(request);
     } else {
-      const { request } = await simulateContract(config, { ...petNft, functionName: args.fn });
+      const { request } = await simulateContract(config, {
+        ...petNft,
+        functionName: args.fn,
+      });
       setPhase("signing");
       txHash = await writeContractAsync(request);
     }
@@ -56,9 +63,12 @@ const mutation = useMutation({
 
 Steps ③–⑤ are extracted into `confirm` so they can be shared with refresh resumption.
 
-```ts title="web/src/hooks/usePetAction.ts" {3,6,13}
+```ts title="web/src/hooks/usePetAction.ts" {6,9,16-18}
 async function confirm(config, queryClient, txHash: Hash, timeout?: number) {
-  const receipt = await waitForTransactionReceipt(config, { hash: txHash, timeout });
+  const receipt = await waitForTransactionReceipt(config, {
+    hash: txHash,
+    timeout,
+  });
   if (receipt.status === "reverted") throw new Error("TX_REVERTED");
 
   const events = parseEvents(receipt.logs);
@@ -69,7 +79,9 @@ async function confirm(config, queryClient, txHash: Hash, timeout?: number) {
 function parseEvents(logs) {
   return parseEventLogs({
     abi: petNft.abi,
-    logs: logs.filter((l) => l.address && isAddressEqual(l.address, petNft.address)),
+    logs: logs.filter(
+      (l) => l.address && isAddressEqual(l.address, petNft.address),
+    ),
   });
 }
 ```
@@ -82,21 +94,26 @@ function parseEvents(logs) {
 
 ```ts title="web/src/lib/errors.ts"
 const MESSAGES: Record<string, string> = {
-  ERC20InsufficientBalance: "활동력이 부족해요. 충전하고 다시 해보세요", // "Not enough energy. Refill and try again"
-  StillHasEnergy: "활동력을 다 쓴 뒤에 충전할 수 있어요", // "You can refill after using up your energy"
+  // "Not enough energy. Refill and try again"
+  ERC20InsufficientBalance: "활동력이 부족해요. 충전하고 다시 해보세요",
+  // "You can refill after using up your energy"
+  StillHasEnergy: "활동력을 다 쓴 뒤에 충전할 수 있어요",
   // ...
 };
 
 export function toErrorMessage(error: unknown): string | null {
   if (error instanceof BaseError) {
     if (error.walk((e) => e instanceof UserRejectedRequestError)) return null;
-    const reverted = error.walk((e) => e instanceof ContractFunctionRevertedError);
+    const reverted = error.walk(
+      (e) => e instanceof ContractFunctionRevertedError,
+    );
     if (reverted instanceof ContractFunctionRevertedError) {
       const name = reverted.data?.errorName;
       if (name && name in MESSAGES) return MESSAGES[name];
     }
   }
-  return "처리하지 못했어요. 다시 시도해주세요"; // "Something went wrong. Please try again"
+  // "Something went wrong. Please try again"
+  return "처리하지 못했어요. 다시 시도해주세요";
 }
 ```
 
@@ -116,11 +133,16 @@ const KEY = "silo-pets:pending-tx";
 type Stored = { hash: string; fn: PetActionArgs["fn"]; petId?: string };
 
 export function savePending({ hash, args }: PendingTx): void {
-  const stored: Stored = { hash, fn: args.fn, petId: "petId" in args ? args.petId.toString() : undefined };
+  const stored: Stored = {
+    hash,
+    fn: args.fn,
+    petId: "petId" in args ? args.petId.toString() : undefined,
+  };
   try {
     sessionStorage.setItem(KEY, JSON.stringify(stored));
   } catch {
-    // If storage is blocked, the action still proceeds (only refresh handling is lost)
+    // If storage is blocked, the action still proceeds
+    // (only refresh handling is lost)
   }
 }
 
@@ -133,21 +155,28 @@ export function savePending({ hash, args }: PendingTx): void {
 
 When the page opens, it reads the record, and if the screen's `resumeIf` decides the action is relevant, it waits again from step ③. A pet screen resumes feeding/training for that pet and refills; the home screen resumes only adoption.
 
-```ts title="web/src/hooks/usePetAction.ts" {4,9}
+```ts title="web/src/hooks/usePetAction.ts" {5,10}
 const RESUME_TIMEOUT_MS = 120_000;
 
 const resume = useCallback(async () => {
-  if (resumingRef.current) return; // guard against StrictMode running the effect twice
+  // guard against StrictMode running the effect twice
+  if (resumingRef.current) return;
   const pending = readPending();
   if (!pending || !resumeIfRef.current?.(pending.args)) return;
   resumingRef.current = true;
   setResumed(pending.args);
   setPhase("confirming"); // lock buttons
   try {
-    const result = await confirm(config, queryClient, pending.hash, RESUME_TIMEOUT_MS);
+    const result = await confirm(
+      config,
+      queryClient,
+      pending.hash,
+      RESUME_TIMEOUT_MS,
+    );
     onDoneRef.current?.(result, pending.args); // same animations as usual
   } catch {
-    void queryClient.invalidateQueries(); // failures and timeouts stay silent; just show real values
+    // failures and timeouts stay silent; just show real values
+    void queryClient.invalidateQueries();
   } finally {
     clearPending();
     setPhase("idle");
@@ -163,51 +192,42 @@ const resume = useCallback(async () => {
 
 ## Finding my NFTs without an indexer
 
-Pets can be transferred, so the home screen's "My pets" list must show "the zero or more pets I own right now". ERC721Enumerable adds a lot of gas to every transfer, so writes are kept cheap and reads find pets through logs.
+Pets can be transferred, so the home screen's "my pets" has to mean "zero or more pets I hold right now". ERC721Enumerable makes every transfer much more expensive in gas, so the contract keeps no per-address list and the lookup happens on the read side.
 
-It collects `Transfer` logs addressed to me (adoption `0x0 → me`, receipt `someone → me`) and keeps only those pets whose `ownerOf` is still me.
+Pet ids run from 1 to `totalSupply` with no gaps, so it reads `ownerOf` for every pet in batches of 200 and keeps the ids I own.
 
 ```ts title="web/src/hooks/useMyPets.ts"
-const TRANSFER = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)");
+async function findMyPets(
+  client: PublicClient,
+  me: Address,
+): Promise<bigint[]> {
+  // Pet ids run from 1 to totalSupply with no gaps
+  // (adopt sets petId = ++totalSupply, no burning)
+  const total = await client.readContract({
+    ...petNft,
+    functionName: "totalSupply",
+  });
+  const ids = Array.from({ length: Number(total) }, (_, i) => BigInt(i + 1));
 
-async function findMyPets(client: PublicClient, me: Address): Promise<bigint[]> {
-  const latest = await client.getBlockNumber();
-  const received = await receivedIds(client, me, DEPLOY_BLOCK, latest);
-  const ids = [...new Set(received)]; // receiving, sending and receiving again leaves multiple logs
-  if (ids.length === 0) return [];
-
-  const owners = await readMany(client, ids.map((id) => ({ ...petNft, functionName: "ownerOf", args: [id] }) as const));
-  return ids.filter((_, i) => isAddressEqual(owners[i] as Address, me));
-}
-```
-
-- `args: { to: me }` lets the node do the filtering. The start block is the deployment block printed by the deploy script, passed in through env. Starting from 0 is slow or rejected on public RPCs.
-- The address is part of the query key, so switching wallets triggers a fresh read, and after adoption the full invalidation refreshes it. Right after adoption, the new pet's ID is taken from the receipt's `Adopted` event and the user is sent to `/pet/<id>`.
-
-### Halving the range when getLogs is rejected
-
-RPC providers each have different block-range and result-count limits for `getLogs`, so it is hard to pick a fixed number. The hook calls once with the full range and, if rejected, splits it in half and recurses.
-
-```ts title="web/src/hooks/useMyPets.ts" {11-14}
-async function receivedIds(client: PublicClient, me: Address, from: bigint, to: bigint): Promise<bigint[]> {
-  try {
-    const logs = await client.getLogs({
-      address: petNft.address,
-      event: TRANSFER,
-      args: { to: me },
-      fromBlock: from,
-      toBlock: to,
+  const mine: bigint[] = [];
+  for (let start = 0; start < ids.length; start += CHUNK) {
+    const chunk = ids.slice(start, start + CHUNK); // CHUNK = 200
+    const owners = await readMany(
+      client,
+      chunk.map(
+        (id) => ({ ...petNft, functionName: "ownerOf", args: [id] }) as const,
+      ),
+    );
+    chunk.forEach((id, i) => {
+      if (isAddressEqual(owners[i] as Address, me)) mine.push(id);
     });
-    return logs.map((l) => l.args.tokenId!);
-  } catch (error) {
-    if (from >= to) throw error; // if even a single block fails, the range is not the problem
-    const mid = (from + to) / 2n;
-    return [...(await receivedIds(client, me, from, mid)), ...(await receivedIds(client, me, mid + 1n, to))];
   }
+  return mine;
 }
 ```
 
-On anvil or an RPC that allows wide ranges, finishing in one call is fastest, and splitting only on rejection adapts to any RPC's limits.
+- Why not incoming `Transfer` logs (`getLogs`): Base Sepolia RPCs cap a single `getLogs` call at 10–200 blocks, and a block lands every 2 seconds. Scanning from the deploy block turns into thousands of requests. The `ownerOf` scan scales with the number of pets rather than blocks, and on chains with multicall3 it is one request per 200 pets.
+- The query key includes the address, so switching wallets reads again, and adoption refreshes it through a full invalidation. Right after adopting, the new pet id is taken from the receipt's `Adopted` event and the app navigates to `/pet/<id>`.
 
 ### anvil has no multicall3
 
@@ -222,6 +242,6 @@ The button side (`PetActions`, `HomeView`) only defines labels, `onDone` and `re
 
 ## Remaining work
 
-- Verified only on local anvil. How often `getLogs` splits on a public RPC has to be checked after deploying to Base Sepolia. The split ranges are called sequentially, so frequent rejections could make it slow.
+- Finding my pets scales with the total number of pets. Once there are tens of thousands, it should move to an indexer (The Graph, Ponder, etc.).
 - Invalidating the whole cache after each action only holds at the current scale. As more screens read data, invalidation will need to be per key.
 - Resuming the wait only works in the same tab. Showing pending state across devices and tabs would need a server-side record such as an indexer.

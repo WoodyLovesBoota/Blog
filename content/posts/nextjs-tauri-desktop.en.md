@@ -15,7 +15,9 @@ Every TongTong page was already `"use client"`, and data comes from external API
 
 ```ts title="src/proxy.ts (before removal, condensed)"
 export async function proxy(request: NextRequest) {
-  const supabase = createServerClient(url, anonKey, { cookies: { /* request ↔ response cookies */ } });
+  const supabase = createServerClient(url, anonKey, {
+    cookies: { /* request ↔ response cookies */ },
+  });
   const { data: { session } } = await supabase.auth.getSession();
 
   // No session: send to the marketing landing page
@@ -116,12 +118,15 @@ export async function signInWithGoogle() {
 const handleUrls = (urls: string[] | null | undefined) => {
   const hit = urls?.find((u) => u.startsWith(DESKTOP_AUTH_CALLBACK));
   if (!hit) return;
-  // getCurrent() returns the launching link again after a reload — don't exchange the same code twice
+  // getCurrent() returns the launching link again after a reload —
+  // don't exchange the same code twice
   if (sessionStorage.getItem(HANDLED_KEY) === hit) return;
   sessionStorage.setItem(HANDLED_KEY, hit);
 
   const code = new URL(hit).searchParams.get("code");
-  router.replace(code ? `/auth/callback?code=${encodeURIComponent(code)}` : "/login");
+  router.replace(
+    code ? `/auth/callback?code=${encodeURIComponent(code)}` : "/login",
+  );
 };
 
 const { getCurrent, onOpenUrl } = await import("@tauri-apps/plugin-deep-link");
@@ -222,15 +227,19 @@ macOS delivers `tongtong://` links to the running app, but Windows/Linux launch 
 
 `tauri-plugin-single-instance` was added with the `deep-link` feature, on Windows/Linux only. It hands the second launch to the existing process, and the deep-link plugin delivers the URL to the existing window's `onOpenUrl`, so `DesktopBridge` stays unchanged.
 
-```rust title="src-tauri/src/lib.rs" {4-8}
+```rust title="src-tauri/src/lib.rs" {4-12}
 let mut builder = tauri::Builder::default();
 
 // single-instance must be the first plugin to intercept the second launch
 #[cfg(any(target_os = "windows", target_os = "linux"))]
 {
-  builder = builder.plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-    show_main(app); // the deep-link feature forwards the URL; here we only bring the window forward
-  }));
+  builder = builder.plugin(
+    tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+      // the deep-link feature forwards the URL;
+      // here we only bring the window forward
+      show_main(app);
+    }),
+  );
 }
 ```
 

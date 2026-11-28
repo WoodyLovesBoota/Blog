@@ -2,11 +2,12 @@
 title: "wagmi, viem 프론트엔드"
 description: wagmi·viem·RainbowKit 다이내믹 NFT 게임 프론트에서 쓰기를 훅 하나로 모으고, 확정 대기 중 새로고침을 이어받고, 인덱서 없이 보유 NFT 를 찾은 방법.
 date: 2026-11-25
+updated: 2026-11-28
 tags: [wagmi, viem, web3, nextjs, react]
-keywords: [wagmi, viem, RainbowKit, simulateContract, waitForTransactionReceipt, getLogs, multicall3, anvil, NFT 프론트엔드, 트랜잭션 새로고침]
+keywords: [wagmi, viem, RainbowKit, simulateContract, waitForTransactionReceipt, ownerOf, multicall3, anvil, NFT 프론트엔드, 트랜잭션 새로고침]
 ---
 
-Silo Pets 는 펫 NFT 에 밥을 주고 훈련시키면 레벨에 따라 모습이 바뀌는 다이내믹 NFT 웹게임이다(Foundry, Next.js 16 App Router, wagmi, viem, RainbowKit, TanStack Query). 로컬 anvil 에서만 돌려 봤고 Base Sepolia 배포 전이다.
+Mochimals 는 펫 NFT 에 밥을 주고 훈련시키면 레벨에 따라 모습이 바뀌는 다이내믹 NFT 웹게임이다(Foundry, Next.js 16 App Router, wagmi, viem, RainbowKit, TanStack Query). 로컬 anvil 에서 만들고 Base Sepolia 에 배포해 [mochimals.woodylovesboota.xyz](https://mochimals.woodylovesboota.xyz) 에서 돌아간다.
 
 ## 구조: 읽기는 RPC, 쓰기는 지갑
 
@@ -22,17 +23,24 @@ wagmi 소스상 `cookieToInitialState` 는 config 에서 `storage` 만, 그것�
 
 쓰기 행동은 입양(`adopt`), 밥(`feed`), 훈련(`train`), 충전(`refill`) 넷이다. 단계 상태, 에러 처리, 확정 후 다시 읽기를 네 번 반복하지 않도록 훅 하나로 모았다. 흐름은 ① 시뮬레이션 → ② 서명 → ③ 확정 대기 → ④ 이벤트 해석 → ⑤ 캐시 무효화 → ⑥ `onDone` 이다. 버튼 문구가 단계마다 달라서 `useMutation` 의 `isPending` 대신 `phase`(`"idle" | "simulating" | "signing" | "confirming"`)를 따로 둔다.
 
-```ts title="web/src/hooks/usePetAction.ts" {6,8,14,16}
+```ts title="web/src/hooks/usePetAction.ts" {6-10,12,21,23}
 const mutation = useMutation({
   mutationFn: async (args: PetActionArgs) => {
     setPhase("simulating");
     let txHash: Hash;
     if (args.fn === "feed" || args.fn === "train") {
-      const { request } = await simulateContract(config, { ...petNft, functionName: args.fn, args: [args.petId] });
+      const { request } = await simulateContract(config, {
+        ...petNft,
+        functionName: args.fn,
+        args: [args.petId],
+      });
       setPhase("signing");
       txHash = await writeContractAsync(request);
     } else {
-      const { request } = await simulateContract(config, { ...petNft, functionName: args.fn });
+      const { request } = await simulateContract(config, {
+        ...petNft,
+        functionName: args.fn,
+      });
       setPhase("signing");
       txHash = await writeContractAsync(request);
     }
@@ -57,9 +65,12 @@ const mutation = useMutation({
 
 ③~⑤는 새로고침 이어받기와 공유하려고 `confirm` 으로 뺐다.
 
-```ts title="web/src/hooks/usePetAction.ts" {3,6,13}
+```ts title="web/src/hooks/usePetAction.ts" {6,9,16-18}
 async function confirm(config, queryClient, txHash: Hash, timeout?: number) {
-  const receipt = await waitForTransactionReceipt(config, { hash: txHash, timeout });
+  const receipt = await waitForTransactionReceipt(config, {
+    hash: txHash,
+    timeout,
+  });
   if (receipt.status === "reverted") throw new Error("TX_REVERTED");
 
   const events = parseEvents(receipt.logs);
@@ -70,7 +81,9 @@ async function confirm(config, queryClient, txHash: Hash, timeout?: number) {
 function parseEvents(logs) {
   return parseEventLogs({
     abi: petNft.abi,
-    logs: logs.filter((l) => l.address && isAddressEqual(l.address, petNft.address)),
+    logs: logs.filter(
+      (l) => l.address && isAddressEqual(l.address, petNft.address),
+    ),
   });
 }
 ```
@@ -91,7 +104,9 @@ const MESSAGES: Record<string, string> = {
 export function toErrorMessage(error: unknown): string | null {
   if (error instanceof BaseError) {
     if (error.walk((e) => e instanceof UserRejectedRequestError)) return null;
-    const reverted = error.walk((e) => e instanceof ContractFunctionRevertedError);
+    const reverted = error.walk(
+      (e) => e instanceof ContractFunctionRevertedError,
+    );
     if (reverted instanceof ContractFunctionRevertedError) {
       const name = reverted.data?.errorName;
       if (name && name in MESSAGES) return MESSAGES[name];
@@ -117,7 +132,11 @@ const KEY = "silo-pets:pending-tx";
 type Stored = { hash: string; fn: PetActionArgs["fn"]; petId?: string };
 
 export function savePending({ hash, args }: PendingTx): void {
-  const stored: Stored = { hash, fn: args.fn, petId: "petId" in args ? args.petId.toString() : undefined };
+  const stored: Stored = {
+    hash,
+    fn: args.fn,
+    petId: "petId" in args ? args.petId.toString() : undefined,
+  };
   try {
     sessionStorage.setItem(KEY, JSON.stringify(stored));
   } catch {
@@ -145,7 +164,12 @@ const resume = useCallback(async () => {
   setResumed(pending.args);
   setPhase("confirming"); // 버튼 잠금
   try {
-    const result = await confirm(config, queryClient, pending.hash, RESUME_TIMEOUT_MS);
+    const result = await confirm(
+      config,
+      queryClient,
+      pending.hash,
+      RESUME_TIMEOUT_MS,
+    );
     onDoneRef.current?.(result, pending.args); // 연출도 그대로
   } catch {
     void queryClient.invalidateQueries(); // 실패나 시간 초과는 조용히, 화면만 실제 값으로
@@ -164,51 +188,42 @@ const resume = useCallback(async () => {
 
 ## 인덱서 없이 내 NFT 찾기
 
-펫은 전송될 수 있으니 홈의 "내 펫 목록"은 "지금 가진 펫 0마리 이상"이어야 한다. ERC721Enumerable 은 전송마다 가스가 크게 늘어서, 쓰기를 싸게 두고 읽기에서 로그로 찾는다.
+펫은 전송될 수 있으니 홈의 "내 펫 목록"은 "지금 가진 펫 0마리 이상"이어야 한다. ERC721Enumerable 은 전송마다 가스가 크게 늘어서 컨트랙트에 주소별 목록을 두지 않고, 읽기에서 찾는다.
 
-나에게 들어온 `Transfer` 로그(입양 `0x0 → 나`, 수신 `남 → 나`)를 모으고, 그 펫들의 `ownerOf` 로 아직 내 것만 남긴다.
+펫 번호는 1부터 `totalSupply` 까지 빈칸 없이 이어지므로, 모든 펫의 `ownerOf` 를 200개씩 묶어 읽고 주인이 나인 번호만 남긴다.
 
 ```ts title="web/src/hooks/useMyPets.ts"
-const TRANSFER = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)");
+async function findMyPets(
+  client: PublicClient,
+  me: Address,
+): Promise<bigint[]> {
+  // 펫 번호는 1부터 totalSupply까지 빈칸 없이 이어진다
+  // (adopt의 petId = ++totalSupply, 소각 없음)
+  const total = await client.readContract({
+    ...petNft,
+    functionName: "totalSupply",
+  });
+  const ids = Array.from({ length: Number(total) }, (_, i) => BigInt(i + 1));
 
-async function findMyPets(client: PublicClient, me: Address): Promise<bigint[]> {
-  const latest = await client.getBlockNumber();
-  const received = await receivedIds(client, me, DEPLOY_BLOCK, latest);
-  const ids = [...new Set(received)]; // 받았다 보냈다 다시 받으면 로그가 여러 개
-  if (ids.length === 0) return [];
-
-  const owners = await readMany(client, ids.map((id) => ({ ...petNft, functionName: "ownerOf", args: [id] }) as const));
-  return ids.filter((_, i) => isAddressEqual(owners[i] as Address, me));
-}
-```
-
-- `args: { to: me }` 로 노드가 거른다. 시작 블록은 배포 스크립트가 출력한 배포 블록을 env 로 받는다. 0 부터면 공개 RPC 에서 느리거나 거절된다.
-- 쿼리 키에 주소를 넣어 지갑 전환 시 새로 읽고, 입양 뒤에는 전체 무효화로 갱신된다. 입양 직후 이동은 영수증의 `Adopted` 이벤트에서 새 펫 번호를 꺼내 `/pet/<id>` 로 보낸다.
-
-### getLogs 범위가 거절되면 반으로
-
-RPC 공급자마다 `getLogs` 의 블록 범위·결과 개수 한도가 달라 숫자를 정해 두기 어렵다. 전체 범위로 한 번 부르고, 거절당하면 반으로 나눠 재귀한다.
-
-```ts title="web/src/hooks/useMyPets.ts" {11-14}
-async function receivedIds(client: PublicClient, me: Address, from: bigint, to: bigint): Promise<bigint[]> {
-  try {
-    const logs = await client.getLogs({
-      address: petNft.address,
-      event: TRANSFER,
-      args: { to: me },
-      fromBlock: from,
-      toBlock: to,
+  const mine: bigint[] = [];
+  for (let start = 0; start < ids.length; start += CHUNK) {
+    const chunk = ids.slice(start, start + CHUNK); // CHUNK = 200
+    const owners = await readMany(
+      client,
+      chunk.map(
+        (id) => ({ ...petNft, functionName: "ownerOf", args: [id] }) as const,
+      ),
+    );
+    chunk.forEach((id, i) => {
+      if (isAddressEqual(owners[i] as Address, me)) mine.push(id);
     });
-    return logs.map((l) => l.args.tokenId!);
-  } catch (error) {
-    if (from >= to) throw error; // 한 블록짜리도 실패하면 범위 문제가 아니다
-    const mid = (from + to) / 2n;
-    return [...(await receivedIds(client, me, from, mid)), ...(await receivedIds(client, me, mid + 1n, to))];
   }
+  return mine;
 }
 ```
 
-anvil 이나 넓은 범위를 허용하는 RPC 에서는 한 번에 끝나는 게 가장 빠르고, 거절될 때만 나누면 어떤 RPC 한도에도 맞춰진다.
+- 들어온 `Transfer` 로그(`getLogs`)로 찾지 않는 이유: Base Sepolia RPC 는 `getLogs` 한 번의 블록 범위를 10~200블록으로 막고, 블록은 2초마다 쌓인다. 배포 블록부터 훑으면 요청이 수천 개가 된다. `ownerOf` 조회는 블록 수가 아니라 펫 수에 비례하고, multicall3 가 있는 체인에서는 200마리당 요청 한 번이다.
+- 쿼리 키에 주소를 넣어 지갑 전환 시 새로 읽고, 입양 뒤에는 전체 무효화로 갱신된다. 입양 직후 이동은 영수증의 `Adopted` 이벤트에서 새 펫 번호를 꺼내 `/pet/<id>` 로 보낸다.
 
 ### anvil 에는 multicall3 가 없다
 
@@ -223,6 +238,6 @@ Base·Base Sepolia 에서는 요청 한 번, anvil 에서만 여러 번 나간�
 
 ## 남은 과제
 
-- 로컬 anvil 에서만 확인했다. 공개 RPC 에서 `getLogs` 분할이 몇 번 일어나는지는 Base Sepolia 배포 후 봐야 한다. 분할 범위를 순차 호출해서 거절이 잦으면 느릴 수 있다.
+- 내 펫 찾기가 전체 펫 수에 비례한다. 펫이 수만 마리가 되면 인덱서(The Graph, Ponder 등)로 옮겨야 한다.
 - 행동 뒤 전체 캐시 무효화는 지금 규모에서만 유효하다. 읽는 화면이 늘면 키 단위로 무효화해야 한다.
 - 이어서 기다리기는 같은 탭에서만 된다. 다른 기기·탭의 대기 상태까지 보이려면 인덱서 같은 서버 쪽 기록이 필요하다.

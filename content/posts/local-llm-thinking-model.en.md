@@ -81,11 +81,16 @@ export const NARRATIVE_PREFILL = '{"mood":"';
 
 export function narrativeMessages(m: BriefingMetrics): LlmChatMessage[] {
   return [
-    { role: 'system', content: SYSTEM },                         // 1. tone and field descriptions
-    { role: 'user', content: NARRATIVE_EXAMPLE_IN },             // 2. example input
-    { role: 'assistant', content: NARRATIVE_EXAMPLE_OUT },       // 3. example output
-    { role: 'user', content: renderNarrativeFacts(m) },          // 4. real input
-  ];                                                             // 5. chat() appends the prefill
+    // 1. tone and field descriptions
+    { role: 'system', content: SYSTEM },
+    // 2. example input
+    { role: 'user', content: NARRATIVE_EXAMPLE_IN },
+    // 3. example output
+    { role: 'assistant', content: NARRATIVE_EXAMPLE_OUT },
+    // 4. real input
+    { role: 'user', content: renderNarrativeFacts(m) },
+    // 5. chat() appends the prefill
+  ];
 }
 ```
 
@@ -130,7 +135,8 @@ if (!this.llm.enabled || !(await this.llm.health())) {
 }
 // ... reset FAILED/SKIPPED rows back to PENDING
 
-// Don't wait for the result — runOne never throws and records failures as FAILED.
+// Don't wait for the result —
+// runOne never throws and records failures as FAILED.
 void this.runOne(row.id, householdId, reportDate);
 return { date, status: TtAiReportStatus.PROCESSING };
 ```

@@ -69,11 +69,15 @@ API 이미지는 업로드마다 URL이 새로 생기는데 최적화는 URL 단
 - 변환된 파일은 제자리에서 바뀌지 않으므로 `/static/:all*`에 `Cache-Control: public, max-age=31536000, immutable`을 붙였다. 이미지를 바꿀 때는 파일 이름을 바꾼다.
 - 공개 데이터는 내장 data cache 대신 인메모리 캐시를 쓰고, 페이지당 API 호출 수를 줄였다. 백엔드가 실패하면 마지막 성공 응답을 돌려준다.
 
-```ts title="After · ssrCache.ts" {6,12}
+```ts title="After · ssrCache.ts" {10,16}
 // public data only — never per-user
 const store = new Map<string, { ts: number; data: unknown }>();
 
-export async function ssrCache<T>(key: string, ttl: number, fn: () => Promise<T>) {
+export async function ssrCache<T>(
+  key: string,
+  ttl: number,
+  fn: () => Promise<T>,
+) {
   const hit = store.get(key);
   if (hit && Date.now() - hit.ts < ttl) return hit.data as T;
   try {

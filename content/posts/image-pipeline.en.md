@@ -68,11 +68,15 @@ API images get a new URL with every upload, and optimization is billed per URL, 
 - Converted files don't change in place, so `/static/:all*` is served with `Cache-Control: public, max-age=31536000, immutable`. To update an image, give it a new file name.
 - Public data uses an in-memory cache instead of the built-in data cache, with fewer API calls per page. If the backend fails, the cache returns the last successful response.
 
-```ts title="After · ssrCache.ts" {6,12}
+```ts title="After · ssrCache.ts" {10,16}
 // public data only — never per-user
 const store = new Map<string, { ts: number; data: unknown }>();
 
-export async function ssrCache<T>(key: string, ttl: number, fn: () => Promise<T>) {
+export async function ssrCache<T>(
+  key: string,
+  ttl: number,
+  fn: () => Promise<T>,
+) {
   const hit = store.get(key);
   if (hit && Date.now() - hit.ts < ttl) return hit.data as T;
   try {

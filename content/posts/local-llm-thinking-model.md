@@ -82,11 +82,16 @@ export const NARRATIVE_PREFILL = '{"mood":"';
 
 export function narrativeMessages(m: BriefingMetrics): LlmChatMessage[] {
   return [
-    { role: 'system', content: SYSTEM },                         // 1. 톤과 필드 설명
-    { role: 'user', content: NARRATIVE_EXAMPLE_IN },             // 2. 예시 입력
-    { role: 'assistant', content: NARRATIVE_EXAMPLE_OUT },       // 3. 예시 출력
-    { role: 'user', content: renderNarrativeFacts(m) },          // 4. 실제 입력
-  ];                                                             // 5. 프리필은 chat() 이 붙인다
+    // 1. 톤과 필드 설명
+    { role: 'system', content: SYSTEM },
+    // 2. 예시 입력
+    { role: 'user', content: NARRATIVE_EXAMPLE_IN },
+    // 3. 예시 출력
+    { role: 'assistant', content: NARRATIVE_EXAMPLE_OUT },
+    // 4. 실제 입력
+    { role: 'user', content: renderNarrativeFacts(m) },
+    // 5. 프리필은 chat() 이 붙인다
+  ];
 }
 ```
 

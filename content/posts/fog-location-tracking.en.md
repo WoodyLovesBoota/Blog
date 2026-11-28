@@ -26,7 +26,11 @@ const acc = loc.coords.accuracy ?? 9999;
 // Surface the raw fix to any live HUD *before* filtering, so "GPS alive but
 // too noisy" is visibly distinct from "no GPS at all".
 const accepted = acc <= MAX_ACCURACY_M;
-locationEvents.emitRawFix({ accuracy: acc, accepted, timestamp: loc.timestamp });
+locationEvents.emitRawFix({
+  accuracy: acc,
+  accepted,
+  timestamp: loc.timestamp,
+});
 if (!accepted) continue; // drop noisy fixes
 ```
 
@@ -35,17 +39,20 @@ if (!accepted) continue; // drop noisy fixes
 Even fixes within 50m bounce back and forth to a neighboring cell near a boundary. So the time elapsed since the previous fix (`dt`) is added not to the cell that just arrived but to the cell you were in during that interval (`prevCell`). A fix that hops to a neighbor once credits that cell only the short time until the next fix, so it never reaches 20 seconds.
 
 ```ts title="src/core/exploration/dwellReducer.test.ts"
-it('defends against jitter: a brief hop to a neighbor never marks it visited', () => {
-  const { fired, visited } = run([
-    ['A', 0],
-    ['A', 5_000], //  A += 5000
-    ['B', 5_500], //  A += 500  (interval was spent in A)
-    ['A', 6_000], //  B += 500  (the only time ever credited to B)
-    ['A', 26_000], // A += 20000 -> crosses threshold
-  ]);
-  expect(fired).toEqual(['A']);
-  expect(visited.has('B')).toBe(false); // B only ever got 500ms
-});
+it(
+  'defends against jitter: a brief hop to a neighbor never marks it visited',
+  () => {
+    const { fired, visited } = run([
+      ['A', 0],
+      ['A', 5_000], //  A += 5000
+      ['B', 5_500], //  A += 500  (interval was spent in A)
+      ['A', 6_000], //  B += 500  (the only time ever credited to B)
+      ['A', 26_000], // A += 20000 -> crosses threshold
+    ]);
+    expect(fired).toEqual(['A']);
+    expect(visited.has('B')).toBe(false); // B only ever got 500ms
+  },
+);
 ```
 
 This assumes fixes keep arriving while you stand still. So the foreground watcher uses `distanceInterval: 0` and a `timeInterval` of 3 seconds (the config comment says "MUST be 0"). With anything other than 0, Android withholds locations until you move that distance, and stationary dwell never accumulates.
@@ -58,9 +65,10 @@ Recording only while the app was open was inconvenient, so I added background tr
 
 If the app has been terminated, the OS launches it headless to deliver a location batch, and the JS context disappears when the task finishes. So I dropped the `DwellTracker` class that held an in-memory `Map`/`Set`, made the dwell state a JSON-serializable value, and turned the logic into a pure reducer that does load → fold → save on every call.
 
-```ts title="src/core/exploration/dwellReducer.ts" {18,23}
+```ts title="src/core/exploration/dwellReducer.ts" {19,25}
 export interface DwellState {
-  accumByCell: Record<string, number>; // only cells not yet confirmed as visited
+  // only cells not yet confirmed as visited
+  accumByCell: Record<string, number>;
   prevCell: string | null;
   lastTime: number | null;
 }
@@ -81,7 +89,8 @@ export function applyFix(
       next.accumByCell[state.prevCell] = accum;
       if (accum >= DWELL_THRESHOLD_MS && !visited.has(state.prevCell)) {
         newlyVisited = state.prevCell;
-        delete next.accumByCell[state.prevCell]; // remove confirmed cells from the accumulator
+        // remove confirmed cells from the accumulator
+        delete next.accumByCell[state.prevCell];
       }
     }
   }
@@ -109,7 +118,8 @@ Both paths only hand fixes to `ingestLocations()`. Accuracy filtering, cell conv
 
 ```ts title="src/background/locationTask.ts"
 // Must be defined at module top level, not inside a component,
-// because on a headless relaunch the OS looks up the task by name in a fresh JS context.
+// because on a headless relaunch the OS looks up the task by name
+// in a fresh JS context.
 TaskManager.defineTask(BG_LOCATION_TASK, async ({ data, error }) => {
   if (error) return;
   if (AppState.currentState === 'active' && isForegroundDriverActive()) return;
@@ -152,8 +162,9 @@ Even with one pipeline, two paths feeding it at the same time would double count
 ```ts title="src/adapters/location/backgroundTracking.ts"
 await Location.startLocationUpdatesAsync(BG_LOCATION_TASK, {
   accuracy: Location.Accuracy.High,
-  // Background is distance-based for battery. Stationary dwell still accumulates,
-  // because the interval until the next movement fix is credited to prevCell.
+  // Background is distance-based for battery.
+  // Stationary dwell still accumulates, because the interval
+  // until the next movement fix is credited to prevCell.
   distanceInterval: BG_DISTANCE_M, // 10m
   // no deferredUpdatesInterval (see below)
   pausesUpdatesAutomatically: false,
@@ -191,7 +202,11 @@ useEffect(() => {
     try {
       const pos = await getCurrentPosition(); // correct with a fresh fix
       if (!cancelled) {
-        cameraRef.current?.flyTo({ center: [pos.lng, pos.lat], zoom: 16, duration: 500 });
+        cameraRef.current?.flyTo({
+          center: [pos.lng, pos.lat],
+          zoom: 16,
+          duration: 500,
+        });
       }
     } catch (e) {
       // ...

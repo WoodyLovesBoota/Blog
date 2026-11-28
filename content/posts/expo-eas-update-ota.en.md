@@ -41,7 +41,8 @@ target 'MyApp' do
 end
 
 target 'ImageNotification' do
-  # Keep the notification service extension isolated from Expo/React Native pods.
+  # Keep the notification service extension isolated
+  # from Expo/React Native pods.
   pod 'Firebase/Messaging'
 end
 ```
@@ -76,7 +77,7 @@ This code has an ordering problem, covered below under "Later fixes".
 
 `settings.gradle` calls `useExpoModules()` and `app/build.gradle` calls `addExpoModulesDependencies`. In `MainApplication.kt`, `DefaultReactNativeHost` has to be wrapped in `ReactNativeHostWrapper` so expo-updates can swap the bundle path, and lifecycle events have to be forwarded to Expo.
 
-```kotlin title="android/app/src/main/java/.../MainApplication.kt" {2,9,15-16}
+```kotlin title="android/app/src/main/java/.../MainApplication.kt" {2,9,18-19}
 override val reactNativeHost: ReactNativeHost =
     ReactNativeHostWrapper(
         this,
@@ -90,7 +91,10 @@ override val reactNativeHost: ReactNativeHost =
         })
 
 override val reactHost: ReactHost
-  get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
+  get() = ReactNativeHostWrapper.createReactHost(
+    applicationContext,
+    reactNativeHost,
+  )
 
 override fun onCreate() {
   // ...
@@ -150,7 +154,9 @@ EXPO_PLIST="${SRCROOT}/Expo.plist"
 CHANNEL="${OTA_CHANNEL:-development}"
 
 if [ -f "$EXPO_PLIST" ]; then
-  /usr/libexec/PlistBuddy -c "Set :EXUpdatesRequestHeaders:expo-channel-name $CHANNEL" "$EXPO_PLIST"
+  /usr/libexec/PlistBuddy \
+    -c "Set :EXUpdatesRequestHeaders:expo-channel-name $CHANNEL" \
+    "$EXPO_PLIST"
 fi
 ```
 
@@ -179,7 +185,10 @@ const isHotfixUpdate = (manifest: any): boolean =>
     manifest?.metadata?.isHotfix ??
     false) === true;
 
-/** Called during the splash. If true, a reload is coming, so keep the splash up */
+/**
+ * Called during the splash.
+ * If true, a reload is coming, so keep the splash up.
+ */
 export const checkForOTAUpdate = async (): Promise<boolean> => {
   try {
     const Updates = require('expo-updates');
@@ -190,7 +199,9 @@ export const checkForOTAUpdate = async (): Promise<boolean> => {
     if (!result.isNew) return false;
 
     if (isHotfixUpdate(update.manifest)) {
-      Updates.reloadAsync().catch(e => console.warn('[OTA] reloadAsync failed:', e));
+      Updates.reloadAsync().catch(e =>
+        console.warn('[OTA] reloadAsync failed:', e),
+      );
       return true;
     }
     return false; // applied on the next cold start
@@ -256,11 +267,18 @@ if AppController.sharedInstance.isActiveController {
     RunLoop.main.run(mode: .default, before: Date().addingTimeInterval(0.01))
   }
 }
-factory.startReactNative(withModuleName: "MyApp", in: window, launchOptions: launchOptions)
+factory.startReactNative(
+  withModuleName: "MyApp",
+  in: window,
+  launchOptions: launchOptions
+)
 RNSplashScreen.show()
 
 // AppControllerDelegate
-func appController(_ appController: AppControllerInterface, didStartWithSuccess success: Bool) {
+func appController(
+  _ appController: AppControllerInterface,
+  didStartWithSuccess success: Bool
+) {
   // Even on failure, bundleURL() falls back to the embedded bundle
   updatesDidStart = true
 }
@@ -296,14 +314,17 @@ const getNextServerBaseURL = (baseURL?: string) => {
 const failedBaseURL = config?.baseURL ?? instance.defaults.baseURL;
 const nextBaseURL = getNextServerBaseURL(failedBaseURL);
 if (IS_PROD && isNoResponseNetworkError(error) && config && nextBaseURL) {
-  // The retry goes through this interceptor again, so it walks down the chain in order
+  // The retry goes through this interceptor again,
+  // so it walks down the chain in order
   return instance.request({...config, baseURL: nextBaseURL}).then(
     response => {
       switchToFallbackDomain(response?.config?.baseURL);
       return response;
     },
     fallbackError => {
-      if (fallbackError?.response) switchToFallbackDomain(fallbackError.config?.baseURL);
+      if (fallbackError?.response) {
+        switchToFallbackDomain(fallbackError.config?.baseURL);
+      }
       return Promise.reject(fallbackError);
     },
   );

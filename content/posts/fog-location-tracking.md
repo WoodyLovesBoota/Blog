@@ -27,7 +27,11 @@ const acc = loc.coords.accuracy ?? 9999;
 // Surface the raw fix to any live HUD *before* filtering, so "GPS alive but
 // too noisy" is visibly distinct from "no GPS at all".
 const accepted = acc <= MAX_ACCURACY_M;
-locationEvents.emitRawFix({ accuracy: acc, accepted, timestamp: loc.timestamp });
+locationEvents.emitRawFix({
+  accuracy: acc,
+  accepted,
+  timestamp: loc.timestamp,
+});
 if (!accepted) continue; // drop noisy fixes
 ```
 
@@ -36,17 +40,20 @@ if (!accepted) continue; // drop noisy fixes
 50m 안쪽 fix 도 셀 경계 근처에서는 옆 셀로 왔다 갔다 한다. 그래서 직전 fix 이후 흐른 시간(`dt`)을 방금 도착한 셀이 아니라 그 구간 동안 있던 셀(`prevCell`)에 더한다. 옆 셀로 한 번 튄 fix 는 그 셀에 다음 fix 까지의 짧은 시간만 적립하므로 20초에 닿지 못한다.
 
 ```ts title="src/core/exploration/dwellReducer.test.ts"
-it('defends against jitter: a brief hop to a neighbor never marks it visited', () => {
-  const { fired, visited } = run([
-    ['A', 0],
-    ['A', 5_000], //  A += 5000
-    ['B', 5_500], //  A += 500  (interval was spent in A)
-    ['A', 6_000], //  B += 500  (the only time ever credited to B)
-    ['A', 26_000], // A += 20000 -> crosses threshold
-  ]);
-  expect(fired).toEqual(['A']);
-  expect(visited.has('B')).toBe(false); // B only ever got 500ms
-});
+it(
+  'defends against jitter: a brief hop to a neighbor never marks it visited',
+  () => {
+    const { fired, visited } = run([
+      ['A', 0],
+      ['A', 5_000], //  A += 5000
+      ['B', 5_500], //  A += 500  (interval was spent in A)
+      ['A', 6_000], //  B += 500  (the only time ever credited to B)
+      ['A', 26_000], // A += 20000 -> crosses threshold
+    ]);
+    expect(fired).toEqual(['A']);
+    expect(visited.has('B')).toBe(false); // B only ever got 500ms
+  },
+);
 ```
 
 전제는 정지 중에도 fix 가 계속 들어오는 것이다. 그래서 포그라운드 watcher 는 `distanceInterval: 0`, `timeInterval` 3초로 받는다(설정 주석에 "MUST be 0"). 0 이 아니면 Android 는 그 거리를 움직이기 전까지 위치를 주지 않아 정지 체류가 쌓이지 않는다.
@@ -192,7 +199,11 @@ useEffect(() => {
     try {
       const pos = await getCurrentPosition(); // 새 fix 로 보정
       if (!cancelled) {
-        cameraRef.current?.flyTo({ center: [pos.lng, pos.lat], zoom: 16, duration: 500 });
+        cameraRef.current?.flyTo({
+          center: [pos.lng, pos.lat],
+          zoom: 16,
+          duration: 500,
+        });
       }
     } catch (e) {
       // ...

@@ -43,7 +43,8 @@ target 'MyApp' do
 end
 
 target 'ImageNotification' do
-  # Keep the notification service extension isolated from Expo/React Native pods.
+  # Keep the notification service extension isolated
+  # from Expo/React Native pods.
   pod 'Firebase/Messaging'
 end
 ```
@@ -78,7 +79,7 @@ override func bundleURL() -> URL? {
 
 `settings.gradle` 에서 `useExpoModules()`, `app/build.gradle` 에서 `addExpoModulesDependencies` 를 호출한다. `MainApplication.kt` 는 `DefaultReactNativeHost` 를 `ReactNativeHostWrapper` 로 감싸야 expo-updates 가 번들 경로를 바꿔 끼울 수 있고, 생명주기 이벤트도 Expo 에 전달해야 한다.
 
-```kotlin title="android/app/src/main/java/.../MainApplication.kt" {2,9,15-16}
+```kotlin title="android/app/src/main/java/.../MainApplication.kt" {2,9,18-19}
 override val reactNativeHost: ReactNativeHost =
     ReactNativeHostWrapper(
         this,
@@ -92,7 +93,10 @@ override val reactNativeHost: ReactNativeHost =
         })
 
 override val reactHost: ReactHost
-  get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
+  get() = ReactNativeHostWrapper.createReactHost(
+    applicationContext,
+    reactNativeHost,
+  )
 
 override fun onCreate() {
   // ...
@@ -152,7 +156,9 @@ EXPO_PLIST="${SRCROOT}/Expo.plist"
 CHANNEL="${OTA_CHANNEL:-development}"
 
 if [ -f "$EXPO_PLIST" ]; then
-  /usr/libexec/PlistBuddy -c "Set :EXUpdatesRequestHeaders:expo-channel-name $CHANNEL" "$EXPO_PLIST"
+  /usr/libexec/PlistBuddy \
+    -c "Set :EXUpdatesRequestHeaders:expo-channel-name $CHANNEL" \
+    "$EXPO_PLIST"
 fi
 ```
 
@@ -192,7 +198,9 @@ export const checkForOTAUpdate = async (): Promise<boolean> => {
     if (!result.isNew) return false;
 
     if (isHotfixUpdate(update.manifest)) {
-      Updates.reloadAsync().catch(e => console.warn('[OTA] reloadAsync failed:', e));
+      Updates.reloadAsync().catch(e =>
+        console.warn('[OTA] reloadAsync failed:', e),
+      );
       return true;
     }
     return false; // 다음 콜드 스타트에 반영
@@ -258,11 +266,18 @@ if AppController.sharedInstance.isActiveController {
     RunLoop.main.run(mode: .default, before: Date().addingTimeInterval(0.01))
   }
 }
-factory.startReactNative(withModuleName: "MyApp", in: window, launchOptions: launchOptions)
+factory.startReactNative(
+  withModuleName: "MyApp",
+  in: window,
+  launchOptions: launchOptions
+)
 RNSplashScreen.show()
 
 // AppControllerDelegate
-func appController(_ appController: AppControllerInterface, didStartWithSuccess success: Bool) {
+func appController(
+  _ appController: AppControllerInterface,
+  didStartWithSuccess success: Bool
+) {
   // 실패해도 bundleURL() 이 내장 번들로 폴백한다
   updatesDidStart = true
 }
@@ -305,7 +320,9 @@ if (IS_PROD && isNoResponseNetworkError(error) && config && nextBaseURL) {
       return response;
     },
     fallbackError => {
-      if (fallbackError?.response) switchToFallbackDomain(fallbackError.config?.baseURL);
+      if (fallbackError?.response) {
+        switchToFallbackDomain(fallbackError.config?.baseURL);
+      }
       return Promise.reject(fallbackError);
     },
   );

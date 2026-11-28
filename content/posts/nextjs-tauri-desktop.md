@@ -16,7 +16,9 @@ Tauri 웹뷰는 정적 파일만 읽으므로 `output: 'export'` 가 필요하�
 
 ```ts title="src/proxy.ts (삭제 전, 요약)"
 export async function proxy(request: NextRequest) {
-  const supabase = createServerClient(url, anonKey, { cookies: { /* request ↔ response 쿠키 */ } });
+  const supabase = createServerClient(url, anonKey, {
+    cookies: { /* request ↔ response 쿠키 */ },
+  });
   const { data: { session } } = await supabase.auth.getSession();
 
   // 세션 없으면 마케팅 랜딩으로
@@ -117,12 +119,15 @@ export async function signInWithGoogle() {
 const handleUrls = (urls: string[] | null | undefined) => {
   const hit = urls?.find((u) => u.startsWith(DESKTOP_AUTH_CALLBACK));
   if (!hit) return;
-  // getCurrent() 는 앱을 띄운 링크를 새로고침 뒤에도 다시 돌려준다 — 같은 code 를 두 번 교환하지 않게
+  // getCurrent() 는 앱을 띄운 링크를 새로고침 뒤에도 다시 돌려준다.
+  // 같은 code 를 두 번 교환하지 않게
   if (sessionStorage.getItem(HANDLED_KEY) === hit) return;
   sessionStorage.setItem(HANDLED_KEY, hit);
 
   const code = new URL(hit).searchParams.get("code");
-  router.replace(code ? `/auth/callback?code=${encodeURIComponent(code)}` : "/login");
+  router.replace(
+    code ? `/auth/callback?code=${encodeURIComponent(code)}` : "/login",
+  );
 };
 
 const { getCurrent, onOpenUrl } = await import("@tauri-apps/plugin-deep-link");
@@ -223,15 +228,18 @@ macOS 는 `tongtong://` 링크를 실행 중인 앱에 전달하지만, Windows/
 
 Windows/Linux 에서만 `tauri-plugin-single-instance` 를 `deep-link` feature 와 함께 넣었다. 두 번째 실행을 기존 프로세스로 넘기고 URL 은 deep-link 플러그인이 기존 창의 `onOpenUrl` 로 전달하므로 `DesktopBridge` 는 그대로다.
 
-```rust title="src-tauri/src/lib.rs" {4-8}
+```rust title="src-tauri/src/lib.rs" {4-11}
 let mut builder = tauri::Builder::default();
 
 // single-instance 는 반드시 첫 번째 플러그인이어야 두 번째 실행을 가로챌 수 있다
 #[cfg(any(target_os = "windows", target_os = "linux"))]
 {
-  builder = builder.plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-    show_main(app); // URL 전달은 deep-link feature 가 한다. 여기선 창만 앞으로
-  }));
+  builder = builder.plugin(
+    tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+      // URL 전달은 deep-link feature 가 한다. 여기선 창만 앞으로
+      show_main(app);
+    }),
+  );
 }
 ```
 
